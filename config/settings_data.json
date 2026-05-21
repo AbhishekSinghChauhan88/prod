@@ -146,6 +146,21 @@
         "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/magicx-script/c13c688d-5c45-4054-b95f-1edd63faa705",
         "disabled": false,
         "settings": {}
+      },
+      "9328286223227057876": {
+        "type": "shopify://apps/uplinkly-sticky-cart/blocks/cart-animator/25fba6ad-75e4-408b-a261-b223e0c71c8b",
+        "disabled": false,
+        "settings": {}
+      },
+      "12700074581251677223": {
+        "type": "shopify://apps/uplinkly-sticky-cart/blocks/sticky-cart/25fba6ad-75e4-408b-a261-b223e0c71c8b",
+        "disabled": false,
+        "settings": {}
+      },
+      "17844675666580048712": {
+        "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/sso-script/c13c688d-5c45-4054-b95f-1edd63faa705",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
