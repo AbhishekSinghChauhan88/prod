@@ -85,3 +85,112 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
+
+/* ==========================================================================
+   Mega menu: promo tiles and utility row
+
+   The link columns and the tiles share one row; the tiles keep their natural
+   width on the right so the columns take whatever is left.
+   ========================================================================== */
+.mega-menu__inner {
+  display: block;
+}
+
+@media screen and (min-width: 990px) {
+  .mega-menu__inner--with-promos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.mega-menu__promos {
+  display: flex;
+  gap: 1.6rem;
+  margin-top: 2.4rem;
+}
+
+@media screen and (min-width: 990px) {
+  .mega-menu__promos {
+    margin-top: 0;
+  }
+}
+
+.mega-menu__promo {
+  display: block;
+  width: 16rem;
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+}
+
+.mega-menu__promo-media {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--media-radius);
+  aspect-ratio: 3 / 4;
+}
+
+.mega-menu__promo-media img,
+.mega-menu__promo-media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mega-menu__promo-heading {
+  display: block;
+  margin-top: 0.8rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.06rem;
+  text-transform: uppercase;
+}
+
+.mega-menu__promo:hover .mega-menu__promo-heading {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+@media screen and (max-width: 989px) {
+  .mega-menu__promos {
+    display: none;
+  }
+}
+
+/* Utility row */
+.mega-menu__utility {
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.mega-menu__utility-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 3rem;
+  margin: 0;
+}
+
+.mega-menu__utility-link {
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.mega-menu__utility-link:hover {
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+/* Second-level links read as column headings. */
+.mega-menu__link--level-2 {
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
