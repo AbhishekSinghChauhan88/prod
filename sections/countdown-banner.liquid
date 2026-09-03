@@ -102,7 +102,9 @@
   "tag": "section",
   "class": "section",
   "disabled_on": {
-    "groups": ["header"]
+    "groups": [
+      "header"
+    ]
   },
   "settings": [
     {
@@ -115,9 +117,18 @@
       "type": "select",
       "id": "heading_size",
       "options": [
-        { "value": "h2", "label": "Small" },
-        { "value": "h1", "label": "Medium" },
-        { "value": "h0", "label": "Large" }
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
       ],
       "default": "h1",
       "label": "Heading size"
@@ -156,8 +167,14 @@
       "type": "select",
       "id": "unit_style",
       "options": [
-        { "value": "boxed", "label": "Boxed" },
-        { "value": "plain", "label": "Plain" }
+        {
+          "value": "boxed",
+          "label": "Boxed"
+        },
+        {
+          "value": "plain",
+          "label": "Plain"
+        }
       ],
       "default": "boxed",
       "label": "Unit style"
@@ -166,9 +183,18 @@
       "type": "select",
       "id": "expired_behavior",
       "options": [
-        { "value": "keep", "label": "Keep showing zeros" },
-        { "value": "message", "label": "Show a message" },
-        { "value": "hide", "label": "Hide the section" }
+        {
+          "value": "keep",
+          "label": "Keep showing zeros"
+        },
+        {
+          "value": "message",
+          "label": "Show a message"
+        },
+        {
+          "value": "hide",
+          "label": "Hide the section"
+        }
       ],
       "default": "message",
       "label": "When the countdown ends"
@@ -208,8 +234,14 @@
       "type": "select",
       "id": "layout",
       "options": [
-        { "value": "row", "label": "Side by side" },
-        { "value": "column", "label": "Stacked" }
+        {
+          "value": "row",
+          "label": "Side by side"
+        },
+        {
+          "value": "column",
+          "label": "Stacked"
+        }
       ],
       "default": "row",
       "label": "Arrangement"
@@ -223,7 +255,7 @@
     {
       "type": "checkbox",
       "id": "animate",
-      "default": true,
+      "default": false,
       "label": "Animate on scroll"
     },
     {

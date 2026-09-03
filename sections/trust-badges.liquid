@@ -74,9 +74,18 @@
       "type": "select",
       "id": "heading_size",
       "options": [
-        { "value": "h3", "label": "Extra small" },
-        { "value": "h2", "label": "Small" },
-        { "value": "h1", "label": "Medium" }
+        {
+          "value": "h3",
+          "label": "Extra small"
+        },
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        }
       ],
       "default": "h2",
       "label": "Heading size"
@@ -85,8 +94,14 @@
       "type": "select",
       "id": "alignment",
       "options": [
-        { "value": "left", "label": "Icon beside text" },
-        { "value": "center", "label": "Icon above text" }
+        {
+          "value": "left",
+          "label": "Icon beside text"
+        },
+        {
+          "value": "center",
+          "label": "Icon above text"
+        }
       ],
       "default": "center",
       "label": "Layout"
@@ -100,7 +115,7 @@
     {
       "type": "checkbox",
       "id": "animate",
-      "default": true,
+      "default": false,
       "label": "Animate on scroll"
     },
     {
@@ -137,21 +152,66 @@
           "type": "select",
           "id": "icon",
           "options": [
-            { "value": "none", "label": "None" },
-            { "value": "truck", "label": "Truck" },
-            { "value": "return", "label": "Return" },
-            { "value": "lock", "label": "Lock" },
-            { "value": "padlock", "label": "Padlock" },
-            { "value": "chat-bubble", "label": "Chat bubble" },
-            { "value": "heart", "label": "Heart" },
-            { "value": "star", "label": "Star" },
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "recycle", "label": "Recycle" },
-            { "value": "plane", "label": "Plane" },
-            { "value": "box", "label": "Box" },
-            { "value": "price-tag", "label": "Price tag" },
-            { "value": "stopwatch", "label": "Stopwatch" },
-            { "value": "check-mark", "label": "Check mark" }
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "return",
+              "label": "Return"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "padlock",
+              "label": "Padlock"
+            },
+            {
+              "value": "chat-bubble",
+              "label": "Chat bubble"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "recycle",
+              "label": "Recycle"
+            },
+            {
+              "value": "plane",
+              "label": "Plane"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "price-tag",
+              "label": "Price tag"
+            },
+            {
+              "value": "stopwatch",
+              "label": "Stopwatch"
+            },
+            {
+              "value": "check-mark",
+              "label": "Check mark"
+            }
           ],
           "default": "truck",
           "label": "Icon"
@@ -181,7 +241,9 @@
     {
       "name": "Trust badges",
       "blocks": [
-        { "type": "badge" },
+        {
+          "type": "badge"
+        },
         {
           "type": "badge",
           "settings": {

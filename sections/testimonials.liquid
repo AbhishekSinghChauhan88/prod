@@ -147,7 +147,10 @@
   "class": "section",
   "max_blocks": 12,
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -160,9 +163,18 @@
       "type": "select",
       "id": "heading_size",
       "options": [
-        { "value": "h2", "label": "Small" },
-        { "value": "h1", "label": "Medium" },
-        { "value": "h0", "label": "Large" }
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
       ],
       "default": "h1",
       "label": "Heading size"
@@ -182,8 +194,14 @@
       "type": "select",
       "id": "card_style",
       "options": [
-        { "value": "boxed", "label": "Boxed" },
-        { "value": "plain", "label": "Plain" }
+        {
+          "value": "boxed",
+          "label": "Boxed"
+        },
+        {
+          "value": "plain",
+          "label": "Plain"
+        }
       ],
       "default": "boxed",
       "label": "Card style"
@@ -212,7 +230,7 @@
     {
       "type": "checkbox",
       "id": "animate",
-      "default": true,
+      "default": false,
       "label": "Animate on scroll"
     },
     {
@@ -289,9 +307,15 @@
     {
       "name": "Testimonials",
       "blocks": [
-        { "type": "testimonial" },
-        { "type": "testimonial" },
-        { "type": "testimonial" }
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
       ]
     }
   ]

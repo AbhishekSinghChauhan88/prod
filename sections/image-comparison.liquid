@@ -116,7 +116,10 @@
   "tag": "section",
   "class": "section",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -128,9 +131,18 @@
       "type": "select",
       "id": "heading_size",
       "options": [
-        { "value": "h2", "label": "Small" },
-        { "value": "h1", "label": "Medium" },
-        { "value": "h0", "label": "Large" }
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
       ],
       "default": "h1",
       "label": "Heading size"
@@ -176,10 +188,22 @@
       "type": "select",
       "id": "aspect_ratio",
       "options": [
-        { "value": "adapt", "label": "Adapt to before image" },
-        { "value": "square", "label": "Square" },
-        { "value": "landscape", "label": "Landscape" },
-        { "value": "portrait", "label": "Portrait" }
+        {
+          "value": "adapt",
+          "label": "Adapt to before image"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        }
       ],
       "default": "landscape",
       "label": "Aspect ratio"
@@ -193,7 +217,7 @@
     {
       "type": "checkbox",
       "id": "animate",
-      "default": true,
+      "default": false,
       "label": "Animate on scroll"
     },
     {
