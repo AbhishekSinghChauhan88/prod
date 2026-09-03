@@ -616,21 +616,27 @@ newsletter-popup.is-open {
 }
 
 /* --------------------------------------------------------------------------
-   Add to cart: no hover ring
+   Buttons: no hover ring
 
    On hover Dawn bumps --border-offset from --buttons-border-offset to 1.3px
    and transitions the box-shadow, so an inset ring springs outward around the
-   button. That flinch is the "shake" on the add-to-cart button.
+   button. That flinch reads as a shake.
 
    The hover state is pinned back to the resting values and the transition
-   removed, so the button simply does not move. Applies to the main buy button
-   and the sticky bar's, which share the class.
+   removed, so buttons do not move. Mirrors Dawn's own selector list, and this
+   file loads after base.css, so the equal-specificity rules below win.
    -------------------------------------------------------------------------- */
-.product-form__submit::after {
+.button:after,
+.shopify-challenge__button:after,
+.customer button:after,
+.shopify-payment-button__button--unbranded:after {
   transition: none;
 }
 
-.product-form__submit:not([disabled]):hover::after {
+.button:not([disabled]):hover::after,
+.shopify-challenge__button:hover::after,
+.customer button:hover::after,
+.shopify-payment-button__button--unbranded:hover::after {
   --border-offset: var(--buttons-border-offset);
   box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
       rgba(var(--color-button-text), var(--border-opacity)),
