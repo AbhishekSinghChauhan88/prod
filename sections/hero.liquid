@@ -1,0 +1,219 @@
+{% comment %}
+  Editorial hero — a full-height campaign image or video with minimal type.
+
+  The photograph does the work: text is limited to a label, a short headline and
+  one text link. Media loads eagerly with fetchpriority high because it is
+  always the largest contentful paint on the homepage.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign has_video = false
+  if s.video != blank
+    assign has_video = true
+  endif
+-%}
+
+<div
+  class="ed-hero{% if s.enable_zoom %} ed-hero--zoom{% endif %}{% if s.text_color == 'light' %} ed-hero--light{% endif %}"
+  style="--ed-hero-height: {{ s.height }}svh; --ed-overlay: {{ s.overlay_opacity | divided_by: 100.0 }};"
+>
+  <div class="ed-hero__media" data-ed-parallax>
+    {%- if has_video -%}
+      {{
+        s.video
+        | video_tag:
+          image_size: '1920x',
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false
+      }}
+    {%- elsif s.image != blank -%}
+      {%- comment -%}
+        Two sources so a portrait crop can be supplied for phones rather than
+        letting a landscape campaign shot collapse to a letterbox.
+      {%- endcomment -%}
+      {%- if s.image_mobile != blank -%}
+        <picture>
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ s.image_mobile | image_url: width: 750 }} 750w,
+              {{ s.image_mobile | image_url: width: 1100 }} 1100w,
+              {{ s.image_mobile | image_url: width: 1500 }} 1500w
+            "
+            sizes="100vw"
+          >
+          {{
+            s.image
+            | image_url: width: 3000
+            | image_tag:
+              widths: '750, 1100, 1500, 2000, 2600, 3000',
+              sizes: '100vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: s.image.alt | default: s.heading
+          }}
+        </picture>
+      {%- else -%}
+        {{
+          s.image
+          | image_url: width: 3000
+          | image_tag:
+            widths: '750, 1100, 1500, 2000, 2600, 3000',
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: s.image.alt | default: s.heading
+        }}
+      {%- endif -%}
+    {%- else -%}
+      <div class="ed-hero__placeholder">
+        {{ 'lifestyle-1' | placeholder_svg_tag }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if s.overlay_opacity > 0 -%}
+    <div class="ed-hero__overlay"></div>
+  {%- endif -%}
+
+  <div class="ed-width">
+    <div class="ed-hero__content ed-hero__content--{{ s.text_position }}">
+      {%- if s.label != blank -%}
+        <p class="ed-label ed-reveal">{{ s.label | escape }}</p>
+      {%- endif -%}
+
+      {%- if s.heading != blank -%}
+        <h1 class="ed-display ed-hero__heading ed-reveal" style="--ed-delay: 0.12s;">
+          {{ s.heading }}
+        </h1>
+      {%- endif -%}
+
+      {%- if s.cta_label != blank -%}
+        <div class="ed-reveal" style="--ed-delay: 0.24s;">
+          <a href="{{ s.cta_link | default: routes.all_products_collection_url }}" class="ed-link">
+            {{ s.cta_label | escape }}
+            <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "Optional. A portrait crop for phones."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Optional. Replaces the image. Plays muted and looped."
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 60,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 90,
+      "label": "Height",
+      "info": "Percentage of the screen height."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 15,
+      "label": "Image darkening",
+      "info": "Just enough to keep text legible."
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "default": "New collection",
+      "label": "Label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "The new standard",
+      "label": "Heading",
+      "info": "Keep it to a few words. Two short lines read best."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "default": "Shop now",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "options": [
+        { "value": "center", "label": "Bottom centre" },
+        { "value": "left", "label": "Bottom left" }
+      ],
+      "default": "center",
+      "label": "Text position"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "light",
+      "label": "Text colour"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom",
+      "default": true,
+      "label": "Settle the image on load",
+      "info": "A single slow scale when the page opens."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

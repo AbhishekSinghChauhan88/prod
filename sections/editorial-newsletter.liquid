@@ -1,0 +1,118 @@
+{% comment %}
+  Newsletter — an underline field, not a boxed form.
+
+  Uses Shopify's own customer form, so submissions land in the store's customer
+  list with the accepts_marketing tag and no app is required.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+
+  comment
+    Built here because a tag argument cannot contain a filter chain.
+  endcomment
+  assign form_id = 'EdNewsletter-' | append: section.id
+-%}
+
+<div class="color-{{ s.color_scheme }} gradient">
+  <div class="ed-width ed-section">
+    <div class="ed-newsletter">
+      {%- if s.label != blank -%}
+        <p class="ed-label ed-reveal">{{ s.label | escape }}</p>
+      {%- endif -%}
+
+      {%- if s.heading != blank -%}
+        <h2 class="ed-display ed-display--sm ed-reveal" style="--ed-delay: 0.08s;">
+          {{ s.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if s.text != blank -%}
+        <div class="ed-body ed-reveal" style="--ed-delay: 0.16s;">{{ s.text }}</div>
+      {%- endif -%}
+
+      <div class="ed-newsletter__form ed-reveal" style="--ed-delay: 0.24s;">
+        {%- form 'customer', id: form_id, class: 'ed-newsletter__wrap' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+
+          {%- if form.posted_successfully? -%}
+            <p class="ed-newsletter__note" role="status">
+              {{ 'newsletter.success' | t }}
+            </p>
+          {%- else -%}
+            <label class="visually-hidden" for="EdNewsletterEmail-{{ section.id }}">
+              {{ 'newsletter.label' | t }}
+            </label>
+            <div class="ed-newsletter__field">
+              <input
+                id="EdNewsletterEmail-{{ section.id }}"
+                type="email"
+                name="contact[email]"
+                value="{{ form.email }}"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                placeholder="{{ s.placeholder | escape }}"
+                {% if form.errors %}
+                  aria-invalid="true"
+                  aria-describedby="EdNewsletterError-{{ section.id }}"
+                {% endif %}
+              >
+              <button type="submit" class="ed-newsletter__submit" name="commit">
+                <span class="visually-hidden">{{ 'newsletter.button_label' | t }}</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+
+            {%- if form.errors -%}
+              <p class="ed-newsletter__note" id="EdNewsletterError-{{ section.id }}" role="alert">
+                {{ form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email }}
+              </p>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endform -%}
+
+        {%- if s.note != blank -%}
+          <p class="ed-newsletter__note">{{ s.note | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label" },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Stay in the loop.",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>New collections & stories.</p>",
+      "label": "Text"
+    },
+    { "type": "text", "id": "placeholder", "default": "Email", "label": "Field placeholder" },
+    { "type": "text", "id": "note", "label": "Small print" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

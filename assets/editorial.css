@@ -1,0 +1,830 @@
+/* ==========================================================================
+   Editorial — a restrained design layer for the homepage sections.
+
+   Photography carries the page; type and whitespace do the rest. No gradients,
+   no glass, no radii, no shadows. Colour comes from the theme's schemes so the
+   merchant keeps control; the tokens here only cover rhythm and type.
+   ========================================================================== */
+
+:root {
+  /* Vertical rhythm. Sections are spaced by these, not by ad-hoc margins. */
+  --ed-space-section: 8rem;
+  --ed-space-section-lg: 12rem;
+  --ed-gutter: 2rem;
+
+  /* Small uppercase labels share one treatment everywhere. */
+  --ed-label-size: 1.1rem;
+  --ed-label-tracking: 0.18em;
+
+  --ed-line: rgba(var(--color-foreground), 0.14);
+  --ed-muted: rgba(var(--color-foreground), 0.6);
+  --ed-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media screen and (min-width: 750px) {
+  :root {
+    --ed-space-section: 11rem;
+    --ed-space-section-lg: 16rem;
+    --ed-gutter: 4rem;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  :root {
+    --ed-gutter: 6rem;
+  }
+}
+
+.ed-width {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 var(--ed-gutter);
+}
+
+.ed-width--full {
+  max-width: none;
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Type
+   -------------------------------------------------------------------------- */
+.ed-label {
+  display: block;
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+  margin: 0;
+}
+
+.ed-display {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-style: var(--font-heading-style);
+  letter-spacing: -0.01em;
+  line-height: 1.04;
+  margin: 0;
+  /* Editorial headlines scale with the viewport rather than stepping at
+     breakpoints, so a two-word line stays a two-word line. */
+  font-size: clamp(3.6rem, 7vw, 8.4rem);
+  text-wrap: balance;
+}
+
+.ed-display--sm {
+  font-size: clamp(2.8rem, 4.4vw, 5rem);
+}
+
+.ed-body {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: var(--ed-muted);
+  max-width: 46ch;
+  margin: 0;
+}
+
+.ed-body > p {
+  margin: 0 0 1em;
+}
+
+.ed-body > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Text link with an underline that draws in — the only CTA style on the page. */
+.ed-link {
+  display: inline-block;
+  position: relative;
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 0.5rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.ed-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left center;
+  transition: transform 0.5s var(--ed-ease);
+}
+
+.ed-link:hover::after,
+.ed-link:focus-visible::after {
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+
+.ed-link__arrow {
+  display: inline-block;
+  margin-left: 0.6rem;
+  transition: transform 0.4s var(--ed-ease);
+}
+
+.ed-link:hover .ed-link__arrow {
+  transform: translateX(0.4rem);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal — opt-in, and off entirely for reduced motion
+   -------------------------------------------------------------------------- */
+.ed-reveal {
+  opacity: 0;
+  transform: translateY(1.6rem);
+  transition: opacity 0.9s var(--ed-ease), transform 0.9s var(--ed-ease);
+  transition-delay: var(--ed-delay, 0s);
+}
+
+.ed-reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* No JS, no hiding: content must never depend on a script to be readable. */
+.no-js .ed-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+.ed-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  min-height: var(--ed-hero-height, 90svh);
+  color: rgb(var(--color-foreground));
+}
+
+/* Taller than the frame so parallax has travel without exposing an edge. */
+.ed-hero__media {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9%;
+  height: 118%;
+  will-change: transform;
+}
+
+.ed-hero__media img,
+.ed-hero__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* A very slow settle from slightly overscaled, once, on load. */
+.ed-hero--zoom .ed-hero__media img,
+.ed-hero--zoom .ed-hero__media video {
+  transform: scale(1.06);
+  transition: transform 2.4s var(--ed-ease);
+}
+
+.ed-hero--zoom.is-loaded .ed-hero__media img,
+.ed-hero--zoom.is-loaded .ed-hero__media video {
+  transform: scale(1);
+}
+
+.ed-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgb(0, 0, 0);
+  opacity: var(--ed-overlay, 0.15);
+  pointer-events: none;
+}
+
+.ed-hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-bottom: 6rem;
+  padding-top: 6rem;
+  display: grid;
+  gap: 1.6rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.ed-hero__content--left {
+  justify-items: start;
+  text-align: left;
+}
+
+.ed-hero--light {
+  color: #fff;
+}
+
+.ed-hero--light .ed-label {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.ed-hero__heading {
+  max-width: 18ch;
+}
+
+@media screen and (max-width: 749px) {
+  .ed-hero__content {
+    padding-bottom: 4rem;
+  }
+}
+
+/* Placeholder state, so an unconfigured hero still reads as a hero. */
+.ed-hero__placeholder svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: rgba(var(--color-foreground), 0.06);
+}
+
+/* --------------------------------------------------------------------------
+   Section scaffolding
+   -------------------------------------------------------------------------- */
+.ed-section {
+  padding-top: var(--ed-space-section);
+  padding-bottom: var(--ed-space-section);
+}
+
+.ed-section__head {
+  display: grid;
+  gap: 1.2rem;
+  justify-items: center;
+  text-align: center;
+  margin-bottom: 4.5rem;
+}
+
+.ed-section__head--left {
+  justify-items: start;
+  text-align: left;
+}
+
+@media screen and (min-width: 750px) {
+  .ed-section__head {
+    margin-bottom: 6rem;
+  }
+}
+
+.ed-section__foot {
+  display: flex;
+  justify-content: center;
+  margin-top: 4.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Product grid — no card, no border, no shadow
+   -------------------------------------------------------------------------- */
+.ed-grid {
+  display: grid;
+  gap: 3rem 1.6rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 990px) {
+  .ed-grid {
+    gap: 4.5rem 2.4rem;
+    grid-template-columns: repeat(var(--ed-columns, 4), minmax(0, 1fr));
+  }
+}
+
+.ed-product {
+  position: relative;
+}
+
+.ed-product__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: var(--ed-ratio, 3 / 4);
+  background: rgba(var(--color-foreground), 0.04);
+  margin-bottom: 1.4rem;
+}
+
+.ed-product__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ed-ease), opacity 0.6s var(--ed-ease);
+}
+
+.ed-product__media img.ed-product__image--alt {
+  opacity: 0;
+}
+
+@media (hover: hover) {
+  .ed-product:hover .ed-product__image--main {
+    transform: scale(1.04);
+  }
+
+  .ed-product:hover .ed-product__image--alt {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.ed-product__info {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.ed-product__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+.ed-product__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ed-product__title a::after {
+  /* Whole tile is the hit area, so the link overlays the card. */
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.ed-product__price {
+  font-size: 1.4rem;
+  color: var(--ed-muted);
+}
+
+.ed-product__price s {
+  margin-right: 0.6rem;
+}
+
+/* Quick add sits inside the image, understated, and only on pointer devices. */
+.ed-product__quick {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(0.6rem);
+  transition: opacity 0.4s var(--ed-ease), transform 0.4s var(--ed-ease);
+}
+
+.ed-product:hover .ed-product__quick,
+.ed-product__quick:focus-within {
+  opacity: 1;
+  transform: none;
+}
+
+.ed-product__quick button,
+.ed-product__quick a {
+  width: 100%;
+  padding: 1.1rem 1.4rem;
+  border: 0;
+  background: rgba(255, 255, 255, 0.94);
+  color: #141414;
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ed-product__quick button[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (hover: none) {
+  .ed-product__quick {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Brand story — editorial split
+   -------------------------------------------------------------------------- */
+.ed-split {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .ed-split {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ed-gutter);
+  }
+
+  .ed-split--text-first .ed-split__media {
+    order: 2;
+  }
+}
+
+.ed-split__media {
+  overflow: hidden;
+  aspect-ratio: var(--ed-ratio, 4 / 5);
+}
+
+.ed-split__media img,
+.ed-split__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ed-split__text {
+  display: grid;
+  gap: 2rem;
+  justify-items: start;
+}
+
+@media screen and (min-width: 990px) {
+  .ed-split__text {
+    padding: 0 clamp(2rem, 5vw, 8rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Collections — two large tiles
+   -------------------------------------------------------------------------- */
+.ed-tiles {
+  display: grid;
+  gap: 1.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .ed-tiles {
+    grid-template-columns: repeat(var(--ed-columns, 2), minmax(0, 1fr));
+    gap: var(--ed-gutter);
+  }
+}
+
+.ed-tile {
+  position: relative;
+}
+
+.ed-tile__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: var(--ed-ratio, 4 / 5);
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.ed-tile__media img,
+.ed-tile__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.4s var(--ed-ease);
+}
+
+@media (hover: hover) {
+  .ed-tile:hover .ed-tile__media img {
+    transform: scale(1.04);
+  }
+}
+
+.ed-tile__body {
+  display: grid;
+  gap: 0.8rem;
+  justify-items: start;
+  padding-top: 1.6rem;
+}
+
+/* Caption laid over the foot of the image instead of below it. */
+.ed-tile--overlay .ed-tile__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2.4rem;
+  color: #fff;
+  z-index: 1;
+}
+
+.ed-tile--overlay .ed-tile__media::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.ed-tile--overlay .ed-label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ed-tile__name {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: clamp(2rem, 2.4vw, 2.8rem);
+  line-height: 1.2;
+  font-weight: var(--font-heading-weight);
+}
+
+.ed-tile__name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ed-tile__name a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Campaign
+   -------------------------------------------------------------------------- */
+.ed-campaign {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: var(--ed-campaign-height, 75svh);
+  color: #fff;
+  text-align: center;
+}
+
+.ed-campaign__media {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9%;
+  height: 118%;
+  will-change: transform;
+}
+
+.ed-campaign__media img,
+.ed-campaign__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ed-campaign__overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: var(--ed-overlay, 0.2);
+  pointer-events: none;
+}
+
+.ed-campaign__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.8rem;
+  justify-items: center;
+  padding: 4rem var(--ed-gutter);
+}
+
+.ed-campaign .ed-label {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-hero__media,
+  .ed-campaign__media {
+    top: 0;
+    height: 100%;
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Newsletter
+   -------------------------------------------------------------------------- */
+.ed-newsletter {
+  display: grid;
+  gap: 1.4rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.ed-newsletter__form {
+  width: 100%;
+  max-width: 42rem;
+  margin-top: 2.4rem;
+}
+
+.ed-newsletter__field {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--ed-line);
+  transition: border-color 0.4s var(--ed-ease);
+}
+
+.ed-newsletter__field:focus-within {
+  border-color: rgb(var(--color-foreground));
+}
+
+.ed-newsletter__field input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: none;
+  padding: 1.2rem 0;
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+  color: rgb(var(--color-foreground));
+}
+
+.ed-newsletter__field input:focus {
+  outline: none;
+}
+
+.ed-newsletter__field input::placeholder {
+  color: var(--ed-muted);
+}
+
+.ed-newsletter__submit {
+  flex: 0 0 auto;
+  border: 0;
+  background: none;
+  padding: 1.2rem 0.4rem;
+  cursor: pointer;
+  color: rgb(var(--color-foreground));
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.ed-newsletter__submit:focus-visible {
+  outline: 2px solid rgb(var(--color-foreground));
+  outline-offset: 2px;
+}
+
+.ed-newsletter__note {
+  margin-top: 1.2rem;
+  font-size: 1.3rem;
+  color: var(--ed-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Header — typographic wordmark above a spaced nav
+
+   Layered over Dawn's own header so its drawer, search modal and cart
+   behaviour keep working; only the presentation changes.
+   -------------------------------------------------------------------------- */
+.header-wrapper {
+  transition: box-shadow 0.4s var(--ed-ease), background-color 0.4s var(--ed-ease);
+}
+
+.shopify-section-header-sticky .header-wrapper {
+  box-shadow: 0 1px 0 var(--ed-line);
+}
+
+.header--top-center .header__heading-link,
+.header--top-center .header__heading {
+  text-align: center;
+}
+
+.header__heading-link .h2 {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2rem, 2.6vw, 2.8rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* Nav links share the small-label treatment. */
+.header__inline-menu .header__menu-item {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+  padding: 1.2rem 0;
+}
+
+.header__inline-menu .list-menu--inline {
+  column-gap: 3.2rem;
+  justify-content: center;
+}
+
+.header__inline-menu .header__menu-item .icon-caret,
+.header__inline-menu summary.header__menu-item > svg {
+  display: none;
+}
+
+.header__inline-menu summary.list-menu__item {
+  padding-right: 0;
+}
+
+.header__active-menu-item {
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+.header__icons {
+  gap: 0.4rem;
+}
+
+.header__icon .svg-wrapper {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+.header__icon svg {
+  stroke-width: 1.1;
+}
+
+.cart-count-bubble {
+  min-width: 1.6rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   Footer — quiet columns, hairline rules
+   -------------------------------------------------------------------------- */
+.footer {
+  border-top: 1px solid var(--ed-line);
+}
+
+.footer__content-top {
+  padding-bottom: 3rem;
+}
+
+.footer-block__heading {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+  margin-bottom: 1.6rem;
+}
+
+.footer-block__details-content .list-menu__item--link,
+.footer-block__details-content .link {
+  font-size: 1.4rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.footer-block__details-content .list-menu__item--link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.footer__content-bottom {
+  border-top: 1px solid var(--ed-line);
+}
+
+.footer__content-bottom-wrapper {
+  align-items: center;
+}
+
+.footer__copyright,
+.footer__copyright .policies {
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  color: var(--ed-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Global calm-down — the page should not be full of boxes
+   -------------------------------------------------------------------------- */
+.ed-page .shopify-section + .shopify-section {
+  margin-top: 0;
+}

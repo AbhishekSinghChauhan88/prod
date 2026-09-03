@@ -30,7 +30,7 @@
         "auto_rotate": false,
         "change_slides_speed": 5,
         "color_scheme": "scheme-1",
-        "show_line_separator": true,
+        "show_line_separator": false,
         "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false
@@ -39,10 +39,10 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_position": "middle-left",
+        "logo_position": "top-center",
         "mobile_logo_position": "center",
         "menu": "main-menu",
-        "menu_type_desktop": "mega",
+        "menu_type_desktop": "dropdown",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": false,
         "uppercase_menu": true,
@@ -52,8 +52,8 @@
         "enable_language_selector": false,
         "enable_customer_avatar": true,
         "margin_bottom": 0,
-        "padding_top": 32,
-        "padding_bottom": 32
+        "padding_top": 28,
+        "padding_bottom": 28
       }
     }
   },

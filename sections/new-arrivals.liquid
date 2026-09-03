@@ -1,0 +1,262 @@
+{% comment %}
+  New arrivals — a bare product grid.
+
+  Deliberately not Dawn's card-product: no card background, border, shadow or
+  badge. Image, name, price, nothing else. Quick add is a single understated
+  control that only appears on pointer devices, and only adds directly when the
+  product has one variant — anything with options goes to the product page,
+  where the choice belongs.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign products = s.collection.products
+  assign count = s.products_to_show
+
+  if s.show_quick_add
+    assign needs_product_form = true
+  endif
+
+  comment
+    Filters cannot be chained inside a filter argument, so the sizes string is
+    built once here rather than inline on each image_tag.
+  endcomment
+  assign grid_sizes = '(min-width: 990px) calc((100vw - 12rem) / ' | append: s.columns_desktop | append: '), 45vw'
+-%}
+
+{%- if needs_product_form -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<div class="color-{{ s.color_scheme }} gradient">
+  <div class="ed-width ed-section">
+    {%- if s.heading != blank or s.label != blank -%}
+      <div class="ed-section__head ed-section__head--{{ s.text_alignment }} ed-reveal">
+        {%- if s.label != blank -%}
+          <p class="ed-label">{{ s.label | escape }}</p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="ed-display ed-display--sm">{{ s.heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <ul class="ed-grid" role="list" style="--ed-columns: {{ s.columns_desktop }};">
+      {%- for product in products limit: count -%}
+        {%- liquid
+          assign alt_image = null
+          if s.show_second_image and product.media[1] != null
+            assign alt_image = product.media[1]
+          endif
+
+          assign single_variant = false
+          if product.variants.size == 1 and product.selected_or_first_available_variant.available
+            assign single_variant = true
+          endif
+
+          comment
+            Built here because a tag argument cannot contain a filter chain.
+          endcomment
+          assign quick_add_id = 'ed-quick-add-' | append: section.id | append: '-' | append: product.id
+        -%}
+        <li class="ed-product ed-reveal" style="--ed-delay: {{ forloop.index0 | times: 60 }}ms;">
+          <div class="ed-product__media" style="--ed-ratio: {{ s.image_ratio }};">
+            {%- if product.featured_media -%}
+              {{
+                product.featured_media
+                | image_url: width: 1200
+                | image_tag:
+                  widths: '200, 300, 400, 600, 800, 1200',
+                  sizes: grid_sizes,
+                  loading: 'lazy',
+                  class: 'ed-product__image--main',
+                  alt: product.featured_media.alt | default: product.title
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag }}
+            {%- endif -%}
+
+            {%- if alt_image -%}
+              {{
+                alt_image
+                | image_url: width: 1200
+                | image_tag:
+                  widths: '200, 300, 400, 600, 800, 1200',
+                  sizes: grid_sizes,
+                  loading: 'lazy',
+                  class: 'ed-product__image--alt',
+                  alt: ''
+              }}
+            {%- endif -%}
+
+            {%- if s.show_quick_add -%}
+              <div class="ed-product__quick">
+                {%- if single_variant -%}
+                  <product-form data-section-id="{{ section.id }}">
+                    {%- form 'product', product, id: quick_add_id, class: 'form', novalidate: 'novalidate' -%}
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="{{ product.selected_or_first_available_variant.id }}"
+                        class="product-variant-id"
+                      >
+                      <button type="submit" name="add">
+                        <span>{{ 'products.product.add_to_cart' | t }} +</span>
+                        {%- render 'loading-spinner' -%}
+                      </button>
+                    {%- endform -%}
+                  </product-form>
+                {%- else -%}
+                  <a href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+                    {{- 'products.product.choose_options' | t -}}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="ed-product__info">
+            <h3 class="ed-product__title">
+              <a href="{{ product.url }}">{{ product.title | escape }}</a>
+            </h3>
+            <div class="ed-product__price">
+              {%- if product.compare_at_price > product.price -%}
+                <s>{{ product.compare_at_price | money }}</s>
+              {%- endif -%}
+              {{ product.price | money }}
+            </div>
+          </div>
+        </li>
+      {%- else -%}
+        {%- comment -%} Nothing chosen yet: show the grid shape, not an error. {%- endcomment -%}
+        {%- for i in (1..count) -%}
+          <li class="ed-product">
+            <div class="ed-product__media" style="--ed-ratio: {{ s.image_ratio }};">
+              {{ 'product-1' | placeholder_svg_tag }}
+            </div>
+            <div class="ed-product__info">
+              <h3 class="ed-product__title">{{ 'onboarding.product_title' | t }}</h3>
+              <div class="ed-product__price">{{ 1990 | money }}</div>
+            </div>
+          </li>
+        {%- endfor -%}
+      {%- endfor -%}
+    </ul>
+
+    {%- if s.view_all_label != blank -%}
+      <div class="ed-section__foot ed-reveal">
+        <a
+          href="{{ s.view_all_link | default: s.collection.url | default: routes.all_products_collection_url }}"
+          class="ed-link"
+        >
+          {{ s.view_all_label | escape }}
+          <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "New arrivals",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "New arrivals",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        { "value": "center", "label": "Centred" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "center",
+      "label": "Heading alignment"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "Columns on desktop",
+      "info": "Mobile always shows two."
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "3 / 4", "label": "Portrait" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "2 / 3", "label": "Tall" }
+      ],
+      "default": "3 / 4",
+      "label": "Image shape"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_second_image",
+      "default": true,
+      "label": "Fade to the second image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "default": true,
+      "label": "Show quick add on hover",
+      "info": "Products with options link to the product page instead."
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "default": "View all",
+      "label": "View all label"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link",
+      "info": "Defaults to the chosen collection."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "New arrivals"
+    }
+  ]
+}
+{% endschema %}

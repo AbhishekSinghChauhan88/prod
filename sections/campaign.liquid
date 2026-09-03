@@ -1,0 +1,122 @@
+{% comment %}
+  Campaign — one immersive full-width image with a label and a single link.
+
+  Reads as a second campaign frame rather than a promotional banner: no badges,
+  no pricing, no sale language. The image is rendered taller than its frame so
+  the parallax has somewhere to travel without exposing an edge.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<div
+  class="ed-campaign"
+  style="--ed-campaign-height: {{ s.height }}svh; --ed-overlay: {{ s.overlay_opacity | divided_by: 100.0 }};"
+>
+  <div class="ed-campaign__media" data-ed-parallax>
+    {%- if s.image != blank -%}
+      {{
+        s.image
+        | image_url: width: 3000
+        | image_tag:
+          widths: '750, 1100, 1500, 2000, 2600, 3000',
+          sizes: '100vw',
+          loading: 'lazy',
+          alt: s.image.alt | default: s.heading
+      }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+
+  {%- if s.overlay_opacity > 0 -%}
+    <div class="ed-campaign__overlay"></div>
+  {%- endif -%}
+
+  <div class="ed-campaign__content">
+    {%- if s.label != blank -%}
+      <p class="ed-label ed-reveal">{{ s.label | escape }}</p>
+    {%- endif -%}
+
+    {%- if s.heading != blank -%}
+      <h2 class="ed-display ed-display--sm ed-reveal" style="--ed-delay: 0.1s;">
+        {{ s.heading }}
+      </h2>
+    {%- endif -%}
+
+    {%- if s.cta_label != blank -%}
+      <div class="ed-reveal" style="--ed-delay: 0.2s;">
+        <a href="{{ s.cta_link | default: routes.all_products_collection_url }}" class="ed-link">
+          {{ s.cta_label | escape }}
+          <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Campaign",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 75,
+      "label": "Height",
+      "info": "Percentage of the screen height."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 20,
+      "label": "Image darkening"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "The essentials",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "default": "Shop now",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign"
+    }
+  ]
+}
+{% endschema %}
