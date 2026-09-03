@@ -278,6 +278,17 @@
         </a>
       {%- endif -%}
 
+      {%- if settings.wishlist_enabled and settings.wishlist_page != blank -%}
+        <a
+          href="{{ settings.wishlist_page.url }}"
+          class="header__icon header__icon--wishlist link focus-inset no-js-hidden"
+        >
+          <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+          <span class="visually-hidden">{{ 'wishlist.title' | t }}</span>
+          <wishlist-count class="wishlist-count-bubble" aria-hidden="true" hidden></wishlist-count>
+        </a>
+      {%- endif -%}
+
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when '@app' -%}

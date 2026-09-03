@@ -1,0 +1,209 @@
+{{ 'theme-sections.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #Marquee-{{ section.id }} .marquee__item {
+    font-size: {{ section.settings.text_size | times: 0.8 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    #Marquee-{{ section.id }} .marquee__item {
+      font-size: {{ section.settings.text_size }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign duration = 60 | minus: section.settings.speed | times: 1.2 | at_least: 8
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="section-{{ section.id }}-padding">
+    <scrolling-marquee
+      id="Marquee-{{ section.id }}"
+      class="marquee{% if section.settings.direction == 'right' %} marquee--reverse{% endif %}"
+      style="--marquee-duration: {{ duration }}s; --marquee-hover-state: {% if section.settings.pause_on_hover %}paused{% else %}running{% endif %};"
+    >
+      <div class="marquee__track">
+        <div class="marquee__group">
+          {%- for block in section.blocks -%}
+            <span class="marquee__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != 'none' -%}
+                <span class="svg-wrapper">
+                  {{- block.settings.icon | prepend: 'icon-' | append: '.svg' | inline_asset_content -}}
+                </span>
+              {%- elsif block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 80 | image_tag: loading: 'lazy', alt: block.settings.image.alt }}
+              {%- endif -%}
+
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}" class="marquee__link">{{ block.settings.text }}</a>
+              {%- else -%}
+                {{ block.settings.text }}
+              {%- endif -%}
+
+              {%- if section.settings.separator != blank -%}
+                <span class="marquee__separator" aria-hidden="true">{{ section.settings.separator }}</span>
+              {%- endif -%}
+            </span>
+          {%- else -%}
+            <span class="marquee__item">{{ 'sections.scrolling_text.empty' | t }}</span>
+          {%- endfor -%}
+        </div>
+      </div>
+    </scrolling-marquee>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Scrolling text",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "direction",
+      "options": [
+        { "value": "left", "label": "Right to left" },
+        { "value": "right", "label": "Left to right" }
+      ],
+      "default": "left",
+      "label": "Direction"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 55,
+      "step": 5,
+      "default": 25,
+      "label": "Speed"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "default": true,
+      "label": "Pause on hover"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 14,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 28,
+      "label": "Text size"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "default": "•",
+      "label": "Separator",
+      "info": "Shown between items. Leave empty for none."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "Free shipping over $75",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "return", "label": "Return" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "star", "label": "Star" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "lightning-bolt", "label": "Lightning bolt" },
+            { "value": "price-tag", "label": "Price tag" },
+            { "value": "plane", "label": "Plane" },
+            { "value": "recycle", "label": "Recycle" },
+            { "value": "stopwatch", "label": "Stopwatch" }
+          ],
+          "default": "none",
+          "label": "Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Used when no icon is selected."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling text",
+      "blocks": [
+        { "type": "item" },
+        {
+          "type": "item",
+          "settings": { "text": "30-day easy returns", "icon": "return" }
+        },
+        {
+          "type": "item",
+          "settings": { "text": "Secure checkout", "icon": "lock" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

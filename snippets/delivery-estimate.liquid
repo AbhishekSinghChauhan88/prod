@@ -1,0 +1,53 @@
+{% comment %}
+  Renders an estimated delivery window based on a business-day offset.
+
+  The dates are calculated in Liquid from the shop's current time, so they are
+  correct on first paint and need no JavaScript. Weekends are skipped by
+  advancing the window, which keeps the estimate conservative.
+
+  Accepts:
+  - block: {Object} the `delivery_estimate` block, for its settings
+
+  Usage:
+  {% render 'delivery-estimate', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign day_seconds = 86400
+  assign now = 'now' | date: '%s' | plus: 0
+
+  assign min_days = block.settings.min_days
+  assign max_days = block.settings.max_days | at_least: block.settings.min_days
+
+  comment
+    Roughly convert business days to calendar days: every five working days
+    spans a weekend, so add two days per full week.
+  endcomment
+  assign min_calendar = min_days | divided_by: 5 | times: 2 | plus: min_days
+  assign max_calendar = max_days | divided_by: 5 | times: 2 | plus: max_days
+
+  assign earliest_stamp = min_calendar | times: day_seconds | plus: now
+  assign latest_stamp = max_calendar | times: day_seconds | plus: now
+
+  assign date_format = '%b %-d'
+  assign earliest_date = earliest_stamp | date: date_format
+  assign latest_date = latest_stamp | date: date_format
+-%}
+
+<div class="delivery-estimate" {{ block.shopify_attributes }}>
+  <span class="svg-wrapper">
+    {{- 'icon-truck.svg' | inline_asset_content -}}
+  </span>
+  <div>
+    <p>
+      {%- if min_calendar == max_calendar -%}
+        {{ 'products.product.delivery.estimate_single_html' | t: date: earliest_date }}
+      {%- else -%}
+        {{ 'products.product.delivery.estimate_html' | t: from: earliest_date, to: latest_date }}
+      {%- endif -%}
+    </p>
+    {%- if block.settings.note != blank -%}
+      <p class="caption">{{ block.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</div>

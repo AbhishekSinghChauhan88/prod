@@ -191,6 +191,38 @@
                     {%- endif -%}
                   {%- endif -%}
                 </p>
+              {%- when 'stock_bar' -%}
+                {% render 'product-stock-bar', block: block, product: product %}
+
+              {%- when 'delivery_estimate' -%}
+                {% render 'delivery-estimate', block: block %}
+
+              {%- when 'size_chart' -%}
+                {% render 'size-chart', block: block %}
+
+              {%- when 'wishlist' -%}
+                <div class="quick-add-hidden" {{ block.shopify_attributes }}>
+                  {% render 'wishlist-button', wishlist_product: product, style: 'product' %}
+                </div>
+
+              {%- when 'trust_badges' -%}
+                <div class="product-trust-badges quick-add-hidden" {{ block.shopify_attributes }}>
+                  {%- if block.settings.caption != blank -%}
+                    <p class="product-trust-badges__caption">{{ block.settings.caption }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.image != blank -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1000
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '300, 500, 750, 1000',
+                        sizes: '(min-width: 750px) 500px, 90vw',
+                        alt: block.settings.image.alt
+                    }}
+                  {%- endif -%}
+                </div>
+
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
                   <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
@@ -925,6 +957,112 @@
           "default": true,
           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
+        }
+      ]
+    },
+    {
+      "type": "stock_bar",
+      "name": "Low stock bar",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Only shown when Shopify tracks the variant's inventory and the remaining quantity is at or below the threshold."
+        },
+        {
+          "type": "range",
+          "id": "threshold",
+          "min": 2,
+          "max": 50,
+          "step": 1,
+          "default": 10,
+          "label": "Show when stock drops to"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "default": true,
+          "label": "Show the exact quantity left"
+        }
+      ]
+    },
+    {
+      "type": "delivery_estimate",
+      "name": "Delivery estimate",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "min_days",
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "default": 3,
+          "label": "Fastest delivery (business days)"
+        },
+        {
+          "type": "range",
+          "id": "max_days",
+          "min": 1,
+          "max": 60,
+          "step": 1,
+          "default": 7,
+          "label": "Slowest delivery (business days)"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "default": "Free returns within 30 days",
+          "label": "Note"
+        }
+      ]
+    },
+    {
+      "type": "size_chart",
+      "name": "Size chart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Size chart page",
+          "info": "The page content opens in a popup."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Size chart",
+          "label": "Link label"
+        }
+      ]
+    },
+    {
+      "type": "wishlist",
+      "name": "Wishlist button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Requires the wishlist to be enabled in Theme settings."
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Trust badges",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge image",
+          "info": "For example a row of payment or guarantee icons."
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "default": "Secure checkout with",
+          "label": "Caption"
         }
       ]
     },

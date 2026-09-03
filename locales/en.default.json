@@ -78,7 +78,9 @@
     "total_reviews": "total reviews",
     "star_reviews_info": "{{ rating_value }} out of {{ rating_max }} stars",
     "collapsible_content_title": "Collapsible content",
-    "complementary_products": "Complementary products"
+    "complementary_products": "Complementary products",
+    "back_to_top": "Back to top",
+    "star_rating": "{{ rating }} out of {{ scale }} stars"
   },
   "blogs": {
     "article": {
@@ -179,7 +181,15 @@
       "taxes_included": "Taxes included.",
       "duties_included": "Duties included.",
       "duties_and_taxes_included": "Duties and taxes included.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "stock_bar": {
+        "remaining": "Low stock — order soon",
+        "remaining_count": "Only {{ count }} left in stock"
+      },
+      "delivery": {
+        "estimate_html": "Estimated delivery <strong>{{ from }} – {{ to }}</strong>",
+        "estimate_single_html": "Estimated delivery <strong>{{ date }}</strong>"
+      }
     },
     "modal": {
       "label": "Media gallery"
@@ -274,7 +284,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -313,7 +322,12 @@
       "login": {
         "title": "Have an account?",
         "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Log in</a> to check out faster."
-      }
+      },
+      "free_shipping": {
+        "qualified": "Your order qualifies for free shipping.",
+        "remaining_html": "You are <strong>{{ amount }}</strong> away from free shipping."
+      },
+      "recommendations_heading": "Pairs well with"
     },
     "footer": {
       "payment": "Payment methods"
@@ -374,6 +388,19 @@
       "min_error": "This item has a minimum of {{ min }}",
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
+    },
+    "countdown": {
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds"
+    },
+    "image_comparison": {
+      "slider_label": "Drag to compare the before and after images"
+    },
+    "shoppable_image": {
+      "view_product": "View {{ product }}",
+      "hotspot": "Show details"
     }
   },
   "localization": {
@@ -527,5 +554,16 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "wishlist": {
+    "title": "Wishlist",
+    "add": "Save {{ product }} to your wishlist",
+    "remove": "Remove {{ product }} from your wishlist",
+    "added": "Saved to your wishlist",
+    "removed": "Removed from your wishlist",
+    "save": "Save for later",
+    "saved": "Saved",
+    "clear": "Clear wishlist",
+    "loading": "Loading your saved products"
   }
 }

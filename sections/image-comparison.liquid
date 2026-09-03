@@ -1,0 +1,230 @@
+{{ 'theme-sections.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign ratio = 1
+  if section.settings.image_before != blank
+    assign ratio = section.settings.image_before.aspect_ratio
+  endif
+  if section.settings.aspect_ratio == 'square'
+    assign ratio = 1
+  elsif section.settings.aspect_ratio == 'landscape'
+    assign ratio = 1.78
+  elsif section.settings.aspect_ratio == 'portrait'
+    assign ratio = 0.75
+  endif
+  if ratio == 0 or ratio == null
+    assign ratio = 1
+  endif
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank or section.settings.text != blank -%}
+      <div class="center">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="title {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <image-comparison
+      class="image-comparison{% if section.settings.animate %} scroll-trigger animate--fade-in{% endif %}"
+      style="aspect-ratio: {{ ratio }};"
+    >
+      <div class="image-comparison__media image-comparison__before">
+        {%- if section.settings.image_before != blank -%}
+          {{
+            section.settings.image_before
+            | image_url: width: 1920
+            | image_tag:
+              loading: 'lazy',
+              sizes: '(min-width: 1200px) 1100px, 100vw',
+              widths: '480, 720, 990, 1400, 1920',
+              alt: section.settings.image_before.alt
+          }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <div class="image-comparison__media image-comparison__after">
+        {%- if section.settings.image_after != blank -%}
+          {{
+            section.settings.image_after
+            | image_url: width: 1920
+            | image_tag:
+              loading: 'lazy',
+              sizes: '(min-width: 1200px) 1100px, 100vw',
+              widths: '480, 720, 990, 1400, 1920',
+              alt: section.settings.image_after.alt
+          }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <input
+        type="range"
+        class="image-comparison__range"
+        min="0"
+        max="100"
+        step="0.1"
+        value="{{ section.settings.start_position }}"
+        aria-label="{{ 'sections.image_comparison.slider_label' | t }}"
+      >
+
+      <div class="image-comparison__handle" aria-hidden="true">
+        <span class="svg-wrapper">
+          {{- 'icon-arrow.svg' | inline_asset_content -}}
+        </span>
+      </div>
+
+      {%- if section.settings.label_before != blank -%}
+        <span class="image-comparison__label image-comparison__label--before">
+          {{- section.settings.label_before -}}
+        </span>
+      {%- endif -%}
+      {%- if section.settings.label_after != blank -%}
+        <span class="image-comparison__label image-comparison__label--after">
+          {{- section.settings.label_after -}}
+        </span>
+      {%- endif -%}
+    </image-comparison>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image comparison",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_before",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_after",
+      "label": "After image"
+    },
+    {
+      "type": "text",
+      "id": "label_before",
+      "default": "Before",
+      "label": "Before label"
+    },
+    {
+      "type": "text",
+      "id": "label_after",
+      "default": "After",
+      "label": "After label"
+    },
+    {
+      "type": "range",
+      "id": "start_position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50,
+      "label": "Starting position"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to before image" },
+        { "value": "square", "label": "Square" },
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "portrait", "label": "Portrait" }
+      ],
+      "default": "landscape",
+      "label": "Aspect ratio"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "animate",
+      "default": true,
+      "label": "Animate on scroll"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image comparison"
+    }
+  ]
+}
+{% endschema %}

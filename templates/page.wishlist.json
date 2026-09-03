@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-wishlist",
+      "settings": {}
+    },
+    "recommendations": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "You might also like",
+        "heading_size": "h2",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": ["main", "recommendations"]
+}

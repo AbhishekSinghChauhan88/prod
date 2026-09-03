@@ -1400,6 +1400,87 @@
     ]
   },
   {
+    "name": "Storefront features",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Wishlist"
+      },
+      {
+        "type": "paragraph",
+        "content": "Saved products are stored in each visitor's browser, so no customer account or app is needed."
+      },
+      {
+        "type": "checkbox",
+        "id": "wishlist_enabled",
+        "default": true,
+        "label": "Enable wishlist"
+      },
+      {
+        "type": "page",
+        "id": "wishlist_page",
+        "label": "Wishlist page",
+        "info": "Create a page that uses the 'wishlist' template, then select it here to show the header icon."
+      },
+      {
+        "type": "header",
+        "content": "Free shipping bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_bar_enabled",
+        "default": true,
+        "label": "Show progress towards free shipping"
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "default": 75,
+        "label": "Free shipping threshold",
+        "info": "In your store currency. Set to 0 to hide the bar. Make sure this matches your shipping rates."
+      },
+      {
+        "type": "header",
+        "content": "Cart recommendations"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_recommendations_enabled",
+        "default": true,
+        "label": "Show recommended products in the cart"
+      },
+      {
+        "type": "range",
+        "id": "cart_recommendations_count",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "default": 3,
+        "label": "Products to recommend"
+      },
+      {
+        "type": "header",
+        "content": "Back to top"
+      },
+      {
+        "type": "checkbox",
+        "id": "back_to_top_enabled",
+        "default": true,
+        "label": "Show a back to top button"
+      },
+      {
+        "type": "range",
+        "id": "back_to_top_threshold",
+        "min": 200,
+        "max": 2000,
+        "step": 100,
+        "unit": "px",
+        "default": 600,
+        "label": "Show after scrolling"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.cart.name",
     "settings": [
       {

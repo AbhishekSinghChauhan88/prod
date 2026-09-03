@@ -41,6 +41,7 @@
     endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
+    {%- render 'wishlist-button', wishlist_product: card_product, style: 'card' -%}
     <div
       class="
         card card--{{ settings.card_style }}

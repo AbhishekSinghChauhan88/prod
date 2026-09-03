@@ -1,0 +1,205 @@
+{{ 'theme-sections.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title {{ section.settings.heading_size }} center">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <ul
+      class="stats stats--{{ section.blocks.size | at_most: 4 }}{% if section.settings.show_dividers %} stats--divided{% endif %}"
+      role="list"
+    >
+      {%- for block in section.blocks -%}
+        <li class="stats__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != 'none' -%}
+            <span class="stats__icon svg-wrapper">
+              {{- block.settings.icon | prepend: 'icon-' | append: '.svg' | inline_asset_content -}}
+            </span>
+          {%- endif -%}
+          <span class="stats__value">
+            {{- block.settings.prefix -}}
+            {%- if block.settings.animate_value -%}
+              <stat-counter
+                data-value="{{ block.settings.value }}"
+                data-duration="{{ section.settings.animation_duration }}"
+              >{{ block.settings.value }}</stat-counter>
+            {%- else -%}
+              {{- block.settings.value -}}
+            {%- endif -%}
+            {{- block.settings.suffix -}}
+          </span>
+          {%- if block.settings.label != blank -%}
+            <span class="stats__label">{{ block.settings.label }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Stats",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h3", "label": "Extra small" },
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" }
+      ],
+      "default": "h2",
+      "label": "Heading size"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dividers",
+      "default": false,
+      "label": "Show dividers between stats"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "min": 400,
+      "max": 3000,
+      "step": 100,
+      "unit": "ms",
+      "default": 1600,
+      "label": "Count-up duration"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "default": "25000",
+          "label": "Number",
+          "info": "Digits only, so the count-up animation can run. Use the prefix and suffix for symbols."
+        },
+        {
+          "type": "checkbox",
+          "id": "animate_value",
+          "default": true,
+          "label": "Count up when scrolled into view"
+        },
+        {
+          "type": "text",
+          "id": "prefix",
+          "label": "Prefix"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "default": "+",
+          "label": "Suffix"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Happy customers",
+          "label": "Label"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "star", "label": "Star" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "recycle", "label": "Recycle" },
+            { "value": "plane", "label": "Plane" },
+            { "value": "check-mark", "label": "Check mark" }
+          ],
+          "default": "none",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stats",
+      "blocks": [
+        { "type": "stat" },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "4.9",
+            "suffix": "",
+            "label": "Average rating",
+            "icon": "star"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "48",
+            "suffix": "h",
+            "label": "Average dispatch time"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

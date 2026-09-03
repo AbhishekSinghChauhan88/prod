@@ -1,0 +1,40 @@
+{% comment %}
+  Renders a wishlist toggle for a product.
+
+  Accepts:
+  - wishlist_product: {Object} the product to save
+  - style: {String} "card" for the floating heart on a product card, "product"
+    for the labelled button on a product page. Default: "card" (optional)
+
+  Usage:
+  {% render 'wishlist-button', wishlist_product: product, style: 'product' %}
+{% endcomment %}
+
+{%- if settings.wishlist_enabled and wishlist_product != blank -%}
+  {%- assign button_style = style | default: 'card' -%}
+
+  <wishlist-button
+    class="wishlist-button-wrapper wishlist-button-wrapper--{{ button_style }} no-js-hidden"
+    data-product-handle="{{ wishlist_product.handle }}"
+    data-add-label="{{ 'wishlist.add' | t: product: wishlist_product.title | escape }}"
+    data-remove-label="{{ 'wishlist.remove' | t: product: wishlist_product.title | escape }}"
+    data-added-text="{{ 'wishlist.added' | t | escape }}"
+    data-removed-text="{{ 'wishlist.removed' | t | escape }}"
+    data-save-text="{{ 'wishlist.save' | t | escape }}"
+    data-saved-text="{{ 'wishlist.saved' | t | escape }}"
+  >
+    <button
+      type="button"
+      class="wishlist-button wishlist-button--{{ button_style }}"
+      aria-pressed="false"
+      aria-label="{{ 'wishlist.add' | t: product: wishlist_product.title | escape }}"
+    >
+      <span class="svg-wrapper">
+        {{- 'icon-heart.svg' | inline_asset_content -}}
+      </span>
+      {%- if button_style == 'product' -%}
+        <span data-wishlist-label>{{ 'wishlist.save' | t }}</span>
+      {%- endif -%}
+    </button>
+  </wishlist-button>
+{%- endif -%}

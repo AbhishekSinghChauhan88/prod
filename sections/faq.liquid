@@ -1,0 +1,244 @@
+{{ 'theme-sections.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title {{ section.settings.heading_size }}{% if section.settings.center_heading %} center{% endif %}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <div class="faq{% if section.settings.width == 'wide' %} faq--wide{% endif %}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'group_heading' -%}
+            <h3 class="faq__group-title h4">{{ block.settings.title }}</h3>
+
+          {%- when 'question' -%}
+            <details
+              class="faq__item"
+              {% if block.settings.open_by_default %}
+                open
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <summary class="faq__summary">
+                {{ block.settings.question }}
+                <span class="svg-wrapper">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span>
+              </summary>
+              <div class="faq__content rte">
+                {{ block.settings.answer }}
+                {%- if block.settings.page != blank -%}
+                  {{ block.settings.page.content }}
+                {%- endif -%}
+              </div>
+            </details>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{%- comment -%}
+  Structured data so the questions can qualify for FAQ rich results in search.
+{%- endcomment -%}
+{%- if section.settings.enable_structured_data -%}
+  {%- assign entity_count = 0 -%}
+  {%- capture faq_entities -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'question' and block.settings.question != blank and block.settings.answer != blank -%}
+        {%- comment -%}
+          Group headings and empty questions are skipped, so the separator is
+          driven by how many entities have actually been written, not by the
+          loop index.
+        {%- endcomment -%}
+        {%- if entity_count > 0 -%},{%- endif -%}
+        {%- assign entity_count = entity_count | plus: 1 -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.question | strip_html | strip_newlines | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ block.settings.answer | strip_newlines | json }}
+          }
+        }
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- assign trimmed_entities = faq_entities | strip -%}
+  {%- if trimmed_entities != blank -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{{ trimmed_entities }}]
+      }
+    </script>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Frequently asked questions",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "checkbox",
+      "id": "center_heading",
+      "default": true,
+      "label": "Center heading"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "wide", "label": "Full width" }
+      ],
+      "default": "narrow",
+      "label": "Content width"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_structured_data",
+      "default": true,
+      "label": "Add FAQ structured data",
+      "info": "Helps search engines show these questions directly in results. Only enable on one FAQ section per page."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "default": "How long does shipping take?",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "default": "<p>Orders leave our warehouse within one business day. Delivery usually takes 2–5 business days.</p>",
+          "label": "Answer"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Answer from page",
+          "info": "Appended after the answer above."
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "default": false,
+          "label": "Expanded by default"
+        }
+      ]
+    },
+    {
+      "type": "group_heading",
+      "name": "Group heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Shipping",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "question" },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>Return anything unused within 30 days for a full refund. Return shipping is on us.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes — we ship to most countries. Duties are calculated at checkout so there are no surprises.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

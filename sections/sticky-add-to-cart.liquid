@@ -1,0 +1,151 @@
+{{ 'theme-enhancements.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign show_on_mobile_only = false
+  if section.settings.visibility == 'mobile'
+    assign show_on_mobile_only = true
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'sticky-atc-' | append: section.id
+-%}
+
+{%- if product != blank -%}
+  {%- style -%}
+    {%- if show_on_mobile_only -%}
+      @media screen and (min-width: 750px) {
+        #StickyAtc-{{ section.id }} {
+          display: none;
+        }
+      }
+    {%- endif -%}
+  {%- endstyle -%}
+
+  <sticky-atc
+    id="StickyAtc-{{ section.id }}"
+    class="color-{{ section.settings.color_scheme }} gradient"
+    data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
+    data-sold-out-text="{{ 'products.product.sold_out' | t }}"
+  >
+    <div class="sticky-atc__inner">
+      {%- if product.featured_image -%}
+        {{
+          product.featured_image
+          | image_url: width: 150
+          | image_tag: loading: 'lazy', width: 50, height: 50, class: 'sticky-atc__image', alt: product.title
+        }}
+      {%- endif -%}
+
+      <div class="sticky-atc__info">
+        <p class="sticky-atc__title">{{ product.title }}</p>
+        <span class="sticky-atc__price" data-sticky-price>
+          {{- current_variant.price | money -}}
+        </span>
+      </div>
+
+      <product-form class="product-form sticky-atc__actions" data-section-id="{{ section.id }}">
+        <div class="product-form__error-message-wrapper" role="alert" hidden>
+          <span class="product-form__error-message"></span>
+        </div>
+
+        {%- form 'product', product, id: form_id, class: 'form contains-quantity', novalidate: 'novalidate' -%}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ current_variant.id }}"
+            class="product-variant-id"
+          >
+
+          {%- if product.has_only_default_variant == false and section.settings.show_variant_picker -%}
+            <select
+              class="select__select sticky-atc__select"
+              name="sticky-variant"
+              data-sticky-variant
+              aria-label="{{ 'products.product.product_variants' | t }}"
+            >
+              {%- for variant in product.variants -%}
+                <option
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price | money }}"
+                  data-available="{{ variant.available }}"
+                  {% if variant.id == current_variant.id %}
+                    selected
+                  {% endif %}
+                  {% unless variant.available %}
+                    disabled
+                  {% endunless %}
+                >
+                  {{ variant.title }}
+                  {%- unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless -%}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- endif -%}
+
+          <button
+            type="submit"
+            name="add"
+            class="product-form__submit button button--primary sticky-atc__button"
+            {% if current_variant.available == false %}
+              disabled
+            {% endif %}
+          >
+            <span data-sticky-submit-text>
+              {%- if current_variant.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        {%- endform -%}
+      </product-form>
+    </div>
+  </sticky-atc>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Sticky add to cart",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A compact buy bar that slides in once the main add-to-cart button has scrolled out of view."
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "options": [
+        { "value": "all", "label": "All devices" },
+        { "value": "mobile", "label": "Mobile only" }
+      ],
+      "default": "all",
+      "label": "Show on"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_picker",
+      "default": true,
+      "label": "Show variant selector"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky add to cart"
+    }
+  ]
+}
+{% endschema %}

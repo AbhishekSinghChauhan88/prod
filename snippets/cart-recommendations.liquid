@@ -1,0 +1,17 @@
+{% comment %}
+  Places the cart upsell shell. Dawn's <product-recommendations> element fills
+  it in once it scrolls into view, using the `cart-recommendations` section as
+  the fetch target.
+
+  Usage:
+  {% render 'cart-recommendations' %}
+{% endcomment %}
+
+{%- if settings.cart_recommendations_enabled and cart.item_count > 0 -%}
+  <product-recommendations
+    class="cart-recommendations"
+    data-url="{{ routes.product_recommendations_url }}?limit={{ settings.cart_recommendations_count }}&intent=complementary"
+    data-section-id="cart-recommendations"
+    data-product-id="{{ cart.items.first.product_id }}"
+  ></product-recommendations>
+{%- endif -%}

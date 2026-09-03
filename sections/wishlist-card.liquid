@@ -1,0 +1,58 @@
+{% comment %}
+  Renders one product card for the wishlist and recently-viewed lists.
+
+  This section is never placed in a template. It is requested on demand through
+  the Section Rendering API — `/products/{handle}?section_id=wishlist-card` — so
+  saved products are drawn with the theme's real card markup and card settings
+  rather than being rebuilt in JavaScript. Because it has no placement, the
+  settings below always resolve to their schema defaults.
+{% endcomment %}
+
+<div data-product-card data-product-handle="{{ product.handle }}">
+  {% render 'card-product',
+    card_product: product,
+    media_aspect_ratio: section.settings.image_ratio,
+    show_secondary_image: section.settings.show_secondary_image,
+    show_vendor: section.settings.show_vendor,
+    show_rating: section.settings.show_rating,
+    lazy_load: true,
+    section_id: 'wishlist'
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "Wishlist card",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" }
+      ],
+      "default": "square",
+      "label": "Image ratio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "Show second image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Show vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show product rating"
+    }
+  ]
+}
+{% endschema %}

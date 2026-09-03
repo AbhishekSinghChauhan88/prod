@@ -1,0 +1,17 @@
+{% comment %}
+  Renders the back-to-top button. Hidden until the page has been scrolled past
+  the configured distance.
+
+  Usage:
+  {% render 'back-to-top' %}
+{% endcomment %}
+
+{%- if settings.back_to_top_enabled -%}
+  <back-to-top class="no-js-hidden" data-threshold="{{ settings.back_to_top_threshold }}">
+    <button type="button" aria-label="{{ 'accessibility.back_to_top' | t }}">
+      <span class="svg-wrapper">
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </span>
+    </button>
+  </back-to-top>
+{%- endif -%}

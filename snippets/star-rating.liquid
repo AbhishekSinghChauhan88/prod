@@ -1,0 +1,30 @@
+{% comment %}
+  Renders a star rating that supports fractional values.
+
+  Accepts:
+  - rating: {Number} the rating, from 0 to `scale`
+  - scale: {Number} the maximum rating. Default: 5 (optional)
+  - label: {String} accessible label. Falls back to a generic rating string (optional)
+
+  Usage:
+  {% render 'star-rating', rating: 4.5 %}
+{% endcomment %}
+
+{%- liquid
+  assign star_scale = scale | default: 5
+  assign star_rating = rating | default: 0 | at_least: 0 | at_most: star_scale
+  assign star_label = label | default: nil
+-%}
+
+<span
+  class="star-rating"
+  role="img"
+  aria-label="{% if star_label %}{{ star_label | escape }}{% else %}{{ 'accessibility.star_rating' | t: rating: star_rating, scale: star_scale }}{% endif %}"
+>
+  {%- for index in (1..star_scale) -%}
+    {%- liquid
+      assign fill = star_rating | minus: forloop.index0 | times: 100 | at_least: 0 | at_most: 100
+    -%}
+    <span class="star-rating__star" style="--star-fill: {{ fill }}%;" aria-hidden="true"></span>
+  {%- endfor -%}
+</span>

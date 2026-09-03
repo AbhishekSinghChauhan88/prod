@@ -1,0 +1,260 @@
+{{ 'theme-sections.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign end_date = section.settings.end_date | strip
+  assign end_time = section.settings.end_time | strip | default: '23:59'
+  assign end_stamp = end_date | append: 'T' | append: end_time | append: ':00'
+
+  assign unit_class = 'countdown__unit'
+  if section.settings.unit_style == 'plain'
+    assign unit_class = 'countdown__unit countdown__unit--plain'
+  endif
+-%}
+
+<div
+  class="countdown-banner color-{{ section.settings.color_scheme }} gradient"
+  data-countdown-container
+>
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="countdown-banner__inner countdown-banner__inner--{{ section.settings.layout }}{% if section.settings.animate %} scroll-trigger animate--slide-in{% endif %}">
+      {%- if section.settings.heading != blank or section.settings.text != blank -%}
+        <div class="countdown-banner__text">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="countdown__heading {{ section.settings.heading_size }}">
+              {{ section.settings.heading }}
+            </h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="countdown__text rte">{{ section.settings.text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if end_date != blank -%}
+        <countdown-timer
+          class="countdown"
+          data-end-time="{{ end_stamp }}"
+          data-on-expire="{{ section.settings.expired_behavior }}"
+          role="timer"
+        >
+          <div class="countdown__units">
+            <div class="{{ unit_class }}">
+              <span class="countdown__value" data-unit="days">--</span>
+              <span class="countdown__label">{{ 'sections.countdown.days' | t }}</span>
+            </div>
+            <div class="{{ unit_class }}">
+              <span class="countdown__value" data-unit="hours">--</span>
+              <span class="countdown__label">{{ 'sections.countdown.hours' | t }}</span>
+            </div>
+            <div class="{{ unit_class }}">
+              <span class="countdown__value" data-unit="minutes">--</span>
+              <span class="countdown__label">{{ 'sections.countdown.minutes' | t }}</span>
+            </div>
+            {%- if section.settings.show_seconds -%}
+              <div class="{{ unit_class }}">
+                <span class="countdown__value" data-unit="seconds">--</span>
+                <span class="countdown__label">{{ 'sections.countdown.seconds' | t }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+        </countdown-timer>
+
+        {%- if section.settings.expired_behavior == 'message' -%}
+          <p class="countdown__text" data-countdown-expired hidden>
+            {{- section.settings.expired_text -}}
+          </p>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <a
+          {% if section.settings.button_link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ section.settings.button_link }}"
+          {% endif %}
+          class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Countdown banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Sale ends soon",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Free shipping on every order until the clock runs out.</p>",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "default": "2026-12-31",
+      "label": "End date",
+      "info": "Use the format YYYY-MM-DD."
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "default": "23:59",
+      "label": "End time",
+      "info": "24-hour format, HH:MM. Counts down in each visitor's own time zone."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_seconds",
+      "default": true,
+      "label": "Show seconds"
+    },
+    {
+      "type": "select",
+      "id": "unit_style",
+      "options": [
+        { "value": "boxed", "label": "Boxed" },
+        { "value": "plain", "label": "Plain" }
+      ],
+      "default": "boxed",
+      "label": "Unit style"
+    },
+    {
+      "type": "select",
+      "id": "expired_behavior",
+      "options": [
+        { "value": "keep", "label": "Keep showing zeros" },
+        { "value": "message", "label": "Show a message" },
+        { "value": "hide", "label": "Hide the section" }
+      ],
+      "default": "message",
+      "label": "When the countdown ends"
+    },
+    {
+      "type": "text",
+      "id": "expired_text",
+      "default": "This offer has ended.",
+      "label": "Ended message"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Shop the sale",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "default": false,
+      "label": "Use outline button style"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        { "value": "row", "label": "Side by side" },
+        { "value": "column", "label": "Stacked" }
+      ],
+      "default": "row",
+      "label": "Arrangement"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "checkbox",
+      "id": "animate",
+      "default": true,
+      "label": "Animate on scroll"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown banner"
+    }
+  ]
+}
+{% endschema %}

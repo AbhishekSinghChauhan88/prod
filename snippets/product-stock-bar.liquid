@@ -1,0 +1,56 @@
+{% comment %}
+  Renders a low-stock indicator for the selected variant.
+
+  Only rendered when Shopify tracks the variant's inventory, so it never invents
+  a number it cannot know.
+
+  Accepts:
+  - block: {Object} the `stock_bar` block, for its settings
+  - product: {Object} the product
+
+  Usage:
+  {% render 'product-stock-bar', block: block, product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign quantity = variant.inventory_quantity
+  assign threshold = block.settings.threshold
+  assign tracked = false
+  if variant.inventory_management == 'shopify'
+    assign tracked = true
+  endif
+-%}
+
+{%- if tracked and quantity > 0 and quantity <= threshold -%}
+  {%- liquid
+    assign percent = quantity | times: 100.0 | divided_by: threshold | at_most: 100 | at_least: 6
+    assign healthy = false
+    assign half = threshold | divided_by: 2
+    if quantity > half
+      assign healthy = true
+    endif
+  -%}
+
+  <div class="stock-bar{% if healthy %} stock-bar--healthy{% endif %}" {{ block.shopify_attributes }}>
+    <p class="stock-bar__label">
+      <span class="svg-wrapper">
+        {{- 'icon-fire.svg' | inline_asset_content -}}
+      </span>
+      {%- if block.settings.show_quantity -%}
+        {{ 'products.product.stock_bar.remaining_count' | t: count: quantity }}
+      {%- else -%}
+        {{ 'products.product.stock_bar.remaining' | t }}
+      {%- endif -%}
+    </p>
+    <div
+      class="stock-bar__track"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="{{ threshold }}"
+      aria-valuenow="{{ quantity }}"
+    >
+      <div class="stock-bar__fill" style="width: {{ percent }}%;"></div>
+    </div>
+  </div>
+{%- endif -%}

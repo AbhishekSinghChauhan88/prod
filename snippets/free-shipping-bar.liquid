@@ -1,0 +1,46 @@
+{% comment %}
+  Renders a progress bar towards the free shipping threshold.
+
+  The bar re-renders with the rest of the cart, so it stays accurate without any
+  JavaScript of its own.
+
+  Accepts:
+  - class: {String} extra classes for the wrapper (optional)
+
+  Usage:
+  {% render 'free-shipping-bar' %}
+{% endcomment %}
+
+{%- if settings.free_shipping_bar_enabled and settings.free_shipping_threshold > 0 -%}
+  {%- liquid
+    assign threshold = settings.free_shipping_threshold | times: 100
+    assign total = cart.total_price
+    assign remaining = threshold | minus: total
+    assign qualified = false
+    if remaining <= 0
+      assign qualified = true
+    endif
+
+    assign percent = total | times: 100.0 | divided_by: threshold | at_most: 100
+    assign remaining_money = remaining | at_least: 0 | money
+  -%}
+
+  <div class="shipping-bar{% if qualified %} shipping-bar--qualified{% endif %} {{ class }}">
+    <p class="shipping-bar__text">
+      {%- if qualified -%}
+        {{ 'sections.cart.free_shipping.qualified' | t }}
+      {%- else -%}
+        {{ 'sections.cart.free_shipping.remaining_html' | t: amount: remaining_money }}
+      {%- endif -%}
+    </p>
+    <div
+      class="shipping-bar__track"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="{{ percent | round }}"
+    >
+      <div class="shipping-bar__progress" style="width: {{ percent }}%;"></div>
+    </div>
+  </div>
+{%- endif -%}

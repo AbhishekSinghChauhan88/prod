@@ -1,0 +1,50 @@
+{% comment %}
+  Cart upsells.
+
+  Rendered twice: once as an empty shell inside the cart (see the
+  `cart-recommendations` snippet), and once here as the fetch target for
+  Dawn's <product-recommendations> element, which swaps in the filled markup.
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+<product-recommendations
+  class="cart-recommendations"
+  data-url="{{ routes.product_recommendations_url }}?limit={{ settings.cart_recommendations_count }}&intent=complementary"
+  data-section-id="cart-recommendations"
+  data-product-id="{{ cart.items.first.product_id }}"
+>
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <h3 class="cart-recommendations__heading h4">
+      {{ 'sections.cart.recommendations_heading' | t }}
+    </h3>
+    <ul class="cart-recommendations__list" role="list">
+      {%- assign skip_card_product_styles = false -%}
+      {%- for recommendation in recommendations.products limit: settings.cart_recommendations_count -%}
+        <li class="cart-recommendations__item">
+          {% render 'card-product',
+            card_product: recommendation,
+            media_aspect_ratio: 'square',
+            show_secondary_image: false,
+            show_vendor: false,
+            show_rating: false,
+            horizontal_class: true,
+            horizontal_quick_add: true,
+            quick_add: 'standard',
+            section_id: 'cart-recommendations',
+            skip_styles: skip_card_product_styles
+          %}
+        </li>
+        {%- assign skip_card_product_styles = true -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</product-recommendations>
+
+{% schema %}
+{
+  "name": "Cart recommendations",
+  "settings": []
+}
+{% endschema %}
