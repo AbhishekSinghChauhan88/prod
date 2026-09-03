@@ -206,11 +206,15 @@
                 </div>
 
               {%- when 'trust_badges' -%}
-                <div class="product-trust-badges quick-add-hidden" {{ block.shopify_attributes }}>
-                  {%- if block.settings.caption != blank -%}
-                    <p class="product-trust-badges__caption">{{ block.settings.caption }}</p>
-                  {%- endif -%}
-                  {%- if block.settings.image != blank -%}
+                {%- comment -%}
+                  The caption only makes sense as a label for the badges, so the
+                  whole block waits until there is an image to label.
+                {%- endcomment -%}
+                {%- if block.settings.image != blank -%}
+                  <div class="product-trust-badges quick-add-hidden" {{ block.shopify_attributes }}>
+                    {%- if block.settings.caption != blank -%}
+                      <p class="product-trust-badges__caption">{{ block.settings.caption }}</p>
+                    {%- endif -%}
                     {{
                       block.settings.image
                       | image_url: width: 1000
@@ -220,8 +224,8 @@
                         sizes: '(min-width: 750px) 500px, 90vw',
                         alt: block.settings.image.alt
                     }}
-                  {%- endif -%}
-                </div>
+                  </div>
+                {%- endif -%}
 
               {%- when 'description' -%}
                 {%- if product.description != blank -%}

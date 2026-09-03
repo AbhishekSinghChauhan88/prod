@@ -3,13 +3,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
         "title": {
           "type": "title",
           "settings": {}
@@ -18,11 +11,28 @@
           "type": "price",
           "settings": {}
         },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
             "picker_type": "button",
-            "swatch_shape": "circle"
+            "swatch_shape": "square"
+          }
+        },
+        "size_chart": {
+          "type": "size_chart",
+          "settings": {
+            "label": "Size guide"
+          }
+        },
+        "stock_bar": {
+          "type": "stock_bar",
+          "settings": {
+            "threshold": 10,
+            "show_quantity": true
           }
         },
         "quantity_selector": {
@@ -36,9 +46,43 @@
             "show_gift_card_recipient": true
           }
         },
+        "wishlist": {
+          "type": "wishlist",
+          "settings": {}
+        },
+        "delivery_estimate": {
+          "type": "delivery_estimate",
+          "settings": {
+            "min_days": 3,
+            "max_days": 7,
+            "note": "Free returns within 30 days"
+          }
+        },
+        "trust_badges": {
+          "type": "trust_badges",
+          "settings": {
+            "caption": "Secure checkout with"
+          }
+        },
         "description": {
           "type": "description",
           "settings": {}
+        },
+        "tab_shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & returns",
+            "icon": "truck",
+            "content": "<p>Dispatched within 24 hours. Free returns within 30 days of delivery.</p>"
+          }
+        },
+        "tab_care": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Materials & care",
+            "icon": "washing",
+            "content": "<p>Add fabric composition and washing instructions here.</p>"
+          }
         },
         "share": {
           "type": "share",
@@ -48,13 +92,20 @@
         }
       },
       "block_order": [
-        "vendor",
         "title",
         "price",
+        "rating",
         "variant_picker",
+        "size_chart",
+        "stock_bar",
         "quantity_selector",
         "buy_buttons",
+        "wishlist",
+        "delivery_estimate",
+        "trust_badges",
         "description",
+        "tab_shipping",
+        "tab_care",
         "share"
       ],
       "settings": {
@@ -62,15 +113,15 @@
         "color_scheme": "scheme-1",
         "media_size": "large",
         "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
+        "media_fit": "cover",
+        "gallery_layout": "thumbnail",
+        "mobile_thumbnails": "show",
         "media_position": "left",
         "image_zoom": "lightbox",
         "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
+        "padding_top": 24,
+        "padding_bottom": 24
       }
     },
     "related-products": {
