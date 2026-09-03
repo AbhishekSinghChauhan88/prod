@@ -61,6 +61,7 @@
             Built here because a tag argument cannot contain a filter chain.
           endcomment
           assign quick_add_id = 'ed-quick-add-' | append: section.id | append: '-' | append: product.id
+          assign main_alt = product.featured_media.alt | default: product.title
         -%}
         <li class="ed-product ed-reveal" style="--ed-delay: {{ forloop.index0 | times: 60 }}ms;">
           <div class="ed-product__media" style="--ed-ratio: {{ s.image_ratio }};">
@@ -73,7 +74,7 @@
                   sizes: grid_sizes,
                   loading: 'lazy',
                   class: 'ed-product__image--main',
-                  alt: product.featured_media.alt | default: product.title
+                  alt: main_alt
               }}
             {%- else -%}
               {{ 'product-1' | placeholder_svg_tag }}

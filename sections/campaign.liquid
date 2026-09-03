@@ -11,6 +11,7 @@
 
 {%- liquid
   assign s = section.settings
+  assign campaign_alt = s.image.alt | default: s.heading | strip_html
 -%}
 
 <div
@@ -26,7 +27,7 @@
           widths: '750, 1100, 1500, 2000, 2600, 3000',
           sizes: '100vw',
           loading: 'lazy',
-          alt: s.image.alt | default: s.heading
+          alt: campaign_alt
       }}
     {%- else -%}
       {{ 'lifestyle-2' | placeholder_svg_tag }}

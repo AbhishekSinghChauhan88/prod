@@ -32,6 +32,7 @@
           assign tile_name = block.settings.title | default: collection.title
           assign tile_url = collection.url | default: routes.all_products_collection_url
           assign tile_image = block.settings.image | default: collection.featured_image
+          assign tile_alt = tile_image.alt | default: tile_name
         -%}
         <li
           class="ed-tile{% if s.caption_position == 'overlay' %} ed-tile--overlay{% endif %} ed-reveal"
@@ -47,7 +48,7 @@
                   widths: '400, 600, 800, 1100, 1400, 1800',
                   sizes: '(min-width: 750px) 50vw, 100vw',
                   loading: 'lazy',
-                  alt: tile_image.alt | default: tile_name
+                  alt: tile_alt
               }}
             {%- else -%}
               {%- assign ph = 'collection-' | append: forloop.index -%}
