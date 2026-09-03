@@ -71,121 +71,6 @@
         "accessibility_info": "Featured collections"
       }
     },
-    "new_in": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "New in",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "link",
-        "image_ratio": "portrait",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "enable_desktop_slider": true,
-        "swipe_on_mobile": true,
-        "color_scheme": "scheme-1",
-        "padding_top": 72,
-        "padding_bottom": 40
-      }
-    },
-    "story": {
-      "type": "image-with-text",
-      "blocks": {
-        "caption": {
-          "type": "caption",
-          "settings": {
-            "caption": "Our approach",
-            "text_style": "caption-with-letter-spacing",
-            "text_size": "small"
-          }
-        },
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Made to be kept",
-            "heading_size": "h1"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>We make a small number of pieces each season, in materials chosen to age well. Fewer things, better made.</p>",
-            "text_style": "body"
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-            "button_label": "Read our story",
-            "button_link": "",
-            "button_style_secondary": true
-          }
-        }
-      },
-      "block_order": [
-        "caption",
-        "heading",
-        "text",
-        "button"
-      ],
-      "settings": {
-        "height": "large",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "image_behavior": "none",
-        "content_layout": "no-overlap",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
-        "section_color_scheme": "scheme-1",
-        "color_scheme": "scheme-1",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
-    "categories": {
-      "type": "collection-list",
-      "blocks": {
-        "collection_1": {
-          "type": "featured_collection",
-          "settings": {}
-        },
-        "collection_2": {
-          "type": "featured_collection",
-          "settings": {}
-        },
-        "collection_3": {
-          "type": "featured_collection",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "collection_1",
-        "collection_2",
-        "collection_3"
-      ],
-      "settings": {
-        "title": "Shop by category",
-        "heading_size": "h2",
-        "image_ratio": "portrait",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "show_view_all": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
     "assurances": {
       "type": "trust-badges",
       "blocks": {
@@ -261,10 +146,127 @@
         "padding_bottom": 72
       }
     },
-    "bestsellers": {
+    "shop_men": {
+      "type": "collection-list",
+      "blocks": {
+        "c1": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c2": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c3": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c4": {
+          "type": "featured_collection",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "title": "Shop men",
+        "heading_size": "h2",
+        "image_ratio": "portrait",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_view_all": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 32
+      }
+    },
+    "shop_women": {
+      "type": "collection-list",
+      "blocks": {
+        "c1": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c2": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c3": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c4": {
+          "type": "featured_collection",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "title": "Shop women",
+        "heading_size": "h2",
+        "image_ratio": "portrait",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_view_all": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "shop_juniors": {
+      "type": "collection-list",
+      "blocks": {
+        "c1": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c2": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c3": {
+          "type": "featured_collection",
+          "settings": {}
+        },
+        "c4": {
+          "type": "featured_collection",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "title": "Shop juniors",
+        "heading_size": "h2",
+        "image_ratio": "portrait",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_view_all": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 48
+      }
+    },
+    "rail_new": {
       "type": "featured-collection",
       "settings": {
-        "title": "Most wanted",
+        "title": "New arrivals",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
@@ -284,16 +286,97 @@
         "swipe_on_mobile": true,
         "color_scheme": "scheme-1",
         "padding_top": 40,
-        "padding_bottom": 40
+        "padding_bottom": 32
+      }
+    },
+    "rail_two": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Tees & polos",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_desktop_slider": true,
+        "swipe_on_mobile": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "rail_three": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Denim",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_desktop_slider": true,
+        "swipe_on_mobile": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "rail_four": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Dresses",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_desktop_slider": true,
+        "swipe_on_mobile": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 48
       }
     }
   },
   "order": [
     "hero",
-    "new_in",
-    "story",
-    "bestsellers",
-    "categories",
+    "shop_men",
+    "shop_women",
+    "shop_juniors",
+    "rail_new",
+    "rail_two",
+    "rail_three",
+    "rail_four",
     "assurances",
     "newsletter"
   ]
