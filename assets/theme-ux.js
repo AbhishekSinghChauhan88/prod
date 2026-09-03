@@ -283,18 +283,17 @@ if (!customElements.get('sticky-atc')) {
     'sticky-atc',
     class StickyAtc extends HTMLElement {
       connectedCallback() {
-        this.select = this.querySelector('[data-sticky-variant]');
         this.priceTarget = this.querySelector('[data-sticky-price]');
         this.variantInput = this.querySelector('input[name="id"]');
         this.submitButton = this.querySelector('[type="submit"]');
 
         this.observeTrigger();
-        this.select?.addEventListener('change', () => this.onSelectChange());
 
-        // Keep in step with the main product form's variant picker.
+        // The bar carries no picker of its own; it follows the main product
+        // form's variant selection.
         this.unsubscribe = subscribe(PUB_SUB_EVENTS.variantChange, ({ data }) => {
           if (!data?.variant) return;
-          this.applyVariant(String(data.variant.id));
+          this.applyVariant(data.variant);
         });
       }
 
@@ -327,31 +326,24 @@ if (!customElements.get('sticky-atc')) {
         this.observer.observe(trigger);
       }
 
-      onSelectChange() {
-        const option = this.select.selectedOptions[0];
-        if (!option) return;
-        this.applyVariant(option.value, option);
-      }
+      applyVariant(variant) {
+        if (this.variantInput) this.variantInput.value = variant.id;
 
-      applyVariant(variantId, knownOption) {
-        if (this.select && this.select.value !== variantId) {
-          const match = Array.from(this.select.options).find((option) => option.value === variantId);
-          if (match) this.select.value = variantId;
+        // Mirror whatever the main product info is showing rather than
+        // formatting money here — it is already correct and localized. Read on
+        // the next frame so the main price has certainly been swapped in.
+        if (this.priceTarget) {
+          requestAnimationFrame(() => {
+            const mainPrice = document.querySelector('.product__info-container .price');
+            if (mainPrice) this.priceTarget.innerHTML = mainPrice.innerHTML;
+          });
         }
 
-        if (this.variantInput) this.variantInput.value = variantId;
-
-        const option = knownOption || Array.from(this.select?.options || []).find((item) => item.value === variantId);
-        if (!option) return;
-
-        if (this.priceTarget && option.dataset.price) this.priceTarget.textContent = option.dataset.price;
-
-        const available = option.dataset.available === 'true';
         if (this.submitButton) {
-          this.submitButton.disabled = !available;
+          this.submitButton.disabled = !variant.available;
           const label = this.submitButton.querySelector('[data-sticky-submit-text]');
           if (label) {
-            label.textContent = available ? this.dataset.addToCartText : this.dataset.soldOutText;
+            label.textContent = variant.available ? this.dataset.addToCartText : this.dataset.soldOutText;
           }
         }
       }

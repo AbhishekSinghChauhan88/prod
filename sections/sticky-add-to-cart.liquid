@@ -10,6 +10,10 @@
 
   assign current_variant = product.selected_or_first_available_variant
   assign form_id = 'sticky-atc-' | append: section.id
+  assign use_buy_now = false
+  if section.settings.button_action == 'buy_now'
+    assign use_buy_now = true
+  endif
 -%}
 
 {%- if product != blank -%}
@@ -26,83 +30,66 @@
   <sticky-atc
     id="StickyAtc-{{ section.id }}"
     class="color-{{ section.settings.color_scheme }} gradient"
+    data-section-id="{{ section.id }}"
     data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
     data-sold-out-text="{{ 'products.product.sold_out' | t }}"
   >
     <div class="sticky-atc__inner">
-      {%- if product.featured_image -%}
-        {{
-          product.featured_image
-          | image_url: width: 150
-          | image_tag: loading: 'lazy', width: 50, height: 50, class: 'sticky-atc__image', alt: product.title
-        }}
-      {%- endif -%}
+      {%- comment -%} Left: what you are buying. {%- endcomment -%}
+      <div class="sticky-atc__product">
+        {%- if product.featured_image -%}
+          {{
+            product.featured_image
+            | image_url: width: 150
+            | image_tag: loading: 'lazy', width: 50, height: 50, class: 'sticky-atc__image', alt: product.title
+          }}
+        {%- endif -%}
 
-      <div class="sticky-atc__info">
-        <p class="sticky-atc__title">{{ product.title }}</p>
-        <span class="sticky-atc__price" data-sticky-price>
-          {{- current_variant.price | money -}}
-        </span>
+        <div class="sticky-atc__info">
+          <p class="sticky-atc__title">{{ product.title }}</p>
+          <span class="sticky-atc__price" data-sticky-price>
+            {{- current_variant.price | money -}}
+          </span>
+        </div>
       </div>
 
-      <product-form class="product-form sticky-atc__actions" data-section-id="{{ section.id }}">
-        <div class="product-form__error-message-wrapper" role="alert" hidden>
-          <span class="product-form__error-message"></span>
+      {%- comment -%} Right: the one action. {%- endcomment -%}
+      {%- if use_buy_now -%}
+        <div class="sticky-atc__actions">
+          {%- form 'product', product, id: form_id, class: 'form' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" class="product-variant-id">
+            {{ form | payment_button }}
+          {%- endform -%}
         </div>
+      {%- else -%}
+        <product-form class="product-form sticky-atc__actions" data-section-id="{{ section.id }}">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="product-form__error-message"></span>
+          </div>
 
-        {%- form 'product', product, id: form_id, class: 'form contains-quantity', novalidate: 'novalidate' -%}
-          <input
-            type="hidden"
-            name="id"
-            value="{{ current_variant.id }}"
-            class="product-variant-id"
-          >
+          {%- form 'product', product, id: form_id, class: 'form', novalidate: 'novalidate' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" class="product-variant-id">
 
-          {%- if product.has_only_default_variant == false and section.settings.show_variant_picker -%}
-            <select
-              class="select__select sticky-atc__select"
-              name="sticky-variant"
-              data-sticky-variant
-              aria-label="{{ 'products.product.product_variants' | t }}"
+            <button
+              type="submit"
+              name="add"
+              class="product-form__submit button button--primary sticky-atc__button"
+              {% if current_variant.available == false %}
+                disabled
+              {% endif %}
             >
-              {%- for variant in product.variants -%}
-                <option
-                  value="{{ variant.id }}"
-                  data-price="{{ variant.price | money }}"
-                  data-available="{{ variant.available }}"
-                  {% if variant.id == current_variant.id %}
-                    selected
-                  {% endif %}
-                  {% unless variant.available %}
-                    disabled
-                  {% endunless %}
-                >
-                  {{ variant.title }}
-                  {%- unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless -%}
-                </option>
-              {%- endfor -%}
-            </select>
-          {%- endif -%}
-
-          <button
-            type="submit"
-            name="add"
-            class="product-form__submit button button--primary sticky-atc__button"
-            {% if current_variant.available == false %}
-              disabled
-            {% endif %}
-          >
-            <span data-sticky-submit-text>
-              {%- if current_variant.available -%}
-                {{ 'products.product.add_to_cart' | t }}
-              {%- else -%}
-                {{ 'products.product.sold_out' | t }}
-              {%- endif -%}
-            </span>
-            {%- render 'loading-spinner' -%}
-          </button>
-        {%- endform -%}
-      </product-form>
+              <span data-sticky-submit-text>
+                {%- if current_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endform -%}
+        </product-form>
+      {%- endif -%}
     </div>
   </sticky-atc>
 {%- endif -%}
@@ -112,28 +99,47 @@
   "name": "Sticky add to cart",
   "tag": "section",
   "enabled_on": {
-    "templates": ["product"]
+    "templates": [
+      "product"
+    ]
   },
   "settings": [
     {
       "type": "paragraph",
-      "content": "A compact buy bar that slides in once the main add-to-cart button has scrolled out of view."
+      "content": "A compact buy bar that slides in once the main add-to-cart button has scrolled out of view. Product on the left, one action on the right."
     },
     {
       "type": "select",
       "id": "visibility",
       "options": [
-        { "value": "all", "label": "All devices" },
-        { "value": "mobile", "label": "Mobile only" }
+        {
+          "value": "all",
+          "label": "All devices"
+        },
+        {
+          "value": "mobile",
+          "label": "Mobile only"
+        }
       ],
       "default": "all",
       "label": "Show on"
     },
     {
-      "type": "checkbox",
-      "id": "show_variant_picker",
-      "default": true,
-      "label": "Show variant selector"
+      "type": "select",
+      "id": "button_action",
+      "options": [
+        {
+          "value": "add_to_cart",
+          "label": "Add to cart"
+        },
+        {
+          "value": "buy_now",
+          "label": "Buy it now"
+        }
+      ],
+      "default": "add_to_cart",
+      "label": "Button",
+      "info": "Add to cart adds without leaving the page. Buy it now goes straight to checkout."
     },
     {
       "type": "color_scheme",

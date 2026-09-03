@@ -25,21 +25,18 @@
   display: block;
 }
 
+/* icon-heart-outline.svg is drawn as a single stroked path, so fill and stroke
+   are set on the SVG itself and only the fill flips when saved. Dawn's own
+   icon-heart.svg is a filled compound path and renders as a doubled outline
+   if stroked, which is why it is not used here. */
 .wishlist-button svg {
   width: 100%;
   height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  transition: fill var(--duration-short) ease, transform var(--duration-short) ease;
+  transition: fill var(--duration-short) ease;
 }
 
 .wishlist-button[aria-pressed='true'] svg {
   fill: currentColor;
-}
-
-.wishlist-button:hover svg {
-  transform: scale(1.12);
 }
 
 /* The card heart floats over the media, so the card itself becomes the
@@ -192,15 +189,25 @@ sticky-atc.is-visible {
 .sticky-atc__inner {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: space-between;
+  gap: 2rem;
   padding: 1rem 1.5rem;
   max-width: var(--page-width);
   margin: 0 auto;
 }
 
+/* Left: the product. */
+.sticky-atc__product {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
 .sticky-atc__image {
-  width: 5rem;
-  height: 5rem;
+  width: 4.8rem;
+  height: 4.8rem;
   object-fit: cover;
   border-radius: calc(var(--media-radius) / 2);
   flex-shrink: 0;
@@ -208,7 +215,6 @@ sticky-atc.is-visible {
 
 .sticky-atc__info {
   min-width: 0;
-  flex: 1 1 auto;
 }
 
 .sticky-atc__title {
@@ -225,35 +231,38 @@ sticky-atc.is-visible {
   opacity: 0.85;
 }
 
+/* Right: the single action. */
 .sticky-atc__actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-shrink: 0;
-}
-
-.sticky-atc__select {
-  max-width: 16rem;
+  flex: 0 0 auto;
 }
 
 .sticky-atc__button {
-  min-width: 16rem;
+  min-width: 20rem;
   margin: 0;
 }
 
+.sticky-atc__actions .shopify-payment-button__button {
+  min-width: 20rem;
+}
+
 @media screen and (max-width: 749px) {
-  .sticky-atc__image,
-  .sticky-atc__select {
-    display: none;
-  }
-
-  .sticky-atc__button {
-    min-width: 0;
-    flex: 1 1 auto;
-  }
-
   .sticky-atc__inner {
     padding: 0.8rem 1.5rem;
+    gap: 1.2rem;
+  }
+
+  .sticky-atc__image {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .sticky-atc__title {
+    font-size: 1.4rem;
+  }
+
+  .sticky-atc__button,
+  .sticky-atc__actions .shopify-payment-button__button {
+    min-width: 13rem;
   }
 }
 
@@ -588,4 +597,20 @@ newsletter-popup.is-open {
 
 .size-chart__content table {
   width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Add to cart: no spinner animation
+
+   Dawn swaps the label for a rotating spinner while the add request is in
+   flight. The rotation is removed; the button dims and stops accepting input
+   instead, so there is still clear feedback without motion.
+   -------------------------------------------------------------------------- */
+.product-form__submit.loading > .loading__spinner {
+  display: none;
+}
+
+.product-form__submit.loading {
+  opacity: 0.65;
+  cursor: default;
 }

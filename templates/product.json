@@ -35,10 +35,6 @@
             "show_quantity": true
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -49,14 +45,6 @@
         "wishlist": {
           "type": "wishlist",
           "settings": {}
-        },
-        "delivery_estimate": {
-          "type": "delivery_estimate",
-          "settings": {
-            "min_days": 3,
-            "max_days": 7,
-            "note": "Free returns within 30 days"
-          }
         },
         "trust_badges": {
           "type": "trust_badges",
@@ -98,10 +86,8 @@
         "variant_picker",
         "size_chart",
         "stock_bar",
-        "quantity_selector",
         "buy_buttons",
         "wishlist",
-        "delivery_estimate",
         "trust_badges",
         "description",
         "tab_shipping",
@@ -154,7 +140,7 @@
       "type": "sticky-add-to-cart",
       "settings": {
         "visibility": "all",
-        "show_variant_picker": true
+        "button_action": "add_to_cart"
       }
     }
   },
