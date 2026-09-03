@@ -747,3 +747,47 @@ image-comparison {
 .enhanced-slider .slider__slide {
   scroll-snap-align: start;
 }
+
+/* --------------------------------------------------------------------------
+   Category links
+
+   A long department list read as text. CSS columns are used rather than a grid
+   so the list flows down each column and balances itself whatever the count.
+   -------------------------------------------------------------------------- */
+.category-links__heading {
+  margin: 0 0 2.4rem;
+}
+
+.category-links__list {
+  margin: 0;
+  padding: 0;
+  column-gap: 4rem;
+}
+
+.category-links__item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+.category-links__link {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  color: rgb(var(--color-foreground));
+}
+
+.category-links__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.category-links__list--uppercase .category-links__link {
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  letter-spacing: 0.1rem;
+}
+
+.category-links__empty {
+  opacity: 0.7;
+}
