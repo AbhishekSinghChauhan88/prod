@@ -614,3 +614,25 @@ newsletter-popup.is-open {
   opacity: 0.65;
   cursor: default;
 }
+
+/* --------------------------------------------------------------------------
+   Add to cart: no hover ring
+
+   On hover Dawn bumps --border-offset from --buttons-border-offset to 1.3px
+   and transitions the box-shadow, so an inset ring springs outward around the
+   button. That flinch is the "shake" on the add-to-cart button.
+
+   The hover state is pinned back to the resting values and the transition
+   removed, so the button simply does not move. Applies to the main buy button
+   and the sticky bar's, which share the class.
+   -------------------------------------------------------------------------- */
+.product-form__submit::after {
+  transition: none;
+}
+
+.product-form__submit:not([disabled]):hover::after {
+  --border-offset: var(--buttons-border-offset);
+  box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+      rgba(var(--color-button-text), var(--border-opacity)),
+    0 0 0 var(--buttons-border-width) rgba(var(--color-button), var(--alpha-button-background));
+}
