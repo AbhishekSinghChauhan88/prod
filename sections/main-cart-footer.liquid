@@ -24,8 +24,6 @@
 >
   <div class="page-width">
     <div class="cart__footer isolate section-{{ section.id }}-padding">
-      {%- render 'free-shipping-bar' -%}
-
       {%- if settings.show_cart_note -%}
         <cart-note class="cart__note field">
           <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
@@ -45,7 +43,13 @@
             {%- when '@app' -%}
               {% render block %}
             {%- when 'subtotal' -%}
+              {%- comment -%}
+                Kept inside .js-contents: this is the only part of the footer
+                Dawn re-renders after a quantity change, so the bar has to live
+                here to stay in step with the cart total.
+              {%- endcomment -%}
               <div class="js-contents" {{ block.shopify_attributes }}>
+                {%- render 'free-shipping-bar' -%}
                 <div>
                   {%- if cart.cart_level_discount_applications.size > 0 -%}
                     <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">

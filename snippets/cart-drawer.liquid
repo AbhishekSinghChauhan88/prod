@@ -475,8 +475,12 @@
         </form>
       </cart-drawer-items>
       <div class="drawer__footer">
+        {%- comment -%}
+          Recommendations sit outside .cart-drawer__footer on purpose: that
+          element is replaced wholesale on every cart update, which would
+          refetch the recommendations each time.
+        {%- endcomment -%}
         {%- render 'cart-recommendations' -%}
-        {%- render 'free-shipping-bar' -%}
 
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">
@@ -502,6 +506,11 @@
         <!-- Subtotals -->
 
         <div class="cart-drawer__footer" {{ block.shopify_attributes }}>
+          {%- comment -%}
+            Inside .cart-drawer__footer so the bar is re-rendered along with the
+            cart total on every quantity change.
+          {%- endcomment -%}
+          {%- render 'free-shipping-bar' -%}
           <div>
             {%- if cart.cart_level_discount_applications.size > 0 -%}
               <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">

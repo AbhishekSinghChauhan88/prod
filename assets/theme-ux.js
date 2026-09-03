@@ -189,16 +189,32 @@ if (!customElements.get('scrolling-marquee')) {
     class ScrollingMarquee extends HTMLElement {
       connectedCallback() {
         this.track = this.querySelector('.marquee__track');
-        this.group = this.querySelector('.marquee__group');
-        if (!this.track || !this.group) return;
+        const group = this.querySelector('.marquee__group');
+        if (!this.track || !group || group.children.length === 0) return;
+
+        // Snapshot the authored items once. Every rebuild starts from this
+        // pristine set, so repeated calls can never compound on their own output.
+        this.sourceItems = Array.from(group.children).map((child) => child.cloneNode(true));
+        this.lastWidth = 0;
 
         this.fill();
-        this.resizeObserver = new ResizeObserver(debounce(() => this.fill(), 200));
+
+        // fill() writes to this element's own subtree, so an unguarded observer
+        // would retrigger itself forever. Only an actual width change rebuilds,
+        // and the work is deferred to the next frame to stay out of the
+        // observer's own layout pass.
+        this.resizeObserver = new ResizeObserver((entries) => {
+          const width = Math.round(entries[0].contentRect.width);
+          if (width === this.lastWidth) return;
+          cancelAnimationFrame(this.frame);
+          this.frame = requestAnimationFrame(() => this.fill());
+        });
         this.resizeObserver.observe(this);
       }
 
       disconnectedCallback() {
         this.resizeObserver?.disconnect();
+        cancelAnimationFrame(this.frame);
       }
 
       /**
@@ -206,20 +222,23 @@ if (!customElements.get('scrolling-marquee')) {
        * exactly two identical groups, each at least as wide as the element.
        */
       fill() {
-        this.track.querySelectorAll('.marquee__group').forEach((group, index) => {
-          if (index > 0) group.remove();
-        });
+        const width = this.offsetWidth;
+        if (width === 0) return;
+        this.lastWidth = Math.round(width);
 
-        const originalItems = Array.from(this.group.children).map((child) => child.cloneNode(true));
-        if (originalItems.length === 0) return;
+        const group = document.createElement('div');
+        group.className = 'marquee__group';
+        this.sourceItems.forEach((item) => group.appendChild(item.cloneNode(true)));
+
+        this.track.replaceChildren(group);
 
         let guard = 0;
-        while (this.group.scrollWidth < this.offsetWidth && guard < 20) {
-          originalItems.forEach((item) => this.group.appendChild(item.cloneNode(true)));
+        while (group.scrollWidth < width && guard < 20) {
+          this.sourceItems.forEach((item) => group.appendChild(item.cloneNode(true)));
           guard += 1;
         }
 
-        const clone = this.group.cloneNode(true);
+        const clone = group.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
         this.track.appendChild(clone);
       }
@@ -403,15 +422,32 @@ if (!customElements.get('newsletter-popup')) {
       }
 
       open() {
+        // The cart drawer, menu drawer and modals all share body.overflow-hidden
+        // and a single global focus trap. Opening on top of one of them would
+        // steal the trap and, on close, unlock scrolling while the drawer is
+        // still up — so wait for the coast to clear instead.
+        if (document.body.classList.contains('overflow-hidden')) {
+          if (!window.Shopify?.designMode) {
+            this.timeout = setTimeout(() => this.open(), 2000);
+            return;
+          }
+        } else {
+          this.lockedScroll = true;
+          document.body.classList.add('overflow-hidden');
+        }
+
         this.classList.add('is-open');
         this.openedBy = document.activeElement;
-        document.body.classList.add('overflow-hidden');
         trapFocus(this, this.querySelector('input, button'));
       }
 
       close() {
         this.classList.remove('is-open');
-        document.body.classList.remove('overflow-hidden');
+        // Only release the lock this popup took, never one owned by a drawer.
+        if (this.lockedScroll) {
+          document.body.classList.remove('overflow-hidden');
+          this.lockedScroll = false;
+        }
         removeTrapFocus(this.openedBy);
         if (!window.Shopify?.designMode) this.suppress();
       }
