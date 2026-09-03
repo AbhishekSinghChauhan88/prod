@@ -1,0 +1,245 @@
+/* ==========================================================================
+   Refined header
+
+   A quieter, more editorial take on Dawn's header: a centered logo flanked by
+   two halves of the menu, hairline rules instead of solid borders, and hover
+   states that draw rather than announce.
+
+   Scoped to .header--split-center so Dawn's other logo positions are untouched.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Layout — logo optically centered in the viewport
+
+   Three columns: the two 1fr tracks are always equal, so the auto track in the
+   middle lands dead centre no matter how uneven the two menu halves are.
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 990px) {
+  .header.header--split-center {
+    display: grid;
+    /* Dawn places header children into named areas. Clearing the template and
+       resetting the children to auto lets the three explicit columns below take
+       over without inheriting stale area placements. */
+    grid-template-areas: none;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    column-gap: 3rem;
+  }
+
+  .header--split-center > * {
+    grid-area: auto;
+  }
+
+  .header--split-center > .header__split--left {
+    grid-column: 1;
+    justify-self: start;
+    margin-top: 0;
+  }
+
+  .header--split-center > .header__heading,
+  .header--split-center > .header__heading-link {
+    grid-column: 2;
+    justify-self: center;
+    margin: 0;
+    text-align: center;
+  }
+
+  .header--split-center > .header__end {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    min-width: 0;
+  }
+
+  .header--split-center .header__end .header__inline-menu {
+    margin-top: 0;
+  }
+}
+
+/* Below the desktop breakpoint the split halves collapse into the drawer, and
+   display:contents hands the icons back to Dawn's own mobile grid areas. */
+@media screen and (max-width: 989px) {
+  .header--split-center .header__split {
+    display: none;
+  }
+
+  .header--split-center .header__end {
+    display: contents;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Menu typography and the draw-in underline
+   -------------------------------------------------------------------------- */
+.header--split-center .list-menu--inline {
+  column-gap: 2.8rem;
+  justify-content: flex-start;
+}
+
+.header--split-center .header__split--right .list-menu--inline {
+  justify-content: flex-end;
+}
+
+.header--split-center .header__menu-item {
+  position: relative;
+  padding: 1.2rem 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.14rem;
+  font-weight: 500;
+  opacity: 1;
+  transition: color var(--duration-short) ease;
+}
+
+.header--split-center.header--uppercase-menu .header__menu-item {
+  text-transform: uppercase;
+}
+
+/* The underline grows from the leading edge instead of fading in, which reads
+   as deliberate rather than decorative. */
+.header--split-center > .header__split .header__menu-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.6rem;
+  height: 0.1rem;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.header--split-center > .header__split .header__menu-item:hover::after,
+.header--split-center > .header__split .header__menu-item:focus-visible::after,
+.header--split-center > .header__split details[open] > .header__menu-item::after {
+  transform: scaleX(1);
+}
+
+/* Dawn underlines the active item with a border; the hairline rule above does
+   the job more quietly. */
+.header--split-center .header__active-menu-item {
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+.header--split-center > .header__split .header__menu-item[aria-current='page']::after,
+.header--split-center > .header__split .header__menu-item:has(.header__active-menu-item)::after {
+  transform: scaleX(1);
+  background-color: rgba(var(--color-foreground), 0.45);
+}
+
+/* The caret is noise next to a well-spaced label. Dawn reserves room for it on
+   summary items, so that padding has to come back off too or the underline
+   overshoots the word. */
+.header--split-center > .header__split .header__menu-item > .icon-caret,
+.header--split-center > .header__split summary.header__menu-item > svg {
+  display: none;
+}
+
+.header--split-center > .header__split summary.list-menu__item {
+  padding-right: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Submenus — a calm panel, not a popup
+   -------------------------------------------------------------------------- */
+.header--split-center .header__submenu.list-menu--disclosure {
+  margin-top: 0.6rem;
+  padding: 1.6rem 2rem;
+  min-width: 20rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  border-radius: 0;
+  box-shadow: 0 12px 32px rgba(var(--color-shadow), 0.07);
+}
+
+.header--split-center .header__submenu .header__menu-item {
+  padding: 0.7rem 0;
+  font-size: 1.35rem;
+  letter-spacing: 0.04rem;
+  text-transform: none;
+}
+
+.header--split-center .header__submenu .header__menu-item:hover {
+  color: rgb(var(--color-foreground));
+}
+
+/* --------------------------------------------------------------------------
+   Icons — even weight, even rhythm
+   -------------------------------------------------------------------------- */
+.header--split-center .header__icons {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding-right: 0;
+}
+
+.header--split-center .header__icon {
+  height: 4rem;
+  width: 4rem;
+}
+
+.header--split-center .header__icon .svg-wrapper {
+  width: 2rem;
+  height: 2rem;
+}
+
+.header--split-center .header__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.2;
+}
+
+.header--split-center .header__icon::after {
+  display: none;
+}
+
+/* Keep the count bubbles small and unobtrusive. */
+.header--split-center .cart-count-bubble,
+.header--split-center .wishlist-count-bubble {
+  min-width: 1.6rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  font-size: 0.95rem;
+  bottom: 0.6rem;
+  right: 0.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   The bar itself
+   -------------------------------------------------------------------------- */
+.section-header.shopify-section-header-sticky .header-wrapper {
+  backdrop-filter: saturate(140%) blur(12px);
+}
+
+.header-wrapper--refined {
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  transition: border-color var(--duration-default) ease;
+}
+
+/* Dawn's optional separator is a full-strength border; soften it to a hairline
+   so it reads as a seam rather than a rule. */
+.header-wrapper--border-bottom {
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.header--split-center .header__heading-logo {
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile — hamburger, centered logo, icons
+   -------------------------------------------------------------------------- */
+/* Mobile placement is left to Dawn's own header grid and the theme's
+   "mobile logo position" setting; only the touch target sizing is adjusted. */
+@media screen and (max-width: 989px) {
+  .header--split-center .header__icons {
+    gap: 0.2rem;
+  }
+
+  .header--split-center .header__icon {
+    height: 4.4rem;
+    width: 4.4rem;
+  }
+}
