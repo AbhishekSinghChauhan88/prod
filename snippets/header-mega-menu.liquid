@@ -7,11 +7,22 @@
 
   - promo tiles, added as "Mega menu promotion" blocks on the header section
     and matched to a panel by the top-level menu item they name
-  - a row of utility links, shared by every panel, from a second menu
+  - a row of utility links, shared by every panel, from a "Mega menu utility
+    links" block
 
   Usage:
   {% render 'header-mega-menu' %}
 {% endcomment %}
+
+{%- liquid
+  assign utility_menu = blank
+  for block in section.blocks
+    if block.type == 'mega_utility'
+      assign utility_menu = block.settings.menu
+      break
+    endif
+  endfor
+-%}
 
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
@@ -128,10 +139,10 @@
                   {%- endif -%}
                 </div>
 
-                {%- if section.settings.mega_utility_menu != blank -%}
+                {%- if utility_menu != blank -%}
                   <div class="mega-menu__utility">
                     <ul class="mega-menu__utility-list page-width list-unstyled" role="list">
-                      {%- for utility_link in section.settings.mega_utility_menu.links -%}
+                      {%- for utility_link in utility_menu.links -%}
                         <li>
                           <a href="{{ utility_link.url }}" class="mega-menu__utility-link link">
                             {{- utility_link.title | escape -}}

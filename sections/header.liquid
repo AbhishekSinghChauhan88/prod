@@ -601,12 +601,6 @@
       "label": "t:sections.header.settings.menu_type_desktop.label"
     },
     {
-      "type": "link_list",
-      "id": "mega_utility_menu",
-      "label": "Mega menu utility links",
-      "info": "A short row of links shown at the foot of every mega menu panel, e.g. Help, Contact, Track your order."
-    },
-    {
       "type": "checkbox",
       "id": "uppercase_menu",
       "default": true,
@@ -751,6 +745,19 @@
           "type": "url",
           "id": "link",
           "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "mega_utility",
+      "name": "Mega menu utility links",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "info": "A short row of links shown at the foot of every mega menu panel, e.g. Help, Contact, Track your order."
         }
       ]
     }
