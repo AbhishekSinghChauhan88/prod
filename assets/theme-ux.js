@@ -454,3 +454,80 @@ if (!customElements.get('newsletter-popup')) {
     }
   );
 }
+
+/* -------------------------------------------------------------------------
+   Cart resilience
+
+   Two failure modes this recovers from:
+
+   1. The checkout button has no state of its own in Dawn, so a submission that
+      never completes — a failed POST, a checkout that bounces the shopper back —
+      leaves it looking like it is still working with no way to retry.
+
+   2. Overlay state is stored on <body> and on shared classes. When the browser
+      restores this page from the back/forward cache it replays that state
+      verbatim, so a scroll lock or a focus trap that was live at navigation
+      time comes back with nothing left on screen to release it. The page then
+      refuses to scroll.
+
+   Both are cleared on every pageshow, and the busy state additionally expires
+   on a timer for the case where no navigation happens at all.
+   ------------------------------------------------------------------------- */
+(() => {
+  const CHECKOUT_TIMEOUT = 12000;
+  let busyTimer;
+
+  const resetCheckoutButtons = () => {
+    clearTimeout(busyTimer);
+    document.querySelectorAll('.cart__checkout-button').forEach((button) => {
+      button.removeAttribute('aria-busy');
+      button.classList.remove('loading');
+      button.querySelector('.loading__spinner')?.classList.add('hidden');
+    });
+  };
+
+  // Everything that takes the plain body.overflow-hidden lock. The menu drawer
+  // is deliberately absent: it uses the breakpoint-scoped variant instead.
+  const anyOverlayOpen = () =>
+    document.querySelector(
+      'cart-drawer.active, newsletter-popup.is-open, modal-dialog[open], details-modal details[open], pickup-availability-drawer[open]'
+    );
+
+  const releaseStuckState = () => {
+    // Never unlock while something is genuinely open — that would let the page
+    // behind an open drawer scroll.
+    if (!anyOverlayOpen()) {
+      document.body.classList.remove('overflow-hidden');
+      if (typeof removeTrapFocus === 'function') removeTrapFocus();
+    }
+
+    document
+      .querySelectorAll('.cart__items--disabled')
+      .forEach((element) => element.classList.remove('cart__items--disabled'));
+  };
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('.cart__checkout-button');
+    if (!button) return;
+
+    // Swallow repeat taps while a submission is already in flight, rather than
+    // disabling the button — disabling a submit button during its own click
+    // cancels the submission in some browsers.
+    if (button.getAttribute('aria-busy') === 'true') {
+      event.preventDefault();
+      return;
+    }
+
+    // Let the browser's own validation messaging happen without a busy state.
+    const form = button.form;
+    if (form && typeof form.checkValidity === 'function' && !form.checkValidity()) return;
+
+    button.setAttribute('aria-busy', 'true');
+    busyTimer = setTimeout(resetCheckoutButtons, CHECKOUT_TIMEOUT);
+  });
+
+  window.addEventListener('pageshow', () => {
+    resetCheckoutButtons();
+    releaseStuckState();
+  });
+})();
