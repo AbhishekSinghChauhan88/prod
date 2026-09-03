@@ -199,3 +199,81 @@ slideshow-component:not(.page-width) .slider-buttons {
   opacity: 0;
   transform: scale(0.8);
 }
+
+/* ==========================================================================
+   Dots-only slideshow controls
+
+   The arrows, the "1 / 3" counter and the pause button are taken out of the
+   visual design and replaced by dots sitting over the foot of the slide.
+
+   The buttons are NOT removed from the markup, for two reasons:
+
+   1. SliderComponent bails out entirely when there is no next button, which
+      leaves SlideshowComponent reading .sliderItemsToShow off undefined.
+   2. setAutoPlay() only reaches its safe branch when .slideshow__autoplay
+      exists; without it, it dereferences this.reducedMotion, which is only
+      ever assigned for the announcement bar.
+
+   Hiding them the visually-hidden way also keeps keyboard users their
+   previous/next controls and, importantly, the means to stop the autoplay
+   (WCAG 2.2.2), which a display:none would take away.
+   ========================================================================== */
+.slideshow__controls--dots-only {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2.4rem;
+  z-index: 2;
+  order: 0;
+  display: flex;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.slideshow__controls--dots-only .slider-counter {
+  pointer-events: auto;
+  margin: 0;
+}
+
+.slideshow__controls--dots-only .slider-button--prev,
+.slideshow__controls--dots-only .slider-button--next,
+.slideshow__controls--dots-only .slideshow__autoplay {
+  position: absolute;
+  width: 0.1rem;
+  height: 0.1rem;
+  padding: 0;
+  margin: -0.1rem;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Dots sit over photography, so they are keyed to white rather than to the
+   section's foreground colour. */
+.slideshow__controls--dots-only .slider-counter__link--dots .dot {
+  background-color: rgba(255, 255, 255, 0.45);
+  border-color: transparent;
+  box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.25);
+}
+
+.slideshow__controls--dots-only .slider-counter__link--active.slider-counter__link--dots .dot,
+.slideshow__controls--dots-only .slider-counter__link--dots:not(.slider-counter__link--active):hover .dot {
+  background-color: rgb(255, 255, 255);
+  border-color: transparent;
+}
+
+.slideshow__controls--dots-only .slider-counter__link:focus-visible .dot {
+  outline: 0.2rem solid rgb(255, 255, 255);
+  outline-offset: 0.3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .slideshow__controls--dots-only {
+    position: absolute;
+    bottom: 3.2rem;
+  }
+}
