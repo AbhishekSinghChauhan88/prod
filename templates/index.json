@@ -1,41 +1,74 @@
 {
   "sections": {
     "hero": {
-      "type": "image-banner",
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_1": {
+          "type": "slide",
           "settings": {
+            "image_overlay_opacity": 20,
             "heading": "Considered essentials",
-            "heading_size": "h0"
+            "heading_size": "h0",
+            "subheading": "Pieces made in small runs, to be kept.",
+            "button_label": "Shop the collection",
+            "link": "shopify://collections",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-4"
           }
         },
-        "buttons": {
-          "type": "buttons",
+        "slide_2": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop the collection",
-            "button_link_1": "shopify://collections",
-            "button_style_secondary_1": false,
-            "button_label_2": "",
-            "button_link_2": ""
+            "image_overlay_opacity": 20,
+            "heading": "The winter edit",
+            "heading_size": "h0",
+            "subheading": "Heavier weights, quieter colours.",
+            "button_label": "See what's new",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-4"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 20,
+            "heading": "Made to be kept",
+            "heading_size": "h0",
+            "subheading": "Materials chosen to age well.",
+            "button_label": "Read our story",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-4"
           }
         }
       },
       "block_order": [
-        "heading",
-        "buttons"
+        "slide_1",
+        "slide_2",
+        "slide_3"
       ],
       "settings": {
-        "image_overlay_opacity": 20,
-        "image_height": "large",
+        "layout": "full_bleed",
+        "slide_height": "large",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 7,
         "image_behavior": "none",
-        "desktop_content_position": "middle-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-4",
-        "stack_images_on_mobile": true,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
+        "show_text_below": false,
+        "accessibility_info": "Featured collections"
       }
     },
     "new_in": {
@@ -45,7 +78,7 @@
         "heading_size": "h2",
         "description": "",
         "show_description": false,
-        "products_to_show": 4,
+        "products_to_show": 8,
         "columns_desktop": 4,
         "columns_mobile": "2",
         "full_width": false,
@@ -57,8 +90,8 @@
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
+        "enable_desktop_slider": true,
+        "swipe_on_mobile": true,
         "color_scheme": "scheme-1",
         "padding_top": 72,
         "padding_bottom": 40
@@ -227,12 +260,39 @@
         "padding_top": 56,
         "padding_bottom": 72
       }
+    },
+    "bestsellers": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Most wanted",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_desktop_slider": true,
+        "swipe_on_mobile": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
     "hero",
     "new_in",
     "story",
+    "bestsellers",
     "categories",
     "assurances",
     "newsletter"
