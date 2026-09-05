@@ -45,7 +45,7 @@
     "brand_story": {
       "type": "brand-story",
       "settings": {
-        "image": "shopify://shop_images/minimalist-retail-clothing-display.jpg",
+        "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg",
         "image_ratio": "4 / 5",
         "layout": "image_first",
         "label": "Our approach",
@@ -94,7 +94,7 @@
     "campaign": {
       "type": "campaign",
       "settings": {
-        "image": "shopify://shop_images/black-and-white-image-of-mens-formal-fashion.jpg",
+        "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
         "height": 90,
         "overlay_opacity": 20,
         "label": "",
