@@ -1,12 +1,23 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero",
       "settings": {
+        "image": "shopify://shop_images/man-poses-on-city-rooftop.jpg",
+        "image_mobile": "shopify://shop_images/man-poses-on-city-rooftop.jpg",
         "height": 90,
         "overlay_opacity": 15,
-        "label": "New collection",
-        "heading": "The new standard",
+        "label": "",
+        "heading": "",
         "cta_label": "Shop now",
         "cta_link": "",
         "text_position": "center",
@@ -20,6 +31,7 @@
         "label": "",
         "heading": "New arrivals",
         "text_alignment": "center",
+        "collection": "men",
         "products_to_show": 4,
         "columns_desktop": 4,
         "image_ratio": "3 / 4",
@@ -33,11 +45,12 @@
     "brand_story": {
       "type": "brand-story",
       "settings": {
+        "image": "shopify://shop_images/minimalist-retail-clothing-display.jpg",
         "image_ratio": "4 / 5",
         "layout": "image_first",
         "label": "Our approach",
         "heading": "Designed to last.",
-        "text": "<p>Quality materials.<br>Considered details.<br>Nothing unnecessary.</p>",
+        "text": "<p>Quality materials.<br/>Considered details.<br/>Nothing unnecessary.</p>",
         "cta_label": "Our story",
         "cta_link": "",
         "color_scheme": "scheme-1"
@@ -49,6 +62,8 @@
         "women": {
           "type": "collection",
           "settings": {
+            "collection": "women",
+            "image": "shopify://shop_images/Plain-Kids-T-Shirt-Simple-Stylish-Cotton-Tee-for-Boys-and-Girls-Soft-Breathable-Fabric_3a89c32d-b904-46e3-98e2-d1486133de29.webp",
             "title": "Women",
             "cta_label": "Shop"
           }
@@ -56,6 +71,8 @@
         "men": {
           "type": "collection",
           "settings": {
+            "collection": "men",
+            "image": "shopify://shop_images/airgarb-bottlegreen-round-neck-black-cotton-tshirt-kids-drawn-cycle-design-05.webp",
             "title": "Men",
             "cta_label": "Shop"
           }
@@ -69,7 +86,7 @@
         "label": "",
         "heading": "Collections",
         "text_alignment": "center",
-        "image_ratio": "4 / 5",
+        "image_ratio": "1 / 1",
         "caption_position": "below",
         "color_scheme": "scheme-1"
       }
@@ -77,7 +94,8 @@
     "campaign": {
       "type": "campaign",
       "settings": {
-        "height": 75,
+        "image": "shopify://shop_images/black-and-white-image-of-mens-formal-fashion.jpg",
+        "height": 90,
         "overlay_opacity": 20,
         "label": "",
         "heading": "The essentials",
