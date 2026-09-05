@@ -1,6 +1,6 @@
 {
   "current": {
-    "logo_width": 90,
+    "logo_width": 240,
     "type_header_font": "assistant_n4",
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
@@ -210,7 +210,9 @@
           "shadow": "#000000"
         }
       }
-    }
+    },
+    "logo": "shopify://shop_images/dreamsloom-logo.png",
+    "favicon": "shopify://shop_images/dreamsloom-monogram.png"
   },
   "presets": {
     "Dawn": {
