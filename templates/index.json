@@ -12,8 +12,8 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "image": "shopify://shop_images/man-poses-on-city-rooftop.jpg",
-        "image_mobile": "shopify://shop_images/man-poses-on-city-rooftop.jpg",
+        "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
+        "image_mobile": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
         "height": 90,
         "overlay_opacity": 15,
         "label": "",
@@ -108,7 +108,7 @@
       "settings": {
         "label": "",
         "heading": "Stay in the loop.",
-        "text": "<p>New collections &amp; stories.</p>",
+        "text": "<p>New collections & stories.</p>",
         "placeholder": "Email",
         "note": "",
         "color_scheme": "scheme-2"
