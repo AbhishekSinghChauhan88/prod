@@ -30,7 +30,7 @@
       "settings": {
         "label": "",
         "heading": "New arrivals",
-        "text_alignment": "center",
+        "text_alignment": "left",
         "collection": "men",
         "products_to_show": 4,
         "columns_desktop": 4,
