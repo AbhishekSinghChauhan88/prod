@@ -15,7 +15,7 @@
       }
     },
     "new_arrivals": {
-      "type": "new-arrivals",
+      "type": "editorial-products",
       "settings": {
         "label": "",
         "heading": "New arrivals",
@@ -86,7 +86,7 @@
       }
     },
     "newsletter": {
-      "type": "editorial-newsletter",
+      "type": "editorial-signup",
       "settings": {
         "label": "",
         "heading": "Stay in the loop.",
