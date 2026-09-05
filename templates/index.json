@@ -63,7 +63,7 @@
           "type": "collection",
           "settings": {
             "collection": "women",
-            "image": "shopify://shop_images/Plain-Kids-T-Shirt-Simple-Stylish-Cotton-Tee-for-Boys-and-Girls-Soft-Breathable-Fabric_3a89c32d-b904-46e3-98e2-d1486133de29.webp",
+            "image": "shopify://shop_images/womens-summer-fashion.jpg",
             "title": "Women",
             "cta_label": "Shop"
           }
@@ -72,7 +72,7 @@
           "type": "collection",
           "settings": {
             "collection": "men",
-            "image": "shopify://shop_images/airgarb-bottlegreen-round-neck-black-cotton-tshirt-kids-drawn-cycle-design-05.webp",
+            "image": "shopify://shop_images/bright-modern-mens-fashion.jpg",
             "title": "Men",
             "cta_label": "Shop"
           }
