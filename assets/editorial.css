@@ -769,13 +769,32 @@
   gap: 0.4rem;
 }
 
+/* Icon sizing.
+
+   These SVGs are not drawn to a common grid: search and account nearly fill an
+   18x19 viewBox, while the cart glyph occupies roughly half of a 40x40 one. So
+   equal box sizes render visibly unequal glyphs, and the cart comes out about
+   half the size of its neighbours.
+
+   Dawn handles this by drawing the cart at 4.4rem against 2rem for the rest.
+   That ratio is kept here and scaled down together, so the three read as one
+   set. The wrapper stays at Dawn's 4.4rem: it is the touch target, not the
+   glyph, and shrinking it is what broke the cart in the first place. */
 .header__icon .svg-wrapper {
+  width: 4.4rem;
+  height: 4.4rem;
+}
+
+.header__icon .icon {
   width: 1.9rem;
   height: 1.9rem;
 }
 
-.header__icon svg {
-  stroke-width: 1.1;
+.header__icon--cart .icon,
+.header__icon .icon-cart,
+.header__icon .icon-cart-empty {
+  width: 3.8rem;
+  height: 3.8rem;
 }
 
 .cart-count-bubble {
