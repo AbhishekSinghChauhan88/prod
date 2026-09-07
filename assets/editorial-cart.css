@@ -1,0 +1,302 @@
+/* ==========================================================================
+   Editorial cart drawer
+
+   Restyles Dawn's drawer to match the rest of the site: ivory ground, hairline
+   rules instead of boxes, small tracked labels, one solid button. Layout and
+   behaviour are Dawn's — this only changes how it looks.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Panel
+   -------------------------------------------------------------------------- */
+.cart-drawer .drawer__inner {
+  max-width: 46rem;
+  width: calc(100vw - 3rem);
+  padding: 0;
+  border: 0;
+  box-shadow: -1px 0 40px rgba(var(--color-shadow), 0.1);
+}
+
+.cart-drawer__overlay {
+  background-color: rgba(var(--color-shadow), 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   Header — a tracked label, not a heading
+   -------------------------------------------------------------------------- */
+.cart-drawer .drawer__header {
+  padding: 2.4rem var(--ed-drawer-gutter, 2.4rem) 1.8rem;
+  margin: 0;
+  border-bottom: 1px solid var(--ed-line);
+  align-items: center;
+}
+
+.cart-drawer .drawer__heading {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0;
+}
+
+.cart-drawer .drawer__close {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 -0.8rem 0 0;
+  color: rgb(var(--color-foreground));
+}
+
+.cart-drawer .drawer__close .svg-wrapper {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Items — hairline rows, generous image
+   -------------------------------------------------------------------------- */
+.cart-drawer .drawer__contents {
+  padding: 0 var(--ed-drawer-gutter, 2.4rem);
+}
+
+.cart-drawer .cart-item {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1.6rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--ed-line);
+  align-items: start;
+}
+
+.cart-drawer .cart-item:last-child {
+  border-bottom: 0;
+}
+
+.cart-drawer .cart-item__media {
+  width: 8.5rem;
+}
+
+.cart-drawer .cart-item__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  max-width: none;
+}
+
+.cart-drawer .cart-item__details {
+  display: grid;
+  gap: 0.5rem;
+  width: auto;
+}
+
+.cart-drawer .cart-item__name {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  line-height: 1.4;
+  font-weight: 400;
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+}
+
+.cart-drawer .cart-item__name:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.cart-drawer .product-option {
+  font-size: 1.2rem;
+  color: var(--ed-muted);
+  letter-spacing: 0.02em;
+}
+
+.cart-drawer .cart-item__price-wrapper > * {
+  font-size: 1.3rem;
+}
+
+/* Quantity: a hairline stepper rather than a boxed input. */
+.cart-drawer .cart-item__quantity {
+  padding-left: 0;
+  padding-top: 0.6rem;
+}
+
+.cart-drawer .quantity {
+  width: 9rem;
+  min-height: 3.2rem;
+  border: 1px solid var(--ed-line);
+}
+
+.cart-drawer .quantity:after {
+  box-shadow: none;
+  border: 0;
+}
+
+.cart-drawer .quantity__button,
+.cart-drawer .quantity__input {
+  font-size: 1.3rem;
+  color: rgb(var(--color-foreground));
+}
+
+.cart-drawer .quantity__button {
+  width: 2.8rem;
+}
+
+/* Remove: quiet text, not an icon button competing with the name. */
+.cart-drawer cart-remove-button {
+  margin: 0;
+}
+
+.cart-drawer cart-remove-button .button {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  color: var(--ed-muted);
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.cart-drawer cart-remove-button .button:hover {
+  color: rgb(var(--color-foreground));
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.cart-drawer .drawer__footer {
+  padding: 0;
+  border-top: 1px solid var(--ed-line);
+}
+
+.cart-drawer .cart-drawer__footer {
+  padding: 2rem var(--ed-drawer-gutter, 2.4rem) 2.4rem;
+  border: 0;
+}
+
+.cart-drawer .totals {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  padding: 0;
+}
+
+.cart-drawer .totals__total {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0;
+}
+
+.cart-drawer .totals__total-value {
+  font-family: var(--font-heading-family);
+  font-size: 2rem;
+  margin: 0;
+}
+
+.cart-drawer .tax-note {
+  font-size: 1.2rem;
+  color: var(--ed-muted);
+  margin: 0 0 1.6rem;
+  text-align: left;
+}
+
+.cart-drawer .cart__ctas {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.cart-drawer .cart__checkout-button {
+  max-width: none;
+  min-height: 5rem;
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+}
+
+/* "View cart" reads as a link under the one real action. */
+.cart-drawer .cart-drawer__footer .underlined-link,
+.cart-drawer .cart__footer-link {
+  justify-self: center;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ed-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Empty state
+   -------------------------------------------------------------------------- */
+.cart-drawer .drawer__inner-empty {
+  padding: 0 var(--ed-drawer-gutter, 2.4rem);
+}
+
+.cart-drawer .cart__empty-text {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.2rem, 4vw, 2.8rem);
+  font-weight: var(--font-heading-weight);
+  margin-bottom: 2.4rem;
+}
+
+.cart-drawer .cart-drawer__warnings .button {
+  min-height: 5rem;
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Recommendations inside the drawer
+   -------------------------------------------------------------------------- */
+.cart-recommendations {
+  display: block;
+  padding: 2rem var(--ed-drawer-gutter, 2.4rem);
+  border-top: 1px solid var(--ed-line);
+}
+
+.cart-recommendations:empty {
+  display: none;
+}
+
+.cart-recommendations h2,
+.cart-recommendations .cart-recommendations__heading {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+  margin: 0 0 1.4rem;
+}
+
+/* --------------------------------------------------------------------------
+   Free shipping bar, tuned for the drawer
+   -------------------------------------------------------------------------- */
+.cart-drawer .shipping-bar {
+  padding: 1.6rem var(--ed-drawer-gutter, 2.4rem);
+  margin: 0;
+  border-bottom: 0;
+  border-top: 1px solid var(--ed-line);
+}
+
+.cart-drawer .shipping-bar__text {
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.cart-drawer .shipping-bar__track {
+  height: 2px;
+  border-radius: 0;
+}
+
+.cart-drawer .shipping-bar__progress {
+  border-radius: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .cart-drawer .drawer__inner {
+    --ed-drawer-gutter: 3.2rem;
+  }
+}
