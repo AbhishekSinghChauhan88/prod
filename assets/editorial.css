@@ -729,6 +729,16 @@
   margin: 0 auto;
 }
 
+/* Narrow screens have far less room to give a two-part mark, so the wrapper
+   caps it there. .header__heading-logo is max-width 100%, so constraining the
+   wrapper constrains the image with it. */
+@media screen and (max-width: 749px) {
+  .header__heading-logo-wrapper {
+    width: 96px;
+    max-width: 100%;
+  }
+}
+
 .header__heading-link .h2 {
   font-family: var(--font-heading-family);
   font-size: clamp(2rem, 2.6vw, 2.8rem);

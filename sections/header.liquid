@@ -210,7 +210,7 @@
             container the image would render at its full intrinsic width.
             width/height on the tag reserve the space and avoid a reflow.
           {%- endcomment -%}
-          {%- assign fallback_logo_width = settings.logo_width | default: 160 -%}
+          {%- assign fallback_logo_width = settings.logo_width | default: 120 -%}
           <div class="header__heading-logo-wrapper" style="width: {{ fallback_logo_width }}px;">
             <img
               src="{{ 'dreamersloom-logo.png' | asset_url }}"
@@ -271,7 +271,7 @@
             container the image would render at its full intrinsic width.
             width/height on the tag reserve the space and avoid a reflow.
           {%- endcomment -%}
-          {%- assign fallback_logo_width = settings.logo_width | default: 160 -%}
+          {%- assign fallback_logo_width = settings.logo_width | default: 120 -%}
           <div class="header__heading-logo-wrapper" style="width: {{ fallback_logo_width }}px;">
             <img
               src="{{ 'dreamersloom-logo.png' | asset_url }}"
