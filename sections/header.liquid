@@ -201,7 +201,25 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          {%- comment -%}
+            No logo picked in theme settings, so fall back to the brand mark
+            shipped with the theme rather than to the shop name as text.
+
+            The wrapper carries the width, exactly as Dawn's own logo does:
+            .header__heading-logo is only max-width 100%, so without a sized
+            container the image would render at its full intrinsic width.
+            width/height on the tag reserve the space and avoid a reflow.
+          {%- endcomment -%}
+          {%- assign fallback_logo_width = settings.logo_width | default: 160 -%}
+          <div class="header__heading-logo-wrapper" style="width: {{ fallback_logo_width }}px;">
+            <img
+              src="{{ 'dreamersloom-logo.png' | asset_url }}"
+              alt="{{ shop.name | escape }}"
+              class="header__heading-logo"
+              width="1000"
+              height="481"
+            >
+          </div>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -244,7 +262,25 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          {%- comment -%}
+            No logo picked in theme settings, so fall back to the brand mark
+            shipped with the theme rather than to the shop name as text.
+
+            The wrapper carries the width, exactly as Dawn's own logo does:
+            .header__heading-logo is only max-width 100%, so without a sized
+            container the image would render at its full intrinsic width.
+            width/height on the tag reserve the space and avoid a reflow.
+          {%- endcomment -%}
+          {%- assign fallback_logo_width = settings.logo_width | default: 160 -%}
+          <div class="header__heading-logo-wrapper" style="width: {{ fallback_logo_width }}px;">
+            <img
+              src="{{ 'dreamersloom-logo.png' | asset_url }}"
+              alt="{{ shop.name | escape }}"
+              class="header__heading-logo"
+              width="1000"
+              height="481"
+            >
+          </div>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
