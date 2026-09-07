@@ -712,9 +712,21 @@
   box-shadow: 0 1px 0 var(--ed-line);
 }
 
+/* Applies to whichever centred layout is in use — top-center stacks the logo
+   above the nav, middle-center sets it between nav and icons. */
 .header--top-center .header__heading-link,
-.header--top-center .header__heading {
+.header--top-center .header__heading,
+.header--middle-center .header__heading-link,
+.header--middle-center .header__heading {
   text-align: center;
+  margin: 0;
+}
+
+/* A stacked logo is tall for its width, so it needs room to breathe and a cap
+   on how much header height it can claim. */
+.header__heading-logo {
+  display: block;
+  margin: 0 auto;
 }
 
 .header__heading-link .h2 {
