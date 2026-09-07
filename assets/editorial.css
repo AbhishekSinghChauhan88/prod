@@ -829,18 +829,43 @@
   padding-bottom: 0;
 }
 
-/* The brand column gets roughly half again the width of a link column, so the
-   description has somewhere to sit and the menus stay narrow and scannable.
+/* An asymmetric split rather than equal columns: the statement holds the left,
+   the menus group tight on the right. Equal columns made the footer read as a
+   sitemap; this reads as a brand signing off.
 
-   Flex rather than grid: the merchant controls how many blocks exist, and an
-   auto-fit grid invents empty tracks for the ones that are not there, which
-   crushes the real columns into the left of the row. */
-@media screen and (min-width: 750px) {
+   Flex rather than grid: block count is merchant-controlled, and an auto-fit
+   grid invents tracks for blocks that are not there, crushing the real columns
+   into the left of the row. */
+@media screen and (min-width: 990px) {
+  .footer__content-top .grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--ed-gutter);
+    align-items: flex-start;
+  }
+
+  .footer .grid__item {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    min-width: 14rem;
+  }
+
+  /* The statement column takes the slack; the menus stay their natural width. */
+  .footer .footer-block:first-child {
+    flex: 1 1 auto;
+    margin-right: auto;
+    max-width: 34ch;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
   .footer__content-top .grid {
     display: flex;
     flex-wrap: wrap;
     gap: 4rem var(--ed-gutter);
-    align-items: start;
   }
 
   .footer .grid__item {
@@ -850,12 +875,9 @@
     padding: 0;
     margin: 0;
   }
-
-  .footer .footer-block:first-child {
-    flex: 1.5 1 26rem;
-  }
 }
 
+/* Column typography ------------------------------------------------------- */
 .footer-block__heading {
   font-family: var(--font-body-family);
   font-size: var(--ed-label-size);
@@ -866,12 +888,12 @@
   margin: 0 0 1.8rem;
 }
 
-/* The brand column reads as a statement, not a menu, so its heading takes the
-   display face and drops the label treatment. */
-.footer-block:first-child .footer-block__heading {
+/* The statement column is prose, not a menu, so its heading takes the display
+   face and drops the label treatment. */
+.footer .footer-block:first-child .footer-block__heading {
   font-family: var(--font-heading-family);
-  font-size: clamp(1.8rem, 2vw, 2.2rem);
-  letter-spacing: 0.02em;
+  font-size: clamp(1.8rem, 2vw, 2.4rem);
+  letter-spacing: 0.01em;
   text-transform: none;
   color: rgb(var(--color-foreground));
   margin-bottom: 1.2rem;
@@ -881,15 +903,10 @@
   font-size: 1.4rem;
   line-height: 1.7;
   color: var(--ed-muted);
-  max-width: 38ch;
 }
 
 .footer-block__details-content > p:last-child {
   margin-bottom: 0;
-}
-
-.footer-block--menu .footer-block__details-content {
-  max-width: none;
 }
 
 .footer-block__details-content .list-menu__item--link,
@@ -902,9 +919,42 @@
 }
 
 .footer-block__details-content .list-menu__item--link:hover,
-.footer-block__details-content .link:hover {
+.footer-block__details-content .link:hover,
+.footer-block__details-content .list-menu__item--link:focus-visible,
+.footer-block__details-content .link:focus-visible {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
+}
+
+/* --------------------------------------------------------------------------
+   Wordmark
+
+   One piece of scale, set in the display face at the full width of the page.
+   Kept low-contrast so it reads as a mark rather than as a headline competing
+   with the content above it.
+   -------------------------------------------------------------------------- */
+.footer__wordmark {
+  margin-top: 7rem;
+  user-select: none;
+}
+
+.footer__wordmark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.footer__wordmark text {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: 100px;
+  fill: rgba(var(--color-foreground), 0.1);
+}
+
+@media screen and (max-width: 749px) {
+  .footer__wordmark {
+    margin-top: 4.5rem;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -913,7 +963,7 @@
 .footer__content-bottom {
   border-top: 1px solid var(--ed-line);
   padding-top: 2.4rem;
-  margin-top: 6rem;
+  margin-top: 3rem;
 }
 
 .footer__content-bottom-wrapper {

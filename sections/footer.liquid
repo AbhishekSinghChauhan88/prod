@@ -250,6 +250,30 @@
     {%- endunless -%}
   {%- endif -%}
 
+  {%- comment -%}
+    Oversized wordmark. Sits between the columns and the fine print as the
+    footer's one piece of scale, so the brand signs off the page instead of
+    trailing away into legal text. Decorative: the name is already in the
+    header, so it is hidden from assistive tech.
+  {%- endcomment -%}
+  {%- if section.settings.show_wordmark -%}
+    {%- assign wordmark = section.settings.wordmark_text | default: shop.name | upcase -%}
+    <div class="footer__wordmark page-width" aria-hidden="true">
+      {%- comment -%}
+        Drawn as SVG text rather than styled HTML. A font-size in vw has to be
+        guessed against a name whose length is unknown, and it either clips a
+        long one or leaves a short one stranded mid-width. textLength makes the
+        text span the box exactly whatever the name, and lengthAdjust="spacing"
+        does it by tracking the letters rather than distorting the glyphs.
+      {%- endcomment -%}
+      <svg viewBox="0 0 1000 104" preserveAspectRatio="xMidYMid meet" focusable="false" role="presentation">
+        <text x="500" y="86" text-anchor="middle" textLength="1000" lengthAdjust="spacing">
+          {{- wordmark -}}
+        </text>
+      </svg>
+    </div>
+  {%- endif -%}
+
   <div
     class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     {% if settings.animations_reveal_on_scroll %}
@@ -491,6 +515,23 @@
       "default": true,
       "label": "t:sections.footer.settings.show_policy.label",
       "info": "t:sections.footer.settings.show_policy.info"
+    },
+    {
+      "type": "header",
+      "content": "Wordmark"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wordmark",
+      "default": true,
+      "label": "Show large wordmark",
+      "info": "An oversized brand name between the menus and the fine print."
+    },
+    {
+      "type": "text",
+      "id": "wordmark_text",
+      "label": "Wordmark text",
+      "info": "Defaults to the store name."
     },
     {
       "type": "header",
