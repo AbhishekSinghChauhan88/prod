@@ -39,13 +39,13 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_position": "top-center",
+        "logo_position": "middle-center",
         "mobile_logo_position": "center",
         "menu": "main-menu",
         "menu_type_desktop": "dropdown",
+        "uppercase_menu": true,
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": false,
-        "uppercase_menu": true,
         "color_scheme": "scheme-1",
         "menu_color_scheme": "scheme-1",
         "enable_country_selector": false,
