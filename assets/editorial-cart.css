@@ -40,16 +40,35 @@
   margin: 0;
 }
 
+/* Dawn pins this with position:absolute; right:-10px, which only stays inside
+   the panel because Dawn's .drawer__inner carries horizontal padding. This
+   drawer moves padding onto each section instead, so that -10px put the button
+   past the panel edge and it was clipped.
+
+   The hit area stays 4.4rem for touch. The glyph sits 1.2rem inside that box,
+   so pulling the box in by 1.2rem lands the X on the gutter line rather than
+   leaving the button box aligned and the glyph floating short of it. */
 .cart-drawer .drawer__close {
-  width: 4rem;
-  height: 4rem;
-  margin: 0 -0.8rem 0 0;
+  position: absolute;
+  top: 50%;
+  right: calc(var(--ed-drawer-gutter, 2.4rem) - 1.2rem);
+  transform: translateY(-50%);
+  margin: 0;
+  min-width: 4.4rem;
+  min-height: 4.4rem;
   color: rgb(var(--color-foreground));
 }
 
 .cart-drawer .drawer__close .svg-wrapper {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+/* The empty state has its own close button, pinned by Dawn at right:5px. */
+.cart-drawer .cart-drawer__warnings .drawer__close {
+  top: 2.4rem;
+  right: calc(var(--ed-drawer-gutter, 2.4rem) - 1.2rem);
+  transform: none;
 }
 
 /* --------------------------------------------------------------------------
