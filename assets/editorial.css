@@ -815,14 +815,45 @@
 }
 
 /* --------------------------------------------------------------------------
-   Footer — quiet columns, hairline rules
+   Footer
+
+   A brand column that carries more weight than the link columns, then the
+   menus, then a hairline and the fine print. Rules are hairlines, headings are
+   tracked labels, and nothing is boxed.
    -------------------------------------------------------------------------- */
 .footer {
   border-top: 1px solid var(--ed-line);
 }
 
 .footer__content-top {
-  padding-bottom: 3rem;
+  padding-bottom: 0;
+}
+
+/* The brand column gets roughly half again the width of a link column, so the
+   description has somewhere to sit and the menus stay narrow and scannable.
+
+   Flex rather than grid: the merchant controls how many blocks exist, and an
+   auto-fit grid invents empty tracks for the ones that are not there, which
+   crushes the real columns into the left of the row. */
+@media screen and (min-width: 750px) {
+  .footer__content-top .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem var(--ed-gutter);
+    align-items: start;
+  }
+
+  .footer .grid__item {
+    flex: 1 1 16rem;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer .footer-block:first-child {
+    flex: 1.5 1 26rem;
+  }
 }
 
 .footer-block__heading {
@@ -830,37 +861,143 @@
   font-size: var(--ed-label-size);
   letter-spacing: var(--ed-label-tracking);
   text-transform: uppercase;
+  font-weight: 500;
   color: var(--ed-muted);
-  margin-bottom: 1.6rem;
+  margin: 0 0 1.8rem;
+}
+
+/* The brand column reads as a statement, not a menu, so its heading takes the
+   display face and drops the label treatment. */
+.footer-block:first-child .footer-block__heading {
+  font-family: var(--font-heading-family);
+  font-size: clamp(1.8rem, 2vw, 2.2rem);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: rgb(var(--color-foreground));
+  margin-bottom: 1.2rem;
+}
+
+.footer-block__details-content {
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--ed-muted);
+  max-width: 38ch;
+}
+
+.footer-block__details-content > p:last-child {
+  margin-bottom: 0;
+}
+
+.footer-block--menu .footer-block__details-content {
+  max-width: none;
 }
 
 .footer-block__details-content .list-menu__item--link,
 .footer-block__details-content .link {
+  display: inline-block;
   font-size: 1.4rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding: 0.45rem 0;
   color: rgb(var(--color-foreground));
   text-decoration: none;
 }
 
-.footer-block__details-content .list-menu__item--link:hover {
+.footer-block__details-content .list-menu__item--link:hover,
+.footer-block__details-content .link:hover {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
 }
 
+/* --------------------------------------------------------------------------
+   Fine print
+   -------------------------------------------------------------------------- */
 .footer__content-bottom {
   border-top: 1px solid var(--ed-line);
+  padding-top: 2.4rem;
+  margin-top: 6rem;
 }
 
 .footer__content-bottom-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem 3rem;
+  flex-wrap: wrap;
+}
+
+.footer__content-bottom-wrapper--center {
+  justify-content: space-between;
+}
+
+.footer__column--info {
+  padding: 0;
   align-items: center;
 }
 
+/* With the localization selectors off, Dawn leaves a single child in the
+   bottom wrapper, so space-between there has nothing to push apart. The split
+   has to happen inside the copyright row itself. */
+.footer__column--info {
+  width: 100%;
+}
+
+.footer__copyright {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.8rem 2.4rem;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+}
+
 .footer__copyright,
-.footer__copyright .policies {
+.footer__copyright .policies,
+.footer__copyright a {
   font-size: 1.2rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--ed-muted);
+}
+
+.footer__copyright a {
+  text-decoration: none;
+}
+
+.footer__copyright a:hover {
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.footer__copyright .policies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2.4rem;
+  margin: 0;
+}
+
+.footer__copyright .policies li {
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .footer__content-bottom {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--ed-line);
+  }
+
+  .footer__content-bottom-wrapper {
+    justify-content: flex-start;
+  }
+
+  .footer .footer-block.grid__item {
+    margin: 0 0 3.5rem;
+  }
+
+  .footer .footer-block.grid__item:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* --------------------------------------------------------------------------
