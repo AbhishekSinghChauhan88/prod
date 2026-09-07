@@ -169,9 +169,13 @@
                                 {{ item.final_price | money }}
                               </strong>
                             </div>
-                          {%- else -%}
+                          {%- elsif item.quantity > 1 -%}
+                            {%- comment -%}
+                              Only worth showing when it differs from the line
+                              total; at quantity 1 it just repeats it.
+                            {%- endcomment -%}
                             <div class="product-option">
-                              {{ item.original_price | money }}
+                              {{ item.original_price | money }} each
                             </div>
                           {%- endif -%}
 
@@ -184,10 +188,7 @@
                                 {%- for option in item.options_with_values -%}
                                   <div class="product-option">
                                     <dt>{{ option.name }}:</dt>
-                                    <dd>
-                                      {{ option.value -}}
-                                      {%- unless forloop.last %}, {% endunless %}
-                                    </dd>
+                                    <dd>{{ option.value }}</dd>
                                   </div>
                                 {%- endfor -%}
                               {%- endif -%}
@@ -357,9 +358,7 @@
                                     class="hidden"
                                   {% endif %}
                                 >
-                                  <span class="svg-wrapper">
-                                    {{- 'icon-remove.svg' | inline_asset_content -}}
-                                  </span>
+                                  <span aria-hidden="true">{{ 'sections.cart.remove' | t }}</span>
                                 </button>
                               </cart-remove-button>
                             </div>
@@ -527,7 +526,7 @@
 
           <div class="totals" role="status">
             <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
-            <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
+            <p class="totals__total-value">{{ cart.total_price | money }}</p>
           </div>
 
           <small class="tax-note caption-large rte">

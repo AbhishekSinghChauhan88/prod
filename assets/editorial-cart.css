@@ -300,3 +300,90 @@
     --ed-drawer-gutter: 3.2rem;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Corrections found once the drawer was rendered
+   -------------------------------------------------------------------------- */
+
+/* The PRODUCT / TOTAL column headers are noise in a single-column drawer, but
+   the th ids are referenced by each cell's headers attribute, so they are
+   hidden visually rather than removed from the accessibility tree. */
+.cart-drawer .cart-items thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* .cart__ctas is a sibling of .cart-drawer__footer, not a child, so the
+   footer's padding never reached the checkout button and it sat flush to the
+   drawer edges. */
+.cart-drawer .cart__ctas {
+  padding: 0 var(--ed-drawer-gutter, 2.4rem) var(--ed-drawer-gutter, 2.4rem);
+  margin: 0;
+}
+
+/* The line total is the anchor; the options and any per-unit note sit under
+   the name as quiet supporting detail. */
+.cart-drawer .cart-item__details dl {
+  margin: 0.2rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.2rem;
+}
+
+.cart-drawer .cart-item__details .product-option {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.cart-drawer .cart-item__details dt,
+.cart-drawer .cart-item__details dd {
+  margin: 0;
+}
+
+.cart-drawer .cart-item__totals .price {
+  font-size: 1.4rem;
+}
+
+/* Quantity stepper and Remove share a row and a baseline. */
+.cart-drawer .cart-item__quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.cart-drawer .quantity {
+  width: 8.4rem;
+  min-height: 3rem;
+}
+
+.cart-drawer .quantity__button svg {
+  width: 1.1rem;
+}
+
+.cart-drawer cart-remove-button .button {
+  border: 0;
+  background: none;
+}
+
+.cart-drawer cart-remove-button .button::after,
+.cart-drawer cart-remove-button .button::before {
+  display: none;
+}
+
+/* Once the threshold is met the empty track says nothing; the sentence does. */
+.cart-drawer .shipping-bar--qualified .shipping-bar__track {
+  display: none;
+}
+
+.cart-drawer .shipping-bar--qualified .shipping-bar__text {
+  margin-bottom: 0;
+}
