@@ -11,27 +11,31 @@
   {% render 'free-shipping-bar' %}
 {% endcomment %}
 
-{%- if settings.free_shipping_bar_enabled and settings.free_shipping_threshold > 0 -%}
-  {%- liquid
-    assign threshold = settings.free_shipping_threshold | times: 100
-    assign total = cart.total_price
-    assign remaining = threshold | minus: total
-    assign qualified = false
-    if remaining <= 0
-      assign qualified = true
+{%- liquid
+  comment
+    The bar earns its space only while there is something left to do. Once the
+    threshold is met it says nothing the shopper can act on, so it is not
+    rendered at all rather than sitting there as a spent progress bar.
+  endcomment
+  assign threshold = settings.free_shipping_threshold | times: 100
+  assign show_bar = false
+  if settings.free_shipping_bar_enabled and settings.free_shipping_threshold > 0
+    if cart.total_price < threshold
+      assign show_bar = true
     endif
+  endif
+-%}
 
-    assign percent = total | times: 100.0 | divided_by: threshold | at_most: 100
+{%- if show_bar -%}
+  {%- liquid
+    assign remaining = threshold | minus: cart.total_price
+    assign percent = cart.total_price | times: 100.0 | divided_by: threshold | at_most: 100
     assign remaining_money = remaining | at_least: 0 | money
   -%}
 
-  <div class="shipping-bar{% if qualified %} shipping-bar--qualified{% endif %} {{ class }}">
+  <div class="shipping-bar {{ class }}">
     <p class="shipping-bar__text">
-      {%- if qualified -%}
-        {{ 'sections.cart.free_shipping.qualified' | t }}
-      {%- else -%}
-        {{ 'sections.cart.free_shipping.remaining_html' | t: amount: remaining_money }}
-      {%- endif -%}
+      {{ 'sections.cart.free_shipping.remaining_html' | t: amount: remaining_money }}
     </p>
     <div
       class="shipping-bar__track"

@@ -191,7 +191,7 @@
 }
 
 .cart-drawer .cart-drawer__footer {
-  padding: 2rem var(--ed-drawer-gutter, 2.4rem) 2.4rem;
+  padding: 1.8rem var(--ed-drawer-gutter, 2.4rem) 2rem;
   border: 0;
 }
 
@@ -216,13 +216,6 @@
   font-family: var(--font-heading-family);
   font-size: 2rem;
   margin: 0;
-}
-
-.cart-drawer .tax-note {
-  font-size: 1.2rem;
-  color: var(--ed-muted);
-  margin: 0 0 1.6rem;
-  text-align: left;
 }
 
 .cart-drawer .cart__ctas {
@@ -296,10 +289,9 @@
    Free shipping bar, tuned for the drawer
    -------------------------------------------------------------------------- */
 .cart-drawer .shipping-bar {
-  padding: 1.6rem var(--ed-drawer-gutter, 2.4rem);
+  padding: 0 0 1.6rem;
   margin: 0;
-  border-bottom: 0;
-  border-top: 1px solid var(--ed-line);
+  border: 0;
 }
 
 .cart-drawer .shipping-bar__text {
@@ -400,14 +392,6 @@
   display: none;
 }
 
-/* Once the threshold is met the empty track says nothing; the sentence does. */
-.cart-drawer .shipping-bar--qualified .shipping-bar__track {
-  display: none;
-}
-
-.cart-drawer .shipping-bar--qualified .shipping-bar__text {
-  margin-bottom: 0;
-}
 
 /* ==========================================================================
    Item row and footer, reworked
@@ -516,7 +500,7 @@
 }
 
 .cart-drawer .cart__ctas {
-  padding: 1.6rem 0 0;
+  padding: 0;
 }
 
 .cart-drawer .cart__checkout-button {
@@ -534,8 +518,7 @@
   letter-spacing: 0.04em;
 }
 
+/* Checkout states this itself; in a drawer it is only ever in the way. */
 .cart-drawer .tax-note {
-  margin: 1.2rem 0 0;
-  text-align: center;
-  font-size: 1.15rem;
+  display: none;
 }
