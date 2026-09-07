@@ -568,23 +568,24 @@
               {%- endif -%}
             {%- endif -%}
           </small>
-        </div>
 
-        <!-- CTAs -->
+          <!-- CTAs -->
 
-        <div class="cart__ctas" {{ block.shopify_attributes }}>
-          <button
-            type="submit"
-            id="CartDrawer-Checkout"
-            class="cart__checkout-button button"
-            name="checkout"
-            form="CartDrawer-Form"
-            {% if cart == empty %}
-              disabled
-            {% endif %}
-          >
-            {{ 'sections.cart.checkout' | t }}
-          </button>
+          <div class="cart__ctas">
+            <button
+              type="submit"
+              id="CartDrawer-Checkout"
+              class="cart__checkout-button button"
+              name="checkout"
+              form="CartDrawer-Form"
+              {% if cart == empty %}
+                disabled
+              {% endif %}
+            >
+              <span class="cart__checkout-label">{{ 'sections.cart.checkout' | t }}</span>
+              <span class="cart__checkout-total">{{ cart.total_price | money }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
