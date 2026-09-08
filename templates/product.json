@@ -144,19 +144,11 @@
         "products_to_show": 4,
         "minimum_products": 2
       }
-    },
-    "sticky-add-to-cart": {
-      "type": "sticky-add-to-cart",
-      "settings": {
-        "visibility": "mobile",
-        "button_action": "add_to_cart"
-      }
     }
   },
   "order": [
     "main",
     "related-products",
-    "recently-viewed",
-    "sticky-add-to-cart"
+    "recently-viewed"
   ]
 }
