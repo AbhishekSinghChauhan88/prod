@@ -960,9 +960,15 @@
 /* --------------------------------------------------------------------------
    Fine print
    -------------------------------------------------------------------------- */
+/* Spacing has to hold with or without the wordmark: the columns need real air
+   above the rule on their own, but the wordmark already supplies it when shown. */
 .footer__content-bottom {
   border-top: 1px solid var(--ed-line);
   padding-top: 2.4rem;
+  margin-top: 6rem;
+}
+
+.footer__wordmark + .footer__content-bottom {
   margin-top: 3rem;
 }
 
