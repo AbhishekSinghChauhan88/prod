@@ -1,5 +1,7 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{% comment %}Loaded last so its overrides win on equal specificity.{% endcomment %}
+{{ 'editorial-collection.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   @media screen and (max-width: 749px) {

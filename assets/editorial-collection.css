@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Editorial collection page
+
+   Dawn's grid, facets, sorting and pagination are left alone — they are
+   intricate and correct. This only changes how they read, so the collection
+   sits in the same system as the homepage: bare cards, hairline controls,
+   labels rather than filled badges.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Banner
+   -------------------------------------------------------------------------- */
+.collection-hero__inner {
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 0;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 1.2rem;
+}
+
+.collection-hero__title {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(2.8rem, 4.4vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  margin: 0;
+}
+
+.collection-hero__description {
+  font-size: 1.5rem;
+  line-height: 1.7;
+  color: var(--ed-muted);
+  max-width: 56ch;
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .collection-hero__inner {
+    padding-top: 7rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Facets and sorting — hairlines, not controls
+   -------------------------------------------------------------------------- */
+.facets-container {
+  border-bottom: 1px solid var(--ed-line);
+  padding-bottom: 0;
+  margin-bottom: 3.5rem;
+}
+
+.facets__summary,
+.facet-filters__label,
+.facet-filters__sort,
+.product-count__text,
+.facets__heading {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+}
+
+.facets__summary {
+  padding: 1.4rem 0;
+}
+
+.facets__disclosure .facets__display {
+  border: 1px solid var(--ed-line);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 1.6rem 2rem;
+}
+
+.facet-checkbox {
+  padding: 0.5rem 0;
+  font-size: 1.4rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* The sort control is a native select; strip it back to a labelled word. */
+.facet-filters__field .select__select,
+.facets__form .select__select {
+  border: 0;
+  padding-left: 0.6rem;
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+}
+
+.facet-filters__field .select:after,
+.facets__form .select:after {
+  box-shadow: none;
+  border: 0;
+}
+
+.product-count,
+.product-count__text {
+  color: var(--ed-muted);
+}
+
+.active-facets__button-inner {
+  border-radius: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+
+   card_style is already "standard" with borders, shadows and padding at zero,
+   so the box is gone. What was left was the type: Dawn sets card headings at a
+   heading size in the display face, which fights the product photography and
+   does not match the homepage grid.
+   -------------------------------------------------------------------------- */
+.card__heading,
+.card-information .card__heading {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.card__heading a {
+  text-decoration: none;
+}
+
+.card-information > .card__information,
+.card__information {
+  padding-top: 1.2rem;
+  gap: 0.4rem;
+}
+
+.card-information .price,
+.card__information .price {
+  font-size: 1.4rem;
+  color: var(--ed-muted);
+}
+
+.card-information .price--on-sale .price-item--regular {
+  margin-right: 0.6rem;
+}
+
+/* A slow settle on hover, matching the homepage grid. */
+.card__media img,
+.card .media img {
+  transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .card-wrapper:hover .card__media img:first-child,
+  .card-wrapper:hover .media img:first-child {
+    transform: scale(1.04);
+  }
+}
+
+/* Badges become quiet labels rather than filled pills. */
+.card__badge .badge {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  padding: 0;
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.card__badge {
+  padding: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Grid rhythm — matches the homepage product grid
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 990px) {
+  .collection .product-grid.grid {
+    column-gap: 2.4rem;
+    row-gap: 4.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Pagination
+   -------------------------------------------------------------------------- */
+.pagination__list {
+  gap: 0.4rem;
+}
+
+.pagination__item {
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+}
+
+.pagination__item--current:after {
+  height: 1px;
+  background-color: rgb(var(--color-foreground));
+}
+
+/* --------------------------------------------------------------------------
+   Empty state
+   -------------------------------------------------------------------------- */
+.collection--empty .title-wrapper {
+  padding: 6rem 0;
+}
+
+.collection--empty .title {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+}
