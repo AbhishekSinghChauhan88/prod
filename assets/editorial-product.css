@@ -217,8 +217,33 @@
 }
 
 /* --------------------------------------------------------------------------
-   Media
+   Media — a true single-column stack
+
+   Dawn's "stacked" layout is really a mosaic: the first image full width, then
+   pairs at calc(50% - gap/2). Beside a sticky info column that leaves each pair
+   at roughly a third of the page, which is too small to carry a campaign shot.
+   Every image takes the full column instead, and the column scrolls past the
+   pinned info panel.
    -------------------------------------------------------------------------- */
+@media screen and (min-width: 750px) {
+  .product--stacked .product__media-item {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .product--stacked .product__media-list {
+    display: grid;
+    gap: 1.2rem;
+    margin: 0;
+  }
+
+  /* Clears the header so the pinned column is never tucked underneath it. */
+  .product__column-sticky {
+    top: calc(var(--header-group-height, 0px) + 2.5rem);
+  }
+}
+
+
 .product__media-wrapper .thumbnail-list {
   gap: 0.8rem;
 }

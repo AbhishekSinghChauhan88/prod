@@ -104,13 +104,13 @@
         "share"
       ],
       "settings": {
-        "enable_sticky_info": false,
+        "enable_sticky_info": true,
         "color_scheme": "scheme-1",
         "media_size": "large",
         "constrain_to_viewport": true,
         "media_fit": "cover",
-        "gallery_layout": "thumbnail",
-        "mobile_thumbnails": "show",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "lightbox",
         "hide_variants": true,
@@ -148,7 +148,7 @@
     "sticky-add-to-cart": {
       "type": "sticky-add-to-cart",
       "settings": {
-        "visibility": "all",
+        "visibility": "mobile",
         "button_action": "add_to_cart"
       }
     }
