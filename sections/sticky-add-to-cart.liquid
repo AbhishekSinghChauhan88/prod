@@ -17,19 +17,14 @@
 -%}
 
 {%- if product != blank -%}
-  {%- style -%}
-    {%- if show_on_mobile_only -%}
-      @media screen and (min-width: 750px) {
-        #StickyAtc-{{ section.id }} {
-          display: none;
-        }
-      }
-    {%- endif -%}
-  {%- endstyle -%}
-
+  {%- comment -%}
+    Visibility is a class, not an inline style block keyed to the generated id:
+    the rule then lives with the rest of the component's CSS and cannot be left
+    behind if the id or the style tag changes.
+  {%- endcomment -%}
   <sticky-atc
     id="StickyAtc-{{ section.id }}"
-    class="color-{{ section.settings.color_scheme }} gradient"
+    class="color-{{ section.settings.color_scheme }} gradient{% if show_on_mobile_only %} sticky-atc--mobile-only{% endif %}"
     data-section-id="{{ section.id }}"
     data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
     data-sold-out-text="{{ 'products.product.sold_out' | t }}"

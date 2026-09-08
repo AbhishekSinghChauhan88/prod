@@ -186,6 +186,16 @@ sticky-atc.is-visible {
   transform: translateY(0);
 }
 
+/* Mobile-only mode. Desktop keeps the buy button through the pinned product
+   info column, so a bar there would be the second add-to-cart control on
+   screen. A class beats the bare element selector on specificity, so this
+   needs no !important. */
+@media screen and (min-width: 750px) {
+  sticky-atc.sticky-atc--mobile-only {
+    display: none;
+  }
+}
+
 .sticky-atc__inner {
   display: flex;
   align-items: center;
