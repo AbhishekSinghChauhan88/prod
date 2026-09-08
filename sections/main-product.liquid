@@ -25,6 +25,12 @@
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
   {%- endif -%}
 
+  {% comment %}
+    Loaded after every Dawn product stylesheet, including the variant picker,
+    so its overrides win on equal specificity without !important.
+  {% endcomment %}
+  {{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
   {%- style -%}
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;

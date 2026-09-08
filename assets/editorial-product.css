@@ -1,0 +1,246 @@
+/* ==========================================================================
+   Editorial product page
+
+   Dawn's product-info element, variant logic, media gallery and forms are left
+   alone. This changes typography, rhythm and the shape of the controls so the
+   page sits in the same system as the homepage and collection.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Rhythm
+
+   Dawn spaces the info column with a blanket "* + * { margin: 1.5rem 0 }",
+   which gives the title, the price and a set of size buttons the same gap.
+   Grouping instead: identity, then choice, then the detail rows.
+   -------------------------------------------------------------------------- */
+.product__info-container > * + * {
+  margin: 0;
+}
+
+.product__info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Real grouping, rather than one gap everywhere: the price belongs tight under
+   the title, and choosing a variant starts a new group. */
+.product__title + [id^='price-'] {
+  margin-top: -0.4rem;
+}
+
+.product__info-container variant-selects,
+.product__info-container .product-form {
+  margin-top: 1.4rem;
+}
+
+/* The detail rows close the column, so they get air above the first one. */
+.product__info-container .accordion:first-of-type {
+  margin-top: 2rem;
+}
+
+.product__info-container .product-form,
+.product__info-container .product__description,
+.product__info-container .icon-with-text {
+  margin: 0;
+}
+
+@media screen and (min-width: 990px) {
+  .product__info-wrapper {
+    padding-left: clamp(3rem, 5vw, 7rem);
+  }
+
+  .product--right .product__info-wrapper {
+    padding-left: 0;
+    padding-right: clamp(3rem, 5vw, 7rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Identity
+   -------------------------------------------------------------------------- */
+.product__title {
+  margin: 0;
+}
+
+.product__title > h1,
+.product__title > * {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(2.4rem, 3vw, 3.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* The price sits with the title, not floating as its own block. */
+.product__info-container .price {
+  font-size: 1.7rem;
+  color: rgb(var(--color-foreground));
+}
+
+.product__info-container .price--on-sale .price-item--regular {
+  margin-right: 0.8rem;
+  opacity: 0.5;
+}
+
+.product__tax,
+.product__sku {
+  font-size: 1.2rem;
+  color: var(--ed-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Choice — square hairline options, not filled pills
+   -------------------------------------------------------------------------- */
+.product-form__input .form__label {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+  margin-bottom: 1rem;
+}
+
+.product-form__input--pill input[type='radio'] + label {
+  border-radius: 0;
+  border-color: var(--ed-line);
+  min-width: 4.6rem;
+  padding: 1rem 1.4rem;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  transition: border-color var(--duration-short) ease, color var(--duration-short) ease;
+}
+
+.product-form__input--pill input[type='radio'] + label:hover {
+  border-color: rgba(var(--color-foreground), 0.45);
+}
+
+/* Selected reads as a solid outline rather than an inverted block. */
+.product-form__input--pill input[type='radio']:checked + label {
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  border-color: rgb(var(--color-foreground));
+  box-shadow: inset 0 0 0 1px rgb(var(--color-foreground));
+}
+
+.product-form__input--swatch .swatch-input__label {
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Buy
+   -------------------------------------------------------------------------- */
+.product-form__submit,
+.shopify-payment-button__button--unbranded {
+  min-height: 5.4rem;
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+}
+
+.product-form__buttons {
+  max-width: none;
+  display: grid;
+  gap: 1rem;
+}
+
+/* Size guide and wishlist are secondary to the buy button and read that way. */
+.size-chart__link,
+.wishlist-button--product {
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  color: var(--ed-muted);
+}
+
+.size-chart__link:hover,
+.wishlist-button--product:hover {
+  color: rgb(var(--color-foreground));
+}
+
+/* The size guide belongs beside the option labels, not on its own line. */
+.product-form__input--pill {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Detail rows
+   -------------------------------------------------------------------------- */
+.product__description {
+  font-size: 1.5rem;
+  line-height: 1.75;
+  color: var(--ed-muted);
+  max-width: 62ch;
+}
+
+.product__accordion.accordion,
+.accordion {
+  border-top: 1px solid var(--ed-line);
+  margin: 0;
+}
+
+.product__info-container > .accordion:last-of-type,
+.product__accordion:last-of-type {
+  border-bottom: 1px solid var(--ed-line);
+}
+
+.accordion summary {
+  padding: 1.6rem 0;
+}
+
+.accordion .summary__title,
+.accordion__title {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* The row label is the affordance; a leading icon just adds noise. */
+.accordion .summary__title .svg-wrapper:first-child,
+.accordion__title .icon-accordion {
+  display: none;
+}
+
+.product__accordion .accordion__content {
+  padding: 0 0 1.8rem;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--ed-muted);
+}
+
+.share-button__button {
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  color: var(--ed-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Media
+   -------------------------------------------------------------------------- */
+.product__media-wrapper .thumbnail-list {
+  gap: 0.8rem;
+}
+
+.thumbnail {
+  border-radius: 0;
+}
+
+.thumbnail__badge,
+.product__media-icon {
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Sections below the fold
+   -------------------------------------------------------------------------- */
+.related-products .related-products__heading,
+.recently-viewed-section .title {
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+  text-align: center;
+}
