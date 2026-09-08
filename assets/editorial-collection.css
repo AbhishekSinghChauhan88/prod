@@ -177,15 +177,16 @@
   padding: 1rem;
 }
 
-/* --------------------------------------------------------------------------
-   Grid rhythm — matches the homepage product grid
-   -------------------------------------------------------------------------- */
-@media screen and (min-width: 990px) {
-  .collection .product-grid.grid {
-    column-gap: 2.4rem;
-    row-gap: 4.5rem;
-  }
-}
+/* Grid spacing is deliberately NOT set here.
+
+   Dawn's .grid is flex, and each item is sized
+   calc(25% - var(--grid-desktop-horizontal-spacing) * 3 / 4) — the width already
+   subtracts its share of Dawn's own gap. Overriding column-gap without changing
+   that variable makes four items plus three larger gaps exceed 100%, so the
+   fourth wraps and a column's worth of space is left empty on the right.
+
+   The gap belongs to the theme settings spacing_grid_horizontal and
+   spacing_grid_vertical, which feed both the gap and the width calc together. */
 
 /* --------------------------------------------------------------------------
    Pagination
