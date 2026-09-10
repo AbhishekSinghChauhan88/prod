@@ -1,0 +1,30 @@
+{% comment %}
+  Renders a breadcrumb trail for a product page.
+
+  Shopify only exposes `collection` when the visitor actually arrived through
+  one, so the middle step falls back to the product's first collection. That
+  keeps the trail honest — it never invents a path the shopper did not take
+  when a real one is known, and never shows a dangling separator when it is not.
+
+  Usage:
+  {% render 'breadcrumb', crumb_product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign trail_collection = collection
+  if trail_collection == blank
+    assign trail_collection = crumb_product.collections.first
+  endif
+-%}
+
+{%- if crumb_product != blank -%}
+  <nav class="ed-breadcrumb" aria-label="{{ 'accessibility.breadcrumbs' | t }}">
+    <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a>
+    {%- if trail_collection != blank -%}
+      <span aria-hidden="true">/</span>
+      <a href="{{ trail_collection.url }}">{{ trail_collection.title | escape }}</a>
+    {%- endif -%}
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ crumb_product.title | escape }}</span>
+  </nav>
+{%- endif -%}

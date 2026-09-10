@@ -101,26 +101,47 @@
   margin-bottom: 1rem;
 }
 
+/* Sizes are a row of words, not a row of boxes. The selected one is marked by
+   an underline and an unavailable one is struck through, so the state is
+   carried by the label itself rather than by a container around it. */
 .product-form__input--pill input[type='radio'] + label {
+  border: 0;
   border-radius: 0;
-  border-color: var(--ed-line);
-  min-width: 4.6rem;
-  padding: 1rem 1.4rem;
-  font-size: 1.35rem;
-  letter-spacing: 0.02em;
-  transition: border-color var(--duration-short) ease, color var(--duration-short) ease;
+  min-width: 0;
+  padding: 0.6rem 0;
+  margin: 0 2.6rem 0 0;
+  background: none;
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+  color: var(--ed-muted);
+  transition: color var(--duration-short) ease;
 }
 
 .product-form__input--pill input[type='radio'] + label:hover {
-  border-color: rgba(var(--color-foreground), 0.45);
+  color: rgb(var(--color-foreground));
 }
 
-/* Selected reads as a solid outline rather than an inverted block. */
 .product-form__input--pill input[type='radio']:checked + label {
   background-color: transparent;
+  box-shadow: none;
   color: rgb(var(--color-foreground));
-  border-color: rgb(var(--color-foreground));
-  box-shadow: inset 0 0 0 1px rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.6rem;
+  text-decoration-thickness: 1px;
+}
+
+/* Sold out or unavailable in this combination. */
+.product-form__input--pill input[type='radio'].disabled + label,
+.product-form__input--pill input[type='radio']:disabled + label,
+.product-form__input--pill input[type='radio'].visually-disabled + label {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  color: rgba(var(--color-foreground), 0.3);
+}
+
+.product-form__input--pill fieldset {
+  gap: 0;
+  flex-wrap: wrap;
 }
 
 .product-form__input--swatch .swatch-input__label {
@@ -203,6 +224,38 @@
   display: none;
 }
 
+/* Dawn's caret is replaced with a plus that becomes a minus when open. Drawn
+   as two rules so the transition is a rotation rather than a glyph swap. */
+.product__accordion .accordion summary .icon-caret,
+.product__accordion .accordion summary > .svg-wrapper:last-child {
+  display: none;
+}
+
+.product__accordion .accordion summary {
+  position: relative;
+  padding-right: 3rem;
+}
+
+.product__accordion .accordion summary::before,
+.product__accordion .accordion summary::after {
+  content: '';
+  position: absolute;
+  right: 0.2rem;
+  top: 50%;
+  width: 1.3rem;
+  height: 1px;
+  background-color: rgb(var(--color-foreground));
+  transition: transform 0.3s var(--ed-ease, ease);
+}
+
+.product__accordion .accordion summary::after {
+  transform: rotate(90deg);
+}
+
+.product__accordion .accordion details[open] summary::after {
+  transform: rotate(180deg);
+}
+
 .product__accordion .accordion__content {
   padding: 0 0 1.8rem;
   font-size: 1.4rem;
@@ -268,4 +321,57 @@
   text-transform: uppercase;
   color: var(--ed-muted);
   text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Breadcrumb
+   -------------------------------------------------------------------------- */
+.ed-breadcrumb-wrap {
+  padding: 1.6rem var(--ed-gutter, 2rem) 0;
+}
+
+.ed-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.01em;
+  color: var(--ed-muted);
+}
+
+.ed-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ed-breadcrumb a:hover {
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.ed-breadcrumb [aria-current='page'] {
+  color: rgb(var(--color-foreground));
+}
+
+/* --------------------------------------------------------------------------
+   Title weight, now that headings are a grotesque rather than a serif
+   -------------------------------------------------------------------------- */
+.product__title > h1,
+.product__title > * {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* The option's chosen value reads as a caption above the swatches. */
+.product-form__input .form__label {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 1.35rem;
+  color: rgb(var(--color-foreground));
+}
+
+.product-form__input--swatch .swatch-input__label {
+  border-radius: 0;
 }

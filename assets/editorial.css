@@ -59,11 +59,15 @@
   margin: 0;
 }
 
+/* One grotesque across the site, so hierarchy comes from weight and size
+   rather than from a second family. A serif's contrast did that work before;
+   a grotesque needs the weight bumped and the tracking pulled in at display
+   sizes or large headings read loose and thin. */
 .ed-display {
   font-family: var(--font-heading-family);
-  font-weight: var(--font-heading-weight);
+  font-weight: 600;
   font-style: var(--font-heading-style);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
   line-height: 1.04;
   margin: 0;
   /* Editorial headlines scale with the viewport rather than stepping at

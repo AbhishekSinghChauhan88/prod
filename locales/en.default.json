@@ -55,6 +55,9 @@
       "next_slide": "Slide right",
       "previous_slide": "Slide left",
       "name": "Slider"
+    },
+    "breadcrumbs": {
+      "home": "Home"
     }
   },
   "newsletter": {
@@ -80,7 +83,8 @@
     "collapsible_content_title": "Collapsible content",
     "complementary_products": "Complementary products",
     "back_to_top": "Back to top",
-    "star_rating": "{{ rating }} out of {{ scale }} stars"
+    "star_rating": "{{ rating }} out of {{ scale }} stars",
+    "breadcrumbs": "Breadcrumb"
   },
   "blogs": {
     "article": {
