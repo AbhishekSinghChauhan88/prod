@@ -314,6 +314,21 @@
         "cta_label": "Shop now",
         "cta_link": ""
       }
+    },
+    "finish_the_look": {
+      "type": "product-rail",
+      "settings": {
+        "heading": "Finish the look",
+        "collection": "women",
+        "products_to_show": 10,
+        "image_ratio": "2 / 3",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "show_swatches": true,
+        "badge_prefix": "badge:",
+        "view_all_label": "View all",
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
@@ -322,6 +337,7 @@
     "collections",
     "top_picks",
     "lookbook",
+    "finish_the_look",
     "campaign",
     "reviews",
     "journal",

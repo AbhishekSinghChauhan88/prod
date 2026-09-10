@@ -11,6 +11,9 @@
   - show_quick_add: {Boolean} show the quick add control on hover (optional)
   - card_section_id: {String} the section id, for unique form ids
   - card_index: {Number} position, used to stagger the reveal (optional)
+  - badge_prefix: {String} tag prefix whose tags become a badge, e.g. "badge:" (optional)
+  - show_swatches: {Boolean} show the colour option's swatches under the price (optional)
+  - card_modifier: {String} extra class on the card, e.g. "ed-product--rail" (optional)
 
   Usage:
   {% render 'editorial-card', card_product: product, ratio: '3 / 4', card_sizes: sizes %}
@@ -33,9 +36,37 @@
   assign quick_add_id = 'ed-quick-add-' | append: card_section_id | append: '-' | append: card_product.id
   assign main_alt = card_product.featured_media.alt | default: card_product.title
   assign delay = card_index | default: 0 | times: 60
+
+  comment
+    Badge text comes from a prefixed tag, e.g. "badge:New In". Tags are stored
+    alphabetically, so picking "the first tag" would be arbitrary; a prefix lets
+    the merchant say which tag is the badge.
+  endcomment
+  assign card_badge = ''
+  if badge_prefix != blank
+    assign prefix_size = badge_prefix | size
+    for tag in card_product.tags
+      assign head = tag | slice: 0, prefix_size
+      if head == badge_prefix
+        assign card_badge = tag | slice: prefix_size, 100 | strip
+        break
+      endif
+    endfor
+  endif
+
+  assign colour_option = null
+  if show_swatches
+    for option in card_product.options_with_values
+      assign option_name = option.name | downcase
+      if option_name == 'color' or option_name == 'colour'
+        assign colour_option = option
+        break
+      endif
+    endfor
+  endif
 -%}
 
-<div class="ed-product ed-reveal" style="--ed-delay: {{ delay }}ms;">
+<div class="ed-product ed-reveal {{ card_modifier }}" style="--ed-delay: {{ delay }}ms;">
   <div class="ed-product__media" style="--ed-ratio: {{ ratio | default: '3 / 4' }};">
     {%- if card_product.featured_media -%}
       {{
@@ -64,6 +95,12 @@
           alt: ''
       }}
     {%- endif -%}
+
+    {%- if card_badge != blank -%}
+      <span class="ed-product__badge">{{ card_badge }}</span>
+    {%- endif -%}
+
+    {%- render 'wishlist-button', wishlist_product: card_product, style: 'card' -%}
 
     {%- if show_quick_add -%}
       <div class="ed-product__quick">
@@ -106,5 +143,13 @@
       {%- endif -%}
       {{ card_product.price | money }}
     </div>
+
+    {%- if colour_option and colour_option.values.size > 1 -%}
+      <ul class="ed-product__swatches" role="list">
+        {%- for value in colour_option.values limit: 5 -%}
+          <li>{% render 'swatch', swatch: value.swatch, shape: 'square' %}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
   </div>
 </div>
