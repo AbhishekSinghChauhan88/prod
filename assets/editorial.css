@@ -1264,3 +1264,102 @@
 .ed-tabs__panel[hidden] {
   display: none;
 }
+
+/* --------------------------------------------------------------------------
+   Sections written before the editorial system existed
+
+   trust-badges, shoppable-image, testimonials and logo-list carry their own
+   styles in theme-sections.css. These pull their type onto the same scale as
+   everything else: tracked uppercase labels, the display face for headings,
+   muted supporting text.
+   -------------------------------------------------------------------------- */
+.trust-badges .trust-badge__title,
+.testimonial-card__author,
+.shoppable-hotspot__title {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.trust-badges .trust-badge__text,
+.testimonial-card__meta,
+.shoppable-hotspot__price {
+  font-size: 1.3rem;
+  color: var(--ed-muted);
+}
+
+.trust-badge__icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  color: rgb(var(--color-foreground));
+}
+
+.trust-badges--centered .trust-badge {
+  gap: 1rem;
+}
+
+/* Section headings across the older sections share the display face. */
+.trust-badges + .title,
+.testimonials .title,
+.shoppable-image-section .title,
+.logo-list-section .title,
+.featured-blog .title,
+.blog .title {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.01em;
+}
+
+.testimonial-card--plain {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.testimonial-card__quote {
+  font-family: var(--font-heading-family);
+  font-size: clamp(1.7rem, 1.9vw, 2rem);
+  line-height: 1.45;
+  color: rgb(var(--color-foreground));
+}
+
+/* Hotspot cards borrow the card treatment: square, hairline, no shadow. */
+.shoppable-hotspot__card {
+  border: 1px solid var(--ed-line);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.shoppable-hotspot__toggle {
+  border-radius: 50%;
+  border-width: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Journal (Dawn's featured blog)
+   -------------------------------------------------------------------------- */
+.article-card__title,
+.article-card .card__heading {
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.article-card__excerpt {
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--ed-muted);
+}
+
+.article-card__footer,
+.article-card__info {
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  color: var(--ed-muted);
+}
+
+.article-card__image-wrapper .media {
+  border-radius: 0;
+}

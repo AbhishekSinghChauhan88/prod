@@ -106,26 +106,21 @@
         "tab_1": {
           "type": "tab",
           "settings": {
-            "label": "New in"
+            "collection": "women",
+            "label": "Women"
           }
         },
         "tab_2": {
           "type": "tab",
           "settings": {
-            "label": "Women"
-          }
-        },
-        "tab_3": {
-          "type": "tab",
-          "settings": {
+            "collection": "men",
             "label": "Men"
           }
         }
       },
       "block_order": [
         "tab_1",
-        "tab_2",
-        "tab_3"
+        "tab_2"
       ],
       "settings": {
         "heading": "Top picks for you",
@@ -142,15 +137,30 @@
       "blocks": {
         "t1": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "rating": 5,
+            "quote": "<p>The overshirt has become the thing I reach for every morning. The weight of it is exactly right.</p>",
+            "author": "Placeholder review",
+            "meta": "Replace in the theme editor"
+          }
         },
         "t2": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Ordered on a Tuesday, wearing it by Thursday. The fit was true to the size guide.</p>",
+            "author": "Placeholder review",
+            "meta": "Replace in the theme editor"
+          }
         },
         "t3": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Third order this year. Nothing has lost its shape in the wash, which is rarer than it should be.</p>",
+            "author": "Placeholder review",
+            "meta": "Replace in the theme editor"
+          }
         }
       },
       "block_order": [
@@ -171,15 +181,146 @@
         "padding_top": 80,
         "padding_bottom": 80
       }
+    },
+    "lookbook": {
+      "type": "shoppable-image",
+      "blocks": {
+        "h1": {
+          "type": "hotspot",
+          "settings": {
+            "horizontal_position": 34,
+            "vertical_position": 38,
+            "title": "The overshirt"
+          }
+        },
+        "h2": {
+          "type": "hotspot",
+          "settings": {
+            "horizontal_position": 58,
+            "vertical_position": 62,
+            "title": "The trouser"
+          }
+        },
+        "h3": {
+          "type": "hotspot",
+          "settings": {
+            "horizontal_position": 46,
+            "vertical_position": 84,
+            "title": "The boot"
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3"
+      ],
+      "settings": {
+        "heading": "Shop the look",
+        "heading_size": "h2",
+        "text": "",
+        "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg",
+        "full_width": false,
+        "color_scheme": "scheme-1",
+        "card_color_scheme": "scheme-1",
+        "animate": false,
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    },
+    "journal": {
+      "type": "featured-blog",
+      "settings": {
+        "blog": "news",
+        "post_limit": 3,
+        "heading": "Journal",
+        "heading_size": "h2",
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "show_image": true,
+        "show_date": false,
+        "show_author": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "assurances": {
+      "type": "trust-badges",
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "truck",
+            "title": "Complimentary shipping",
+            "text": "On every order over Rs. 2,500"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "return",
+            "title": "30-day returns",
+            "text": "Return anything unworn"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "lock",
+            "title": "Secure checkout",
+            "text": "Encrypted end to end"
+          }
+        },
+        "b4": {
+          "type": "badge",
+          "settings": {
+            "icon": "chat-bubble",
+            "title": "Here to help",
+            "text": "We reply within a day"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": "h3",
+        "alignment": "center",
+        "color_scheme": "scheme-2",
+        "animate": false,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "campaign_two": {
+      "type": "campaign",
+      "settings": {
+        "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
+        "height": 70,
+        "overlay_opacity": 25,
+        "label": "",
+        "heading": "The winter edit",
+        "cta_label": "Shop now",
+        "cta_link": ""
+      }
     }
   },
   "order": [
     "hero",
     "collections",
     "top_picks",
+    "lookbook",
     "new_arrivals",
-    "reviews",
     "campaign",
+    "reviews",
+    "journal",
+    "campaign_two",
+    "assurances",
     "newsletter"
   ]
 }
