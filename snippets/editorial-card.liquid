@@ -1,0 +1,110 @@
+{% comment %}
+  Renders one bare product card — no background, border, shadow or badge.
+
+  Shared by the homepage grid and the tabbed rail so the two cannot drift apart.
+
+  Accepts:
+  - card_product: {Object} the product
+  - ratio: {String} a CSS aspect-ratio value, e.g. "3 / 4"
+  - card_sizes: {String} the sizes attribute for the images
+  - show_second_image: {Boolean} crossfade to media[1] on hover (optional)
+  - show_quick_add: {Boolean} show the quick add control on hover (optional)
+  - card_section_id: {String} the section id, for unique form ids
+  - card_index: {Number} position, used to stagger the reveal (optional)
+
+  Usage:
+  {% render 'editorial-card', card_product: product, ratio: '3 / 4', card_sizes: sizes %}
+{% endcomment %}
+
+{%- liquid
+  assign alt_image = null
+  if show_second_image and card_product.media[1] != null
+    assign alt_image = card_product.media[1]
+  endif
+
+  assign single_variant = false
+  if card_product.variants.size == 1 and card_product.selected_or_first_available_variant.available
+    assign single_variant = true
+  endif
+
+  comment
+    Built here because a tag argument cannot contain a filter chain.
+  endcomment
+  assign quick_add_id = 'ed-quick-add-' | append: card_section_id | append: '-' | append: card_product.id
+  assign main_alt = card_product.featured_media.alt | default: card_product.title
+  assign delay = card_index | default: 0 | times: 60
+-%}
+
+<div class="ed-product ed-reveal" style="--ed-delay: {{ delay }}ms;">
+  <div class="ed-product__media" style="--ed-ratio: {{ ratio | default: '3 / 4' }};">
+    {%- if card_product.featured_media -%}
+      {{
+        card_product.featured_media
+        | image_url: width: 1200
+        | image_tag:
+          widths: '200, 300, 400, 600, 800, 1200',
+          sizes: card_sizes,
+          loading: 'lazy',
+          class: 'ed-product__image--main',
+          alt: main_alt
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+
+    {%- if alt_image -%}
+      {{
+        alt_image
+        | image_url: width: 1200
+        | image_tag:
+          widths: '200, 300, 400, 600, 800, 1200',
+          sizes: card_sizes,
+          loading: 'lazy',
+          class: 'ed-product__image--alt',
+          alt: ''
+      }}
+    {%- endif -%}
+
+    {%- if show_quick_add -%}
+      <div class="ed-product__quick">
+        {%- if single_variant -%}
+          <product-form data-section-id="{{ card_section_id }}">
+            {%- form 'product', card_product, id: quick_add_id, class: 'form', novalidate: 'novalidate' -%}
+              <input
+                type="hidden"
+                name="id"
+                value="{{ card_product.selected_or_first_available_variant.id }}"
+                class="product-variant-id"
+              >
+              <button type="submit" name="add">
+                <span>{{ 'products.product.add_to_cart' | t }} +</span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            {%- endform -%}
+          </product-form>
+        {%- else -%}
+          {%- comment -%}
+            Anything with options goes to the product page, where the choice
+            belongs. Hidden from tab order because the card title already links
+            to the same place.
+          {%- endcomment -%}
+          <a href="{{ card_product.url }}" tabindex="-1" aria-hidden="true">
+            {{- 'products.product.choose_options' | t -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="ed-product__info">
+    <h3 class="ed-product__title">
+      <a href="{{ card_product.url }}">{{ card_product.title | escape }}</a>
+    </h3>
+    <div class="ed-product__price">
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <s>{{ card_product.compare_at_price | money }}</s>
+      {%- endif -%}
+      {{ card_product.price | money }}
+    </div>
+  </div>
+</div>

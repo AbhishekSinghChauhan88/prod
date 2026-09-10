@@ -75,6 +75,59 @@
     update();
   };
 
+  /* Tabbed product rails ---------------------------------------------------- */
+  if (!customElements.get('product-tabs')) {
+    customElements.define(
+      'product-tabs',
+      class ProductTabs extends HTMLElement {
+        connectedCallback() {
+          this.tabs = [...this.querySelectorAll('[role="tab"]')];
+          this.panels = [...this.querySelectorAll('[role="tabpanel"]')];
+          if (this.tabs.length < 2) return;
+
+          this.tabs.forEach((tab, i) => {
+            tab.addEventListener('click', () => this.select(i));
+            tab.addEventListener('keydown', (e) => this.onKeydown(e, i));
+          });
+        }
+
+        onKeydown(event, index) {
+          // Arrow keys move between tabs, which is what a tablist is expected
+          // to do; Home and End jump to the ends.
+          const keys = {
+            ArrowRight: index + 1,
+            ArrowLeft: index - 1,
+            Home: 0,
+            End: this.tabs.length - 1,
+          };
+          if (!(event.key in keys)) return;
+          event.preventDefault();
+          const next = (keys[event.key] + this.tabs.length) % this.tabs.length;
+          this.select(next);
+          this.tabs[next].focus();
+        }
+
+        select(index) {
+          this.tabs.forEach((tab, i) => {
+            const active = i === index;
+            tab.setAttribute('aria-selected', active ? 'true' : 'false');
+            // Only the selected tab stays in the tab order; arrows do the rest.
+            tab.tabIndex = active ? 0 : -1;
+          });
+          this.panels.forEach((panel, i) => {
+            panel.hidden = i !== index;
+          });
+
+          // Panels revealed after load have never been observed, so reveal
+          // them outright rather than leaving them at opacity 0.
+          this.panels[index]
+            ?.querySelectorAll('.ed-reveal:not(.is-revealed)')
+            .forEach((el) => el.classList.add('is-revealed'));
+        }
+      }
+    );
+  }
+
   const init = () => {
     reveal();
     heroes();

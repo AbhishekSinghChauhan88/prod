@@ -1131,3 +1131,136 @@
   padding: 1rem;
 }
 
+
+/* --------------------------------------------------------------------------
+   Tabbed product rail
+
+   Tabs sit on the same line as the heading on desktop and scroll horizontally
+   on narrow screens rather than wrapping into a block of buttons.
+   -------------------------------------------------------------------------- */
+.ed-tabs__head {
+  display: grid;
+  gap: 1.8rem;
+  margin-bottom: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .ed-tabs__head {
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+}
+
+.ed-tabs__list {
+  display: flex;
+  gap: 2.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Room for the underline, and for the focus ring not to be clipped. */
+  padding-bottom: 0.4rem;
+}
+
+.ed-tabs__list::-webkit-scrollbar {
+  display: none;
+}
+
+.ed-tabs__tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0 0 0.6rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+  transition: color var(--duration-short) ease;
+}
+
+.ed-tabs__tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s var(--ed-ease);
+}
+
+.ed-tabs__tab[aria-selected='true'] {
+  color: rgb(var(--color-foreground));
+}
+
+.ed-tabs__tab[aria-selected='true']::after,
+.ed-tabs__tab:hover::after {
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   The rail
+
+   A scroll-snapping row rather than a slider: no library, works without
+   JavaScript, and keeps native touch momentum on a phone.
+   -------------------------------------------------------------------------- */
+.ed-rail {
+  display: flex;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0 var(--ed-gutter);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--ed-gutter);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ed-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.ed-rail__item {
+  flex: 0 0 auto;
+  width: 62vw;
+  scroll-snap-align: start;
+}
+
+@media screen and (min-width: 750px) {
+  .ed-rail {
+    gap: 2rem;
+  }
+
+  .ed-rail__item {
+    width: 34vw;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .ed-rail {
+    gap: 2.4rem;
+  }
+
+  /* Just under a quarter, so the next card peeks and the row reads as
+     scrollable without needing arrows. */
+  .ed-rail__item {
+    width: calc((min(100vw, var(--page-width)) - var(--ed-gutter) * 2 - 2.4rem * 3) / 4.35);
+  }
+}
+
+.ed-tabs__foot {
+  display: flex;
+  justify-content: center;
+  margin-top: 3.5rem;
+}
+
+.ed-tabs__panel[hidden] {
+  display: none;
+}

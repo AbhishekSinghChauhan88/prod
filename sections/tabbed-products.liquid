@@ -1,0 +1,196 @@
+{% comment %}
+  Tabbed product rail.
+
+  One block per edit; each names a collection and a label. The labels are a real
+  ARIA tablist, so arrow keys move between them and screen readers announce the
+  relationship. Every panel is rendered server-side and the inactive ones are
+  hidden, so the content is present without JavaScript and switching costs no
+  request.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+
+  if s.show_quick_add
+    assign needs_product_form = true
+  endif
+
+  comment
+    A rail item is a fixed width, so the sizes hint is a fixed width too.
+  endcomment
+  assign card_sizes = '(min-width: 990px) 26vw, (min-width: 750px) 36vw, 62vw'
+-%}
+
+{%- if needs_product_form -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<div class="color-{{ s.color_scheme }} gradient">
+  <div class="ed-section">
+    <product-tabs class="ed-tabs">
+      <div class="ed-width ed-tabs__head">
+        {%- if s.heading != blank -%}
+          <h2 class="ed-display ed-display--sm ed-reveal">{{ s.heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 1 -%}
+          <div class="ed-tabs__list" role="tablist" aria-label="{{ s.heading | default: 'Collections' | strip_html | escape }}">
+            {%- for block in section.blocks -%}
+              {%- assign tab_label = block.settings.label | default: block.settings.collection.title -%}
+              <button
+                type="button"
+                role="tab"
+                id="Tab-{{ section.id }}-{{ forloop.index }}"
+                class="ed-tabs__tab"
+                aria-controls="Panel-{{ section.id }}-{{ forloop.index }}"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {{ tab_label }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- assign tab_collection = block.settings.collection -%}
+        <div
+          role="tabpanel"
+          id="Panel-{{ section.id }}-{{ forloop.index }}"
+          aria-labelledby="Tab-{{ section.id }}-{{ forloop.index }}"
+          class="ed-tabs__panel"
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+        >
+          <ul class="ed-rail" role="list">
+            {%- for product in tab_collection.products limit: s.products_to_show -%}
+              <li class="ed-rail__item">
+                {%- render 'editorial-card',
+                  card_product: product,
+                  ratio: s.image_ratio,
+                  card_sizes: card_sizes,
+                  show_second_image: s.show_second_image,
+                  show_quick_add: s.show_quick_add,
+                  card_section_id: section.id,
+                  card_index: forloop.index0
+                -%}
+              </li>
+            {%- else -%}
+              {%- comment -%} Nothing chosen yet: show the shape, not an error. {%- endcomment -%}
+              {%- for i in (1..4) -%}
+                <li class="ed-rail__item">
+                  <div class="ed-product">
+                    <div class="ed-product__media" style="--ed-ratio: {{ s.image_ratio }};">
+                      {{ 'product-1' | placeholder_svg_tag }}
+                    </div>
+                    <div class="ed-product__info">
+                      <h3 class="ed-product__title">{{ 'onboarding.product_title' | t }}</h3>
+                      <div class="ed-product__price">{{ 1990 | money }}</div>
+                    </div>
+                  </div>
+                </li>
+              {%- endfor -%}
+            {%- endfor -%}
+          </ul>
+
+          {%- if s.view_all_label != blank and tab_collection != blank -%}
+            <div class="ed-width ed-tabs__foot">
+              <a href="{{ tab_collection.url }}" class="ed-link">
+                {{ s.view_all_label | escape }}
+                <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </product-tabs>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Tabbed products",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Top picks for you",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 8,
+      "label": "Products per tab"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "3 / 4", "label": "Portrait" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "2 / 3", "label": "Tall" }
+      ],
+      "default": "3 / 4",
+      "label": "Image shape"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_second_image",
+      "default": true,
+      "label": "Fade to the second image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "default": true,
+      "label": "Show quick add on hover",
+      "info": "Products with options link to the product page instead."
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "default": "View all",
+      "label": "View all label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "info": "Defaults to the collection's name."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tabbed products",
+      "blocks": [{ "type": "tab" }, { "type": "tab" }, { "type": "tab" }]
+    }
+  ]
+}
+{% endschema %}
