@@ -230,7 +230,7 @@ sticky-atc.is-visible {
 .sticky-atc__title {
   margin: 0;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -292,7 +292,7 @@ sticky-atc.is-visible {
 }
 
 .shipping-bar__text strong {
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .shipping-bar__track {
@@ -553,7 +553,7 @@ newsletter-popup.is-open {
 }
 
 .delivery-estimate strong {
-  font-weight: 600;
+  font-weight: 400;
 }
 
 /* Trust badge block on product page */
