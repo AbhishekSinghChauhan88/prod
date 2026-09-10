@@ -234,11 +234,13 @@
 /* ==========================================================================
    Full-bleed grid
 
-   Dawn's .grid is flexbox and sizes its items with
-   calc(<share>% - var(--grid-desktop-horizontal-spacing) * n / cols), so
-   zeroing the gap on its own leaves the old subtraction in place and the row
-   silently drops a column. Every rule below therefore restates the width
-   alongside the gap, never one without the other.
+   Dawn's .grid is flexbox, and sizing flush columns inside it means fighting
+   three of its behaviours at once: items carry flex-grow so a stated width is
+   only a starting size, a 1px border is laid out outside a percentage width so
+   the last column wraps, and a seam drawn as an inset shadow paints underneath
+   the image. Switching the element to CSS grid removes all three problems
+   rather than working around them: the column count is stated once and the
+   seam is simply the gap, with the page colour showing through it.
    ========================================================================== */
 .ed-collection--flush {
   width: 100%;
@@ -248,89 +250,40 @@
 }
 
 .ed-collection--flush .product-grid {
-  column-gap: 0;
-  row-gap: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1px;
+  row-gap: 1.6rem;
   margin: 0;
-  padding: 0;
-  /* Hairlines are drawn on the items; this closes the top and left edges. */
-  border-top: 1px solid var(--ed-line);
+  padding: 0 0 4.8rem;
 }
 
-/* Dawn's grid items carry flex-grow, so a stated width is only a starting
-   size — the row stretches whatever fits to fill the line, and a four-column
-   grid quietly renders as three wider ones. Pinning flex here makes the width
-   below the width that actually renders. */
 .ed-collection--flush .product-grid > .grid__item {
-  flex: 0 0 auto;
+  width: auto;
   max-width: none;
   margin: 0;
-  padding-bottom: 2.4rem;
-  position: relative;
-  /* The row's closing line. An inset shadow rather than a border: a border is
-     laid out outside the percentage width, so four 25% columns plus four 1px
-     borders no longer fit on the line and the last one wraps. */
-  box-shadow: inset 0 -1px 0 0 var(--ed-line);
+  padding: 0;
 }
 
-/* The seam between columns is drawn over the image, in the page's own colour,
-   the way it reads in a flush grid — an inset shadow would sit underneath the
-   media and never be seen. */
-.ed-collection--flush .product-grid > .grid__item::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 1px;
-  z-index: 2;
-  background-color: rgb(var(--color-background));
-  pointer-events: none;
-}
-
-/* Below desktop, Dawn writes the column count as -col-tablet-down. These live
-   in their own query rather than cascading upward: a :nth-child seam rule
-   outscores the desktop rule that would undo it, so the two column counts have
-   to be kept in separate bands instead of overriding one another. */
-@media screen and (max-width: 989px) {
-  .ed-collection--flush .product-grid.grid--1-col-tablet-down > .grid__item {
-    width: 100%;
-  }
-
-  .ed-collection--flush .product-grid.grid--1-col-tablet-down > .grid__item::after {
-    display: none;
-  }
-
-  .ed-collection--flush .product-grid.grid--2-col-tablet-down > .grid__item {
-    width: 50%;
-  }
-
-  .ed-collection--flush .product-grid.grid--2-col-tablet-down > .grid__item:nth-child(2n)::after {
-    display: none;
-  }
+.ed-collection--flush .product-grid.grid--1-col-tablet-down {
+  grid-template-columns: 1fr;
 }
 
 @media screen and (min-width: 990px) {
-  .ed-collection--flush .product-grid.grid--2-col-desktop > .grid__item {
-    width: 50%;
+  .ed-collection--flush .product-grid.grid--2-col-desktop {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .ed-collection--flush .product-grid.grid--3-col-desktop > .grid__item {
-    width: 33.3333%;
+  .ed-collection--flush .product-grid.grid--3-col-desktop {
+    grid-template-columns: repeat(3, 1fr);
   }
 
-  .ed-collection--flush .product-grid.grid--4-col-desktop > .grid__item {
-    width: 25%;
+  .ed-collection--flush .product-grid.grid--4-col-desktop {
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .ed-collection--flush .product-grid.grid--5-col-desktop > .grid__item {
-    width: 20%;
-  }
-
-  .ed-collection--flush .product-grid.grid--2-col-desktop > .grid__item:nth-child(2n)::after,
-  .ed-collection--flush .product-grid.grid--3-col-desktop > .grid__item:nth-child(3n)::after,
-  .ed-collection--flush .product-grid.grid--4-col-desktop > .grid__item:nth-child(4n)::after,
-  .ed-collection--flush .product-grid.grid--5-col-desktop > .grid__item:nth-child(5n)::after {
-    display: none;
+  .ed-collection--flush .product-grid.grid--5-col-desktop {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 

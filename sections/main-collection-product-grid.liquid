@@ -21,8 +21,8 @@
   case section.settings.image_ratio
     when 'square'
       assign card_ratio = '1 / 1'
-    when 'portrait'
-      assign card_ratio = '3 / 4'
+    when 'tall'
+      assign card_ratio = '2 / 3'
     else
       assign card_ratio = '3 / 4'
   endcase
@@ -290,6 +290,10 @@
         {
           "value": "square",
           "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        },
+        {
+          "value": "tall",
+          "label": "Tall (2:3)"
         }
       ],
       "default": "adapt",
