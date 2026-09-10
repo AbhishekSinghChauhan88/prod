@@ -53,7 +53,7 @@
           show_quick_add: s.show_quick_add,
           show_swatches: s.show_swatches,
           badge_prefix: s.badge_prefix,
-          card_modifier: 'ed-product--rail',
+          card_modifier: 'ed-product--flush',
           card_section_id: section.id,
           card_index: forloop.index0
         -%}
@@ -62,7 +62,7 @@
       {%- comment -%} Nothing chosen yet: show the shape, not an error. {%- endcomment -%}
       {%- for i in (1..6) -%}
         <li class="ed-rail__item">
-          <div class="ed-product ed-product--rail">
+          <div class="ed-product ed-product--flush">
             <div class="ed-product__media" style="--ed-ratio: {{ s.image_ratio }};">
               {{ 'product-1' | placeholder_svg_tag }}
             </div>

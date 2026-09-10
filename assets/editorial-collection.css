@@ -9,25 +9,38 @@
 
 /* --------------------------------------------------------------------------
    Banner
+
+   Left-aligned and modest rather than centred and large: the grid below runs
+   edge to edge and carries the page, so the heading only has to name it.
    -------------------------------------------------------------------------- */
 .collection-hero__inner {
-  padding-top: 5rem;
-  padding-bottom: 1rem;
+  padding-top: 3.2rem;
+  padding-bottom: 1.6rem;
   margin-bottom: 0;
-  text-align: center;
+  text-align: left;
   display: grid;
-  justify-items: center;
-  gap: 1.2rem;
+  justify-items: start;
+  gap: 1rem;
 }
 
 .collection-hero__title {
   font-family: var(--font-heading-family);
   font-weight: var(--font-heading-weight);
-  font-size: clamp(2.8rem, 4.4vw, 5rem);
+  font-size: clamp(2.4rem, 3vw, 3.4rem);
   line-height: 1.05;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   text-transform: none;
   margin: 0;
+}
+
+/* Raised and small, so it reads as an annotation on the title rather than as
+   part of the name. */
+.collection-hero__count {
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  color: var(--ed-muted);
+  vertical-align: super;
+  margin-left: 0.4rem;
 }
 
 .collection-hero__description {
@@ -40,7 +53,75 @@
 
 @media screen and (min-width: 750px) {
   .collection-hero__inner {
-    padding-top: 7rem;
+    padding-top: 4.4rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Category row
+
+   Sideways movement between sibling collections. Plain words, with the current
+   one marked by weightless means — colour and a dot — since nothing on this
+   site is set above regular.
+   -------------------------------------------------------------------------- */
+.ed-catnav {
+  padding-bottom: 2rem;
+}
+
+.ed-catnav__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 2.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ed-catnav__link {
+  display: inline-block;
+  position: relative;
+  font-size: 1.45rem;
+  letter-spacing: 0.01em;
+  color: var(--ed-muted);
+  text-decoration: none;
+  padding: 0.4rem 0;
+  transition: color var(--duration-short) ease;
+}
+
+.ed-catnav__link:hover {
+  color: rgb(var(--color-foreground));
+}
+
+.ed-catnav__link--current {
+  color: rgb(var(--color-foreground));
+}
+
+.ed-catnav__link--current::after {
+  content: '';
+  position: absolute;
+  top: 0.2rem;
+  right: -0.7rem;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: rgb(var(--color-foreground));
+}
+
+@media screen and (max-width: 749px) {
+  /* One line that scrolls, rather than a block of wrapped links. */
+  .ed-catnav__list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .ed-catnav__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ed-catnav__link {
+    white-space: nowrap;
   }
 }
 
@@ -148,4 +229,143 @@
 .collection--empty .title {
   font-family: var(--font-heading-family);
   font-weight: var(--font-heading-weight);
+}
+
+/* ==========================================================================
+   Full-bleed grid
+
+   Dawn's .grid is flexbox and sizes its items with
+   calc(<share>% - var(--grid-desktop-horizontal-spacing) * n / cols), so
+   zeroing the gap on its own leaves the old subtraction in place and the row
+   silently drops a column. Every rule below therefore restates the width
+   alongside the gap, never one without the other.
+   ========================================================================== */
+.ed-collection--flush {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ed-collection--flush .product-grid {
+  column-gap: 0;
+  row-gap: 0;
+  margin: 0;
+  padding: 0;
+  /* Hairlines are drawn on the items; this closes the top and left edges. */
+  border-top: 1px solid var(--ed-line);
+}
+
+/* Dawn's grid items carry flex-grow, so a stated width is only a starting
+   size — the row stretches whatever fits to fill the line, and a four-column
+   grid quietly renders as three wider ones. Pinning flex here makes the width
+   below the width that actually renders. */
+.ed-collection--flush .product-grid > .grid__item {
+  flex: 0 0 auto;
+  max-width: none;
+  margin: 0;
+  padding-bottom: 2.4rem;
+  position: relative;
+  /* The row's closing line. An inset shadow rather than a border: a border is
+     laid out outside the percentage width, so four 25% columns plus four 1px
+     borders no longer fit on the line and the last one wraps. */
+  box-shadow: inset 0 -1px 0 0 var(--ed-line);
+}
+
+/* The seam between columns is drawn over the image, in the page's own colour,
+   the way it reads in a flush grid — an inset shadow would sit underneath the
+   media and never be seen. */
+.ed-collection--flush .product-grid > .grid__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  z-index: 2;
+  background-color: rgb(var(--color-background));
+  pointer-events: none;
+}
+
+/* Below desktop, Dawn writes the column count as -col-tablet-down. These live
+   in their own query rather than cascading upward: a :nth-child seam rule
+   outscores the desktop rule that would undo it, so the two column counts have
+   to be kept in separate bands instead of overriding one another. */
+@media screen and (max-width: 989px) {
+  .ed-collection--flush .product-grid.grid--1-col-tablet-down > .grid__item {
+    width: 100%;
+  }
+
+  .ed-collection--flush .product-grid.grid--1-col-tablet-down > .grid__item::after {
+    display: none;
+  }
+
+  .ed-collection--flush .product-grid.grid--2-col-tablet-down > .grid__item {
+    width: 50%;
+  }
+
+  .ed-collection--flush .product-grid.grid--2-col-tablet-down > .grid__item:nth-child(2n)::after {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .ed-collection--flush .product-grid.grid--2-col-desktop > .grid__item {
+    width: 50%;
+  }
+
+  .ed-collection--flush .product-grid.grid--3-col-desktop > .grid__item {
+    width: 33.3333%;
+  }
+
+  .ed-collection--flush .product-grid.grid--4-col-desktop > .grid__item {
+    width: 25%;
+  }
+
+  .ed-collection--flush .product-grid.grid--5-col-desktop > .grid__item {
+    width: 20%;
+  }
+
+  .ed-collection--flush .product-grid.grid--2-col-desktop > .grid__item:nth-child(2n)::after,
+  .ed-collection--flush .product-grid.grid--3-col-desktop > .grid__item:nth-child(3n)::after,
+  .ed-collection--flush .product-grid.grid--4-col-desktop > .grid__item:nth-child(4n)::after,
+  .ed-collection--flush .product-grid.grid--5-col-desktop > .grid__item:nth-child(5n)::after {
+    display: none;
+  }
+}
+
+/* Pagination sits back inside the page margins. */
+.ed-collection--flush .pagination-wrapper {
+  padding: 0 var(--ed-gutter, 2rem);
+}
+
+/* --------------------------------------------------------------------------
+   Filter and sort
+
+   Dawn renders these in an <aside> above the grid, in its own section, so they
+   cannot share a line with the collection title. They get their own quiet row
+   instead: pushed right, sitting on the hairline that opens the grid.
+   -------------------------------------------------------------------------- */
+.facets-container-drawer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 var(--ed-gutter, 2rem) 1.4rem;
+  margin: 0;
+}
+
+.facets-container-drawer .mobile-facets__open,
+.facets-container-drawer .facet-filters__field {
+  font-size: 1.4rem;
+  letter-spacing: 0.01em;
+  color: rgb(var(--color-foreground));
+}
+
+.facets-container-drawer .mobile-facets__open-wrapper {
+  list-style: none;
+}
+
+.facets-container-drawer .product-count {
+  display: none;
 }

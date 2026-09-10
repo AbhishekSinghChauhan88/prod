@@ -17,6 +17,13 @@
       <h1 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
         {{- collection.title | escape -}}
+        {%- if section.settings.show_product_count and collection.products_count > 0 -%}
+          {%- comment -%}
+            The count rides on the title as a superscript rather than sitting on
+            its own line, so the heading stays one object.
+          {%- endcomment -%}
+          <sup class="collection-hero__count">{{ collection.products_count }}</sup>
+        {%- endif -%}
       </h1>
 
       {%- if section.settings.show_collection_description -%}
@@ -45,6 +52,30 @@
       </div>
     {%- endif -%}
   </div>
+
+  {%- if section.settings.category_menu != blank -%}
+    {%- comment -%}
+      Sibling categories, so the shopper can move sideways without going back up
+      to the nav. The link matching the current collection is marked current.
+    {%- endcomment -%}
+    <nav class="ed-catnav page-width" aria-label="{{ collection.title | escape }}">
+      <ul class="ed-catnav__list" role="list">
+        {%- for link in section.settings.category_menu.links -%}
+          <li>
+            <a
+              href="{{ link.url }}"
+              class="ed-catnav__link{% if link.current %} ed-catnav__link--current{% endif %}"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              {{- link.title | escape -}}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -55,6 +86,18 @@
     {
       "type": "paragraph",
       "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "default": true,
+      "label": "Show the product count beside the title"
+    },
+    {
+      "type": "link_list",
+      "id": "category_menu",
+      "label": "Category row",
+      "info": "A menu of sibling collections, shown under the title."
     },
     {
       "type": "checkbox",
