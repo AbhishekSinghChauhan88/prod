@@ -62,7 +62,7 @@
         </div>
       {%- endif -%}
       <div class="drawer__header">
-        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }} <span class="drawer__count">({{ cart.item_count }})</span></h2>
         <button
           class="drawer__close"
           type="button"
@@ -153,6 +153,15 @@
                           <a href="{{ item.url }}" class="cart-item__name h4 break">
                             {{- item.product.title | escape -}}
                           </a>
+
+                          {%- comment -%}
+                            The line's money sits under the name rather than in
+                            its own right-hand column, so the row reads as one
+                            block of text beside the image. The total column is
+                            collapsed in CSS rather than removed, because Dawn's
+                            table semantics and its re-render both rely on it.
+                          {%- endcomment -%}
+                          <div class="cart-item__line-price">{{ item.final_line_price | money }}</div>
 
                           {%- if item.original_price != item.final_price -%}
                             <div class="cart-item__discounted-prices">
@@ -345,6 +354,12 @@
                                   </button>
                                 </quantity-input>
                               </div>
+                              {%- if settings.wishlist_enabled -%}
+                                <span class="cart-item__wishlist-wrapper">
+                                  {%- render 'wishlist-button', wishlist_product: item.product, style: 'cart' -%}
+                                </span>
+                              {%- endif -%}
+
                               <cart-remove-button
                                 id="CartDrawer-Remove-{{ item.index | plus: 1 }}"
                                 data-index="{{ item.index | plus: 1 }}"
@@ -358,7 +373,16 @@
                                     class="hidden"
                                   {% endif %}
                                 >
-                                  <span aria-hidden="true">{{ 'sections.cart.remove' | t }}</span>
+                                  {%- comment -%}
+                                    A cross, not the word: it sits beside the
+                                    heart in the same control row, and two
+                                    icons read as a pair where an icon and a
+                                    tracked word do not. The accessible name is
+                                    on the button.
+                                  {%- endcomment -%}
+                                  <span class="svg-wrapper" aria-hidden="true">
+                                    {{- 'icon-close-small.svg' | inline_asset_content -}}
+                                  </span>
                                 </button>
                               </cart-remove-button>
                             </div>
@@ -586,6 +610,11 @@
               <span class="cart__checkout-total">{{ cart.total_price | money }}</span>
             </button>
           </div>
+        </div>
+        <div class="cart-drawer__continue">
+          <a href="{{ routes.all_products_collection_url }}" class="cart-drawer__continue-link">
+            {{ 'general.continue_shopping' | t }}
+          </a>
         </div>
       </div>
     </div>
