@@ -1363,3 +1363,26 @@
 .article-card__image-wrapper .media {
   border-radius: 0;
 }
+
+/* Aggregate rating line under a testimonials heading. */
+.testimonials__summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 1.2rem 0 0;
+}
+
+.testimonials__summary-score {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.testimonials__summary-text {
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+}

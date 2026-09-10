@@ -95,12 +95,24 @@
         </h1>
       {%- endif -%}
 
-      {%- if s.cta_label != blank -%}
-        <div class="ed-reveal" style="--ed-delay: 0.24s;">
-          <a href="{{ s.cta_link | default: routes.all_products_collection_url }}" class="ed-link">
-            {{ s.cta_label | escape }}
-            <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
-          </a>
+      {%- if s.text != blank -%}
+        <p class="ed-hero__text ed-reveal" style="--ed-delay: 0.18s;">{{ s.text }}</p>
+      {%- endif -%}
+
+      {%- if s.cta_label != blank or s.cta_label_2 != blank -%}
+        <div class="ed-hero__ctas ed-reveal" style="--ed-delay: 0.26s;">
+          {%- if s.cta_label != blank -%}
+            <a href="{{ s.cta_link | default: routes.all_products_collection_url }}" class="ed-link">
+              {{ s.cta_label | escape }}
+              <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          {%- endif -%}
+          {%- if s.cta_label_2 != blank -%}
+            <a href="{{ s.cta_link_2 | default: routes.all_products_collection_url }}" class="ed-link">
+              {{ s.cta_label_2 | escape }}
+              <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          {%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -173,6 +185,12 @@
       "info": "Keep it to a few words. Two short lines read best."
     },
     {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Subheading",
+      "info": "One line under the headline."
+    },
+    {
       "type": "text",
       "id": "cta_label",
       "default": "Shop now",
@@ -184,11 +202,27 @@
       "label": "Link"
     },
     {
+      "type": "text",
+      "id": "cta_label_2",
+      "label": "Second link label"
+    },
+    {
+      "type": "url",
+      "id": "cta_link_2",
+      "label": "Second link"
+    },
+    {
       "type": "select",
       "id": "text_position",
       "options": [
-        { "value": "center", "label": "Bottom centre" },
-        { "value": "left", "label": "Bottom left" }
+        {
+          "value": "center",
+          "label": "Bottom centre"
+        },
+        {
+          "value": "left",
+          "label": "Bottom left"
+        }
       ],
       "default": "center",
       "label": "Text position"
@@ -197,8 +231,14 @@
       "type": "select",
       "id": "text_color",
       "options": [
-        { "value": "light", "label": "Light" },
-        { "value": "dark", "label": "Dark" }
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
       ],
       "default": "light",
       "label": "Text colour"

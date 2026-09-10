@@ -34,7 +34,7 @@
           "type": "text",
           "settings": {
             "heading": "Made to be kept",
-            "subtext": "<p>Modern essentials made for everyday.</p>"
+            "subtext": "<p>Premium everyday clothing for those who refuse to live ordinary.</p>"
           }
         },
         "shop": {
@@ -50,12 +50,20 @@
             "heading": "About",
             "menu": "footer"
           }
+        },
+        "help": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Customer care",
+            "menu": "footer"
+          }
         }
       },
       "block_order": [
         "brand",
         "shop",
-        "about"
+        "about",
+        "help"
       ]
     }
   },
