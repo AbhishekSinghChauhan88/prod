@@ -1448,11 +1448,12 @@
   gap: 0;
 }
 
-/* Tight tracking at this size, so a two-line product name still reads as one
-   object rather than as a paragraph. */
+/* Slightly tight at this size, so a two-line product name still reads as one
+   object rather than as a paragraph. Geist is narrow already; much tighter
+   than this and the letters start to touch. */
 .ed-product--flush .ed-product__title {
   font-size: 1.6rem;
-  letter-spacing: -0.075em;
+  letter-spacing: -0.03em;
   line-height: 1.15;
 }
 
