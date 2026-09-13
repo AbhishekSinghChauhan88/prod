@@ -276,34 +276,16 @@
       {{ 'editorial-cart.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
-    {%- comment -%}
-      Geist (Vercel, SIL Open Font License — see assets/geist-OFL.txt) is
-      self-hosted and replaces whichever font the theme settings name. One
-      variable file covers every weight. The settings fonts stay declared above
-      so the editor still works, but they are never requested: an @font-face
-      only downloads when something uses it, and the theme's own preloads for
-      them are dropped here so nothing is fetched twice.
-    {%- endcomment -%}
-    {% comment %}theme-check-disable AssetPreload{% endcomment %}
-    <link rel="preload" as="font" href="{{ 'geist-variable.woff2' | asset_url }}" type="font/woff2" crossorigin>
-    {% comment %}theme-check-enable AssetPreload{% endcomment %}
-    {% style %}
-      @font-face {
-        font-family: 'Geist';
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url('{{ 'geist-variable.woff2' | asset_url }}') format('woff2');
-      }
-
-      :root {
-        --font-body-family: 'Geist', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-        --font-heading-family: var(--font-body-family);
-        --font-body-weight: 400;
-        --font-body-weight-bold: 400;
-        --font-heading-weight: 400;
-      }
-    {% endstyle %}
+    {%- unless settings.type_body_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
