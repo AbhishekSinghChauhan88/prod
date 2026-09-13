@@ -41,6 +41,14 @@
   padding: 0 var(--ed-gutter);
 }
 
+/* Dawn's own container takes the same gutter, so a Dawn-era section (the
+   lookbook, testimonials, the collection banner) shares its left edge with the
+   editorial ones above and below it instead of sitting a few rem inboard. */
+.page-width {
+  padding-left: var(--ed-gutter);
+  padding-right: var(--ed-gutter);
+}
+
 .ed-width--full {
   max-width: none;
   padding: 0;
@@ -1302,7 +1310,9 @@
   gap: 1rem;
 }
 
-/* Section headings across the older sections share the display face. */
+/* Section headings across the older sections sit on the same scale as
+   .ed-display--sm, and to the left like every other heading on the page, so
+   the eye lands in the same place section after section. */
 .trust-badges + .title,
 .testimonials .title,
 .shoppable-image-section .title,
@@ -1311,7 +1321,20 @@
 .blog .title {
   font-family: var(--font-heading-family);
   font-weight: var(--font-heading-weight);
-  letter-spacing: -0.01em;
+  font-size: clamp(2.8rem, 4.4vw, 5rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-align: left;
+  margin: 0 0 3rem;
+  text-wrap: balance;
+}
+
+.testimonials .title-wrapper,
+.shoppable-image-section .title-wrapper,
+.testimonials .title-wrapper--with-link,
+.shoppable-image-section .title-wrapper--with-link {
+  justify-content: flex-start;
+  text-align: left;
 }
 
 .testimonial-card--plain {

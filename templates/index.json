@@ -33,7 +33,7 @@
       "settings": {
         "label": "",
         "heading": "New drop",
-        "text_alignment": "center",
+        "text_alignment": "left",
         "collection": "men",
         "products_to_show": 6,
         "columns_desktop": 3,
@@ -74,7 +74,7 @@
       "settings": {
         "label": "",
         "heading": "Collections",
-        "text_alignment": "center",
+        "text_alignment": "left",
         "image_ratio": "1 / 1",
         "caption_position": "below",
         "color_scheme": "scheme-1"
@@ -101,38 +101,6 @@
         "placeholder": "Email",
         "note": "",
         "color_scheme": "scheme-2"
-      }
-    },
-    "top_picks": {
-      "type": "tabbed-products",
-      "blocks": {
-        "tab_1": {
-          "type": "tab",
-          "settings": {
-            "collection": "women",
-            "label": "Women"
-          }
-        },
-        "tab_2": {
-          "type": "tab",
-          "settings": {
-            "collection": "men",
-            "label": "Men"
-          }
-        }
-      },
-      "block_order": [
-        "tab_1",
-        "tab_2"
-      ],
-      "settings": {
-        "heading": "Top picks for you",
-        "products_to_show": 8,
-        "image_ratio": "3 / 4",
-        "show_second_image": true,
-        "show_quick_add": true,
-        "view_all_label": "View all",
-        "color_scheme": "scheme-1"
       }
     },
     "reviews": {
@@ -179,10 +147,10 @@
         "card_style": "plain",
         "columns_desktop": 3,
         "enable_slider": true,
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "animate": false,
-        "padding_top": 80,
-        "padding_bottom": 80,
+        "padding_top": 110,
+        "padding_bottom": 110,
         "summary_score": "4.9/5",
         "summary_stars": 5,
         "summary_text": "from verified customers"
@@ -230,95 +198,14 @@
         "color_scheme": "scheme-1",
         "card_color_scheme": "scheme-1",
         "animate": false,
-        "padding_top": 88,
-        "padding_bottom": 88
-      }
-    },
-    "journal": {
-      "type": "featured-blog",
-      "settings": {
-        "blog": "news",
-        "post_limit": 3,
-        "heading": "Journal",
-        "heading_size": "h2",
-        "columns_desktop": 3,
-        "show_view_all": true,
-        "show_image": true,
-        "show_date": false,
-        "show_author": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
-    "assurances": {
-      "type": "trust-badges",
-      "blocks": {
-        "b1": {
-          "type": "badge",
-          "settings": {
-            "icon": "truck",
-            "title": "Complimentary shipping",
-            "text": "On every order over Rs. 2,500"
-          }
-        },
-        "b2": {
-          "type": "badge",
-          "settings": {
-            "icon": "return",
-            "title": "30-day returns",
-            "text": "Return anything unworn"
-          }
-        },
-        "b3": {
-          "type": "badge",
-          "settings": {
-            "icon": "lock",
-            "title": "Secure checkout",
-            "text": "Encrypted end to end"
-          }
-        },
-        "b4": {
-          "type": "badge",
-          "settings": {
-            "icon": "chat-bubble",
-            "title": "Here to help",
-            "text": "We reply within a day"
-          }
-        }
-      },
-      "block_order": [
-        "b1",
-        "b2",
-        "b3",
-        "b4"
-      ],
-      "settings": {
-        "heading": "",
-        "heading_size": "h3",
-        "alignment": "center",
-        "color_scheme": "scheme-2",
-        "animate": false,
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "campaign_two": {
-      "type": "campaign",
-      "settings": {
-        "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
-        "height": 70,
-        "overlay_opacity": 25,
-        "label": "",
-        "heading": "The winter edit",
-        "cta_label": "Shop now",
-        "cta_link": ""
+        "padding_top": 110,
+        "padding_bottom": 110
       }
     },
     "finish_the_look": {
       "type": "product-rail",
       "settings": {
-        "heading": "Finish the look",
+        "heading": "Most wanted",
         "collection": "women",
         "products_to_show": 10,
         "image_ratio": "2 / 3",
@@ -335,14 +222,10 @@
     "hero",
     "new_arrivals",
     "collections",
-    "top_picks",
-    "lookbook",
-    "finish_the_look",
     "campaign",
+    "finish_the_look",
+    "lookbook",
     "reviews",
-    "journal",
-    "campaign_two",
-    "assurances",
     "newsletter"
   ]
 }
