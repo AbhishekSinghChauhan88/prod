@@ -32,9 +32,9 @@
       "type": "editorial-products",
       "settings": {
         "label": "",
-        "heading": "New drop",
+        "heading": "Most wanted",
         "text_alignment": "left",
-        "collection": "men",
+        "collection": "women",
         "products_to_show": 6,
         "columns_desktop": 3,
         "image_ratio": "3 / 4",
@@ -205,8 +205,8 @@
     "finish_the_look": {
       "type": "product-rail",
       "settings": {
-        "heading": "Most wanted",
-        "collection": "women",
+        "heading": "New drop",
+        "collection": "men",
         "products_to_show": 10,
         "image_ratio": "2 / 3",
         "show_second_image": true,
@@ -220,10 +220,10 @@
   },
   "order": [
     "hero",
-    "new_arrivals",
-    "collections",
-    "campaign",
     "finish_the_look",
+    "campaign",
+    "collections",
+    "new_arrivals",
     "lookbook",
     "reviews",
     "newsletter"
