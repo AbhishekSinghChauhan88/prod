@@ -149,8 +149,8 @@
         "enable_slider": true,
         "color_scheme": "scheme-1",
         "animate": false,
-        "padding_top": 110,
-        "padding_bottom": 110,
+        "padding_top": 100,
+        "padding_bottom": 100,
         "summary_score": "4.9/5",
         "summary_stars": 5,
         "summary_text": "from verified customers"
@@ -198,8 +198,8 @@
         "color_scheme": "scheme-1",
         "card_color_scheme": "scheme-1",
         "animate": false,
-        "padding_top": 110,
-        "padding_bottom": 110
+        "padding_top": 100,
+        "padding_bottom": 100
       }
     },
     "finish_the_look": {
