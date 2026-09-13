@@ -836,6 +836,22 @@
   border-top: 1px solid var(--ed-line);
 }
 
+/* On a dark ground the change of colour is the edge; a hairline on top of it
+   would draw the seam twice. */
+.footer.color-scheme-4,
+.footer.color-scheme-5 {
+  border-top: 0;
+}
+
+/* Dark footer typography: the statement and the links carry the full
+   foreground, and everything secondary drops to a quieter step than on the
+   ivory page — at 0.6 on black, muted text still glowed. */
+.footer.color-scheme-4,
+.footer.color-scheme-5 {
+  --ed-muted: rgba(var(--color-foreground), 0.5);
+  --ed-line: rgba(var(--color-foreground), 0.12);
+}
+
 .footer__content-top {
   padding-bottom: 0;
 }
