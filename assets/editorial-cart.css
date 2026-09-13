@@ -48,7 +48,7 @@
   font-size: var(--ed-label-size, 1.1rem);
   letter-spacing: var(--ed-label-tracking, 0.18em);
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
   margin: 0;
   line-height: 1;
 }
@@ -136,6 +136,9 @@ cart-drawer-items::-webkit-scrollbar-thumb:hover {
   flex-direction: column;
   gap: 1.2rem;
   width: 100%;
+  /* Air between the header's rule and the first image, so the list does not
+     start hard against it. */
+  padding-top: 2.4rem;
 }
 
 .cart-drawer .cart-item {
