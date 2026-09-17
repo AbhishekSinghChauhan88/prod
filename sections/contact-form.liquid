@@ -23,15 +23,23 @@
     {%- else -%}
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
     {%- endif -%}
-    {%- if section.settings.email != blank -%}
+    {%- if section.settings.email != blank or section.settings.hours != blank -%}
       {%- comment -%}
-        A direct address beside the form, for anyone who would rather write
-        from their own mail than fill in a form.
+        The direct route: an address, and when to expect a reply. With the form
+        switched off this is the whole page, so the address is set large enough
+        to be the thing you came for rather than a footnote to a form.
       {%- endcomment -%}
-      <p class="contact__email">
-        {{ 'templates.contact.form.email_prompt' | t }}
-        <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>
-      </p>
+      <div class="contact__direct{% unless section.settings.show_form %} contact__direct--alone{% endunless %}">
+        {%- if section.settings.email != blank -%}
+          <p class="contact__email">
+            <span class="contact__prompt">{{ 'templates.contact.form.email_prompt' | t }}</span>
+            <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>
+          </p>
+        {%- endif -%}
+        {%- if section.settings.hours != blank -%}
+          <div class="contact__hours rte">{{ section.settings.hours }}</div>
+        {%- endif -%}
+      </div>
     {%- endif -%}
     {%- liquid
       assign contact_form_class = 'isolate'
@@ -39,6 +47,7 @@
         assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
       endif
     -%}
+    {%- if section.settings.show_form -%}
     {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
       {%- if form.posted_successfully? -%}
         <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
@@ -142,6 +151,7 @@
         </button>
       </div>
     {%- endform -%}
+    {%- endif -%}
   </div>
 </div>
 
@@ -165,6 +175,19 @@
       "id": "email",
       "label": "Contact email",
       "info": "Shown as a link under the heading."
+    },
+    {
+      "type": "richtext",
+      "id": "hours",
+      "label": "Hours and reply time",
+      "info": "For example when you answer mail, and how quickly."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_form",
+      "default": true,
+      "label": "Show the contact form",
+      "info": "Switch off to show only the email and hours."
     },
     {
       "type": "select",

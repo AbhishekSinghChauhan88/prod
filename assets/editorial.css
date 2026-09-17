@@ -1593,9 +1593,14 @@
   border-bottom: 1px solid rgb(var(--color-foreground));
 }
 
-/* Contact page: the direct address sits between the heading and the form. */
-.contact__email {
+/* Contact page: the direct route sits between the heading and the form — or,
+   with the form off, is the page. */
+.contact__direct {
   margin: 0 0 3.2rem;
+}
+
+.contact__email {
+  margin: 0;
   font-size: 1.5rem;
   line-height: 1.6;
   color: var(--ed-muted);
@@ -1606,4 +1611,46 @@
   text-decoration: underline;
   text-underline-offset: 0.3rem;
   text-decoration-thickness: 1px;
+}
+
+.contact__hours {
+  margin-top: 1.2rem;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--ed-muted);
+  max-width: 48ch;
+}
+
+.contact__hours p {
+  margin: 0;
+}
+
+/* Alone on the page, the address is the point: display size, the prompt
+   above it as a label, the hours beneath as a caption. */
+.contact__direct--alone {
+  margin-bottom: 0;
+}
+
+.contact__direct--alone .contact__email {
+  display: grid;
+  gap: 1rem;
+}
+
+.contact__direct--alone .contact__prompt {
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+}
+
+.contact__direct--alone .contact__email a {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.4rem, 4vw, 4.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-underline-offset: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.contact__direct--alone .contact__hours {
+  margin-top: 2.4rem;
 }

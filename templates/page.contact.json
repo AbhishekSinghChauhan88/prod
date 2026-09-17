@@ -12,6 +12,8 @@
       "settings": {
         "heading": "Get in touch",
         "email": "contact@dreamsloom.com",
+        "hours": "<p>We answer mail Monday to Saturday, 10am to 6pm IST, and reply within one working day.</p>",
+        "show_form": false,
         "heading_size": "h1",
         "color_scheme": "scheme-1",
         "padding_top": 36,
