@@ -1592,3 +1592,18 @@
   padding-bottom: 0.4rem;
   border-bottom: 1px solid rgb(var(--color-foreground));
 }
+
+/* Contact page: the direct address sits between the heading and the form. */
+.contact__email {
+  margin: 0 0 3.2rem;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: var(--ed-muted);
+}
+
+.contact__email a {
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+  text-decoration-thickness: 1px;
+}

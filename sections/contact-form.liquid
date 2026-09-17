@@ -23,6 +23,16 @@
     {%- else -%}
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
     {%- endif -%}
+    {%- if section.settings.email != blank -%}
+      {%- comment -%}
+        A direct address beside the form, for anyone who would rather write
+        from their own mail than fill in a form.
+      {%- endcomment -%}
+      <p class="contact__email">
+        {{ 'templates.contact.form.email_prompt' | t }}
+        <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>
+      </p>
+    {%- endif -%}
     {%- liquid
       assign contact_form_class = 'isolate'
       if settings.animations_reveal_on_scroll
@@ -149,6 +159,12 @@
       "id": "heading",
       "default": "t:sections.contact-form.settings.title.default",
       "label": "t:sections.contact-form.settings.title.label"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Contact email",
+      "info": "Shown as a link under the heading."
     },
     {
       "type": "select",
