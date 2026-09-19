@@ -102,9 +102,9 @@
       {%- if s.cta_label != blank or s.cta_label_2 != blank -%}
         <div class="ed-hero__ctas ed-reveal" style="--ed-delay: 0.26s;">
           {%- if s.cta_label != blank -%}
-            <a href="{{ s.cta_link | default: routes.all_products_collection_url }}" class="ed-link">
+            <a href="{{ s.cta_link | default: routes.all_products_collection_url }}" class="ed-button ed-button--light">
               {{ s.cta_label | escape }}
-              <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+              <span aria-hidden="true">&rarr;</span>
             </a>
           {%- endif -%}
           {%- if s.cta_label_2 != blank -%}

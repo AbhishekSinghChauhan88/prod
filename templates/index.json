@@ -14,91 +14,146 @@
       "settings": {
         "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
         "image_mobile": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
-        "height": 90,
+        "height": 70,
         "overlay_opacity": 15,
-        "label": "",
+        "label": "Premium fashion",
         "heading": "Wear your dreams.",
-        "text": "Premium everyday clothing for those who refuse to live ordinary.",
-        "cta_label": "Shop men",
+        "text": "Clothing is a canvas. Dream bigger.",
+        "cta_label": "Shop the collection",
         "cta_link": "shopify://collections/men",
-        "cta_label_2": "Shop women",
+        "cta_label_2": "",
         "cta_link_2": "shopify://collections/women",
-        "text_position": "center",
+        "text_position": "left",
         "text_color": "light",
         "enable_zoom": true
       }
     },
-    "finish_the_look": {
-      "type": "product-rail",
+    "hero_trust": {
+      "type": "trust-badges",
       "settings": {
-        "heading": "New drop",
-        "collection": "men",
-        "products_to_show": 10,
-        "image_ratio": "2 / 3",
-        "show_second_image": true,
-        "show_quick_add": true,
-        "show_swatches": true,
-        "badge_prefix": "badge:",
-        "view_all_label": "View all",
-        "color_scheme": "scheme-1"
-      }
-    },
-    "campaign": {
-      "type": "campaign",
-      "settings": {
-        "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
-        "height": 90,
-        "overlay_opacity": 20,
-        "label": "",
-        "heading": "The essentials",
-        "cta_label": "Shop now",
-        "cta_link": ""
-      }
-    },
-    "collections": {
-      "type": "collections",
+        "heading": "",
+        "alignment": "left",
+        "color_scheme": "scheme-4",
+        "animate": false,
+        "padding_top": 24,
+        "padding_bottom": 24
+      },
       "blocks": {
-        "women": {
-          "type": "collection",
+        "b0": {
+          "type": "badge",
           "settings": {
-            "collection": "women",
-            "image": "shopify://shop_images/womens-summer-fashion.jpg",
-            "title": "Women",
-            "cta_label": "Shop"
+            "icon": "leaf",
+            "title": "Premium fabrics",
+            "text": ""
           }
         },
-        "men": {
-          "type": "collection",
+        "b1": {
+          "type": "badge",
           "settings": {
-            "collection": "men",
-            "image": "shopify://shop_images/bright-modern-mens-fashion.jpg",
-            "title": "Men",
-            "cta_label": "Shop"
+            "icon": "truck",
+            "title": "Free shipping",
+            "text": "Above ₹2,999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "box",
+            "title": "Easy returns",
+            "text": ""
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "recycle",
+            "title": "Sustainable choices",
+            "text": ""
+          }
+        },
+        "b4": {
+          "type": "badge",
+          "settings": {
+            "icon": "heart",
+            "title": "Designed in India",
+            "text": "For the world"
           }
         }
       },
       "block_order": [
-        "women",
-        "men"
-      ],
+        "b0",
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    },
+    "categories": {
+      "type": "collections",
       "settings": {
         "label": "",
-        "heading": "Collections",
+        "heading": "",
         "text_alignment": "left",
-        "image_ratio": "1 / 1",
-        "caption_position": "below",
+        "image_ratio": "4 / 3",
+        "caption_position": "overlay",
         "color_scheme": "scheme-1"
-      }
+      },
+      "blocks": {
+        "c0": {
+          "type": "collection",
+          "settings": {
+            "title": "Linen",
+            "subtitle": "Timeless elegance",
+            "cta_label": "Shop now",
+            "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
+            "collection": "women"
+          }
+        },
+        "c1": {
+          "type": "collection",
+          "settings": {
+            "title": "Streetwear",
+            "subtitle": "Made for movers",
+            "cta_label": "Shop now",
+            "image": "shopify://shop_images/bright-modern-mens-fashion.jpg",
+            "collection": "men"
+          }
+        },
+        "c2": {
+          "type": "collection",
+          "settings": {
+            "title": "Denim",
+            "subtitle": "Built for more",
+            "cta_label": "Shop now",
+            "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg"
+          }
+        },
+        "c3": {
+          "type": "collection",
+          "settings": {
+            "title": "Accessories",
+            "subtitle": "Complete the look",
+            "cta_label": "Shop now",
+            "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
     },
     "new_arrivals": {
       "type": "editorial-products",
       "settings": {
         "label": "",
-        "heading": "Most wanted",
+        "heading": "New arrivals",
         "text_alignment": "left",
         "collection": "women",
         "products_to_show": 6,
-        "columns_desktop": 3,
+        "columns_desktop": 6,
         "image_ratio": "3 / 4",
         "show_second_image": true,
         "show_quick_add": true,
@@ -107,123 +162,158 @@
         "color_scheme": "scheme-1"
       }
     },
-    "lookbook": {
-      "type": "shoppable-image",
+    "campaign_pair": {
+      "type": "campaign-pair",
+      "settings": {
+        "height": 45,
+        "overlay_opacity": 30
+      },
       "blocks": {
-        "h1": {
-          "type": "hotspot",
+        "p1": {
+          "type": "tile",
           "settings": {
-            "product": "",
-            "horizontal_position": 34,
-            "vertical_position": 38,
-            "title": "The overshirt",
-            "text": ""
+            "image": "shopify://shop_images/womens-summer-fashion.jpg",
+            "heading": "The linen edit",
+            "text": "Timeless. Breathable. Effortless.",
+            "cta_label": "Explore linen"
           }
         },
-        "h2": {
-          "type": "hotspot",
+        "p2": {
+          "type": "tile",
           "settings": {
-            "product": "",
-            "horizontal_position": 58,
-            "vertical_position": 62,
-            "title": "The trouser",
-            "text": ""
-          }
-        },
-        "h3": {
-          "type": "hotspot",
-          "settings": {
-            "product": "",
-            "horizontal_position": 46,
-            "vertical_position": 84,
-            "title": "The boot",
-            "text": ""
+            "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
+            "heading": "More than fashion.",
+            "text": "A community of dreamers.",
+            "cta_label": "Our story"
           }
         }
       },
       "block_order": [
-        "h1",
-        "h2",
-        "h3"
-      ],
-      "settings": {
-        "heading": "Shop the look",
-        "heading_size": "h2",
-        "text": "",
-        "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "card_color_scheme": "scheme-1",
-        "animate": false,
-        "padding_top": 100,
-        "padding_bottom": 100
-      }
+        "p1",
+        "p2"
+      ]
     },
-    "reviews": {
-      "type": "testimonials",
+    "values": {
+      "type": "trust-badges",
+      "settings": {
+        "heading": "",
+        "alignment": "left",
+        "color_scheme": "scheme-1",
+        "animate": false,
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
       "blocks": {
-        "t1": {
-          "type": "testimonial",
+        "v0": {
+          "type": "badge",
           "settings": {
-            "rating": 5,
-            "quote": "<p>The overshirt has become the thing I reach for every morning. The weight of it is exactly right.</p>",
-            "author": "Placeholder review",
-            "meta": "Replace in the theme editor",
-            "product": ""
+            "icon": "leaf",
+            "title": "Sustainable fabrics",
+            "text": "A cleaner tomorrow"
           }
         },
-        "t2": {
-          "type": "testimonial",
+        "v1": {
+          "type": "badge",
           "settings": {
-            "rating": 5,
-            "quote": "<p>Ordered on a Tuesday, wearing it by Thursday. The fit was true to the size guide.</p>",
-            "author": "Placeholder review",
-            "meta": "Replace in the theme editor",
-            "product": ""
+            "icon": "heart",
+            "title": "A community of dreamers",
+            "text": "People over profit"
           }
         },
-        "t3": {
-          "type": "testimonial",
+        "v2": {
+          "type": "badge",
           "settings": {
-            "rating": 5,
-            "quote": "<p>Third order this year. Nothing has lost its shape in the wash, which is rarer than it should be.</p>",
-            "author": "Placeholder review",
-            "meta": "Replace in the theme editor",
-            "product": ""
+            "icon": "star",
+            "title": "Premium quality",
+            "text": "In every stitch"
+          }
+        },
+        "v3": {
+          "type": "badge",
+          "settings": {
+            "icon": "truck",
+            "title": "Pan-India delivery",
+            "text": "Straight to your doorstep"
           }
         }
       },
       "block_order": [
-        "t1",
-        "t2",
-        "t3"
-      ],
-      "disabled": true,
+        "v0",
+        "v1",
+        "v2",
+        "v3"
+      ]
+    },
+    "instagram": {
+      "type": "instagram-grid",
       "settings": {
-        "heading": "What the dreamers say",
-        "heading_size": "h2",
-        "subheading": "",
-        "summary_score": "4.9/5",
-        "summary_stars": 5,
-        "summary_text": "from verified customers",
-        "show_rating": true,
-        "card_style": "plain",
-        "columns_desktop": 3,
-        "enable_slider": true,
-        "color_scheme": "scheme-1",
-        "animate": false,
-        "padding_top": 100,
-        "padding_bottom": 100
-      }
+        "heading": "#DreamersLoom",
+        "link_label": "Follow us @dreamersloom",
+        "link": "https://instagram.com/dreamersloom",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "g0": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg"
+          }
+        },
+        "g1": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg"
+          }
+        },
+        "g2": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/womens-summer-fashion.jpg"
+          }
+        },
+        "g3": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/bright-modern-mens-fashion.jpg"
+          }
+        },
+        "g4": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg"
+          }
+        },
+        "g5": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg"
+          }
+        },
+        "g6": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "g0",
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "g5",
+        "g6"
+      ]
     }
   },
   "order": [
     "hero",
-    "finish_the_look",
-    "campaign",
-    "collections",
+    "hero_trust",
+    "categories",
     "new_arrivals",
-    "lookbook",
-    "reviews"
+    "campaign_pair",
+    "values",
+    "instagram"
   ]
 }

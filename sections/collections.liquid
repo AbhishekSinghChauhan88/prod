@@ -25,7 +25,7 @@
       </div>
     {%- endif -%}
 
-    <ul class="ed-tiles" role="list" style="--ed-columns: {{ section.blocks.size | at_most: 3 }};">
+    <ul class="ed-tiles" role="list" style="--ed-columns: {{ section.blocks.size | at_most: 4 }};">
       {%- for block in section.blocks -%}
         {%- liquid
           assign collection = block.settings.collection
@@ -60,6 +60,9 @@
             <h3 class="ed-tile__name">
               <a href="{{ tile_url }}">{{ tile_name | escape }}</a>
             </h3>
+            {%- if block.settings.subtitle != blank -%}
+              <p class="ed-tile__subtitle">{{ block.settings.subtitle | escape }}</p>
+            {%- endif -%}
             {%- if block.settings.cta_label != blank -%}
               <span class="ed-label" aria-hidden="true">{{ block.settings.cta_label | escape }} &rarr;</span>
             {%- endif -%}
@@ -97,6 +100,7 @@
       "type": "select",
       "id": "image_ratio",
       "options": [
+        { "value": "4 / 3", "label": "Landscape" },
         { "value": "4 / 5", "label": "Portrait" },
         { "value": "1 / 1", "label": "Square" },
         { "value": "3 / 4", "label": "Tall" }
@@ -139,6 +143,7 @@
           "label": "Title",
           "info": "Optional. Falls back to the collection's name."
         },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "info": "A short line under the name, e.g. Timeless elegance." },
         { "type": "text", "id": "cta_label", "default": "Shop", "label": "Link label" }
       ]
     }

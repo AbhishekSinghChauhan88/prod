@@ -1,0 +1,104 @@
+{% comment %}
+  Campaign pair — two half-width campaign tiles side by side.
+
+  Each carries its own image, a heading, a line beneath it and a button, set
+  over the image at the left. Together they read as one band: a hairline of
+  page colour between them and no gutter outside.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+<div class="ed-pair" style="--ed-pair-height: {{ section.settings.height }}vh;">
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign pair_alt = block.settings.image.alt | default: block.settings.heading | strip_html
+    -%}
+    <div class="ed-pair__tile ed-reveal" style="--ed-delay: {{ forloop.index0 | times: 120 }}ms;" {{ block.shopify_attributes }}>
+      <div class="ed-pair__media">
+        {%- if block.settings.image != blank -%}
+          {{
+            block.settings.image
+            | image_url: width: 1800
+            | image_tag:
+              widths: '600, 900, 1200, 1500, 1800',
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              loading: 'lazy',
+              alt: pair_alt
+          }}
+        {%- else -%}
+          {%- assign ph = 'lifestyle-' | append: forloop.index -%}
+          {{ ph | placeholder_svg_tag }}
+        {%- endif -%}
+        <div class="ed-pair__overlay" style="--ed-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+      </div>
+      <div class="ed-pair__content">
+        {%- if block.settings.heading != blank -%}
+          <h2 class="ed-display ed-display--sm">{{ block.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p class="ed-pair__text">{{ block.settings.text }}</p>
+        {%- endif -%}
+        {%- if block.settings.cta_label != blank -%}
+          <a href="{{ block.settings.cta_link | default: routes.all_products_collection_url }}" class="ed-button ed-button--light">
+            {{ block.settings.cta_label | escape }}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Campaign pair",
+  "tag": "section",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "range",
+      "id": "height",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 45,
+      "label": "Height",
+      "info": "Percentage of the screen height."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 30,
+      "label": "Image darkening"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "inline_richtext", "id": "heading", "default": "The linen edit", "label": "Heading" },
+        { "type": "inline_richtext", "id": "text", "default": "Timeless. Breathable. Effortless.", "label": "Text" },
+        { "type": "text", "id": "cta_label", "default": "Explore linen", "label": "Button label" },
+        { "type": "url", "id": "cta_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign pair",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile", "settings": { "heading": "More than fashion.", "text": "A community of dreamers.", "cta_label": "Our story" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -68,23 +68,25 @@
 }
 
 /* One grotesque across the site, at a single regular weight everywhere.
-   Hierarchy comes from size, tracking and colour instead — at display sizes a
-   grotesque needs its tracking pulled in, or a large heading reads loose. */
+   Display headings are tracked uppercase: smaller than a lowercase display
+   would be, and spaced wide, so they read as set type rather than as shouting.
+   The size is held down on purpose — tracked caps get louder with every
+   pixel, and at this scale they sit beside a photograph instead of over it. */
 .ed-display {
   font-family: var(--font-heading-family);
   font-weight: 400;
   font-style: var(--font-heading-style);
-  letter-spacing: -0.025em;
-  line-height: 1.04;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
   margin: 0;
-  /* Editorial headlines scale with the viewport rather than stepping at
-     breakpoints, so a two-word line stays a two-word line. */
-  font-size: clamp(3.6rem, 7vw, 8.4rem);
+  font-size: clamp(2.8rem, 4vw, 4.8rem);
   text-wrap: balance;
 }
 
 .ed-display--sm {
-  font-size: clamp(2.8rem, 4.4vw, 5rem);
+  font-size: clamp(1.8rem, 2.2vw, 2.6rem);
+  letter-spacing: 0.18em;
 }
 
 .ed-body {
@@ -243,7 +245,8 @@
   text-align: left;
 }
 
-.ed-hero--light {
+.ed-hero--light,
+.ed-hero--light .ed-display {
   color: #fff;
 }
 
@@ -252,7 +255,25 @@
 }
 
 .ed-hero__heading {
-  max-width: 18ch;
+  max-width: 12ch;
+  line-height: 1.25;
+  letter-spacing: 0.22em;
+}
+
+/* The line under the heading: small tracked caps, like the label above it,
+   so the block reads label / headline / line / button as one column. */
+.ed-hero__text {
+  margin: 2rem 0 0;
+  max-width: 34ch;
+  font-size: 1.2rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ed-hero__ctas {
+  margin-top: 3.2rem;
 }
 
 @media screen and (max-width: 749px) {
@@ -489,16 +510,25 @@
    -------------------------------------------------------------------------- */
 .ed-tiles {
   display: grid;
-  gap: 1.6rem;
+  gap: 0.6rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/* Near-flush: the tiles read as one band with seams, not four pictures.
+   Four across only from desktop — at tablet width a quarter of the page is
+   too narrow for a tracked caption, so the row wraps to two. */
 @media screen and (min-width: 750px) {
   .ed-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .ed-tiles {
     grid-template-columns: repeat(var(--ed-columns, 2), minmax(0, 1fr));
-    gap: var(--ed-gutter);
   }
 }
 
@@ -563,9 +593,15 @@
 .ed-tile__name {
   margin: 0;
   font-family: var(--font-heading-family);
-  font-size: clamp(2rem, 2.4vw, 2.8rem);
+  font-size: clamp(1.4rem, 1.5vw, 1.8rem);
   line-height: 1.2;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
   font-weight: var(--font-heading-weight);
+}
+
+.ed-tile__body {
+  gap: 0;
 }
 
 .ed-tile__name a {
@@ -1653,4 +1689,264 @@
 
 .contact__direct--alone .contact__hours {
   margin-top: 2.4rem;
+}
+
+
+/* ==========================================================================
+   Button — a hairline box, tracked caps, arrow at the end
+
+   The one boxed control on the page. Light on imagery, ink on the page.
+   ========================================================================== */
+.ed-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.3rem 2.2rem;
+  border: 1px solid currentColor;
+  font-family: var(--font-body-family);
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+  background: transparent;
+  transition: background-color 0.25s var(--ed-ease), color 0.25s var(--ed-ease);
+}
+
+.ed-button:hover,
+.ed-button:focus-visible {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.ed-button--light {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.96);
+  border-color: rgba(255, 255, 255, 0.96);
+  color: #141414;
+}
+
+.ed-button--light:hover,
+.ed-button--light:focus-visible {
+  background-color: transparent;
+  color: #fff;
+}
+
+/* ==========================================================================
+   Utility bar
+   ========================================================================== */
+.ed-utility {
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.ed-utility__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0.9rem var(--ed-gutter);
+}
+
+.ed-utility__messages,
+.ed-utility__menu {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.ed-utility__messages li + li::before,
+.ed-utility__menu li + li::before {
+  content: '|';
+  margin: 0 1.2rem;
+  opacity: 0.35;
+}
+
+.ed-utility a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ed-utility a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+@media screen and (max-width: 749px) {
+  .ed-utility__menu {
+    display: none;
+  }
+
+  .ed-utility__messages {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .ed-utility__messages::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Campaign pair
+   ========================================================================== */
+.ed-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+}
+
+@media screen and (min-width: 750px) {
+  .ed-pair {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.ed-pair__tile {
+  position: relative;
+  min-height: var(--ed-pair-height, 45vh);
+  display: flex;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.ed-pair__media,
+.ed-pair__media img,
+.ed-pair__media svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ed-pair__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, var(--ed-overlay, 0.3));
+}
+
+.ed-pair__content {
+  position: relative;
+  padding: 4rem var(--ed-gutter);
+  max-width: 44ch;
+}
+
+.ed-pair__content .ed-display {
+  color: #fff;
+}
+
+.ed-pair__text {
+  margin: 1rem 0 0;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ed-pair__content .ed-button {
+  margin-top: 2.4rem;
+}
+
+/* ==========================================================================
+   Instagram grid
+   ========================================================================== */
+.ed-social {
+  padding: var(--ed-space-section) 0 0;
+}
+
+.ed-social__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.4rem;
+}
+
+.ed-social__heading {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+}
+
+.ed-social__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ed-columns, 7), 1fr);
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media screen and (max-width: 989px) {
+  .ed-social__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .ed-social__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ed-social__item {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.05);
+}
+
+.ed-social__item a {
+  display: block;
+  height: 100%;
+}
+
+.ed-social__item img,
+.ed-social__item svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   Trust strip — small tracked type, one line per badge where it can be
+   ========================================================================== */
+.trust-badge__title {
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.trust-badge__text {
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  margin-top: 0.1rem;
+}
+
+.trust-badge__icon {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.trust-badge {
+  gap: 1rem;
+}
+
+/* ==========================================================================
+   Tile subtitle
+   ========================================================================== */
+.ed-tile__subtitle {
+  margin: 0.4rem 0 1rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }

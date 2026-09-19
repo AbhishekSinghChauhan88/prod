@@ -1,0 +1,80 @@
+{% comment %}
+  Utility bar — the thin strip above the header.
+
+  Every message shows at once, separated by hairline bars, rather than one at
+  a time on a rotation the shopper never waits for. A utility menu (track
+  order, store locator, help) sits at the right; on small screens it is
+  dropped and the messages scroll sideways as one line.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+
+<div class="ed-utility color-{{ section.settings.color_scheme }} gradient">
+  <div class="ed-utility__inner">
+    {%- if section.blocks.size > 0 -%}
+      <ul class="ed-utility__messages" role="list">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}">{{ block.settings.text | escape }}</a>
+            {%- else -%}
+              <span>{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.menu != blank -%}
+      <ul class="ed-utility__menu" role="list">
+        {%- for link in section.settings.menu.links -%}
+          <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Utility bar",
+  "tag": "section",
+  "class": "utility-bar-section",
+  "max_blocks": 4,
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Utility menu",
+      "info": "Short links for the right-hand side, e.g. Track order, Store locator, Help."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "default": "Free shipping on orders above ₹2,999", "label": "Text" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Utility bar",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Free shipping on orders above ₹2,999" } },
+        { "type": "message", "settings": { "text": "Easy returns" } },
+        { "type": "message", "settings": { "text": "Crafted for a better tomorrow" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

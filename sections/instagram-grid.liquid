@@ -1,0 +1,93 @@
+{% comment %}
+  Instagram grid — a row of square images under a hashtag heading.
+
+  The images are merchant-uploaded rather than pulled from Instagram: the
+  official API needs an app and a token, and a scraped feed breaks without
+  warning. Seven pictures chosen by hand are the point anyway. Each can link
+  to the post.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+<div class="color-{{ section.settings.color_scheme }} gradient ed-social">
+  <div class="ed-width ed-social__head">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ed-social__heading ed-reveal">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}" class="ed-link" target="_blank" rel="noopener">
+        {{ section.settings.link_label | escape }}
+        <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    {%- endif -%}
+  </div>
+
+  <ul class="ed-social__grid" role="list" style="--ed-columns: {{ section.blocks.size | at_least: 1 | at_most: 8 }};">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign post_alt = block.settings.image.alt | default: section.settings.heading | strip_html
+      -%}
+      <li class="ed-social__item ed-reveal" style="--ed-delay: {{ forloop.index0 | times: 60 }}ms;" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}" target="_blank" rel="noopener" aria-label="{{ post_alt | escape }}">
+        {%- endif -%}
+        {%- if block.settings.image != blank -%}
+          {{
+            block.settings.image
+            | image_url: width: 800
+            | image_tag:
+              widths: '300, 400, 600, 800',
+              sizes: '(min-width: 990px) 15vw, (min-width: 750px) 25vw, 50vw',
+              loading: 'lazy',
+              alt: post_alt
+          }}
+        {%- else -%}
+          {%- assign ph = 'lifestyle-' | append: forloop.index | modulo: 2 | plus: 1 -%}
+          {{ ph | placeholder_svg_tag }}
+        {%- endif -%}
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Instagram grid",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "default": "#DreamersLoom", "label": "Heading" },
+    { "type": "text", "id": "link_label", "default": "Follow us @dreamersloom", "label": "Link label" },
+    { "type": "url", "id": "link", "label": "Link" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "Post",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Link to the post" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram grid",
+      "blocks": [
+        { "type": "post" }, { "type": "post" }, { "type": "post" }, { "type": "post" },
+        { "type": "post" }, { "type": "post" }, { "type": "post" }
+      ]
+    }
+  ]
+}
+{% endschema %}
