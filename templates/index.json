@@ -18,31 +18,41 @@
         "overlay_opacity": 15,
         "label": "",
         "heading": "Wear your dreams.",
+        "text": "Premium everyday clothing for those who refuse to live ordinary.",
         "cta_label": "Shop men",
         "cta_link": "shopify://collections/men",
+        "cta_label_2": "Shop women",
+        "cta_link_2": "shopify://collections/women",
         "text_position": "center",
         "text_color": "light",
-        "enable_zoom": true,
-        "text": "Premium everyday clothing for those who refuse to live ordinary.",
-        "cta_label_2": "Shop women",
-        "cta_link_2": "shopify://collections/women"
+        "enable_zoom": true
       }
     },
-    "new_arrivals": {
-      "type": "editorial-products",
+    "finish_the_look": {
+      "type": "product-rail",
       "settings": {
-        "label": "",
-        "heading": "Most wanted",
-        "text_alignment": "left",
-        "collection": "women",
-        "products_to_show": 6,
-        "columns_desktop": 3,
-        "image_ratio": "3 / 4",
+        "heading": "New drop",
+        "collection": "men",
+        "products_to_show": 10,
+        "image_ratio": "2 / 3",
         "show_second_image": true,
         "show_quick_add": true,
+        "show_swatches": true,
+        "badge_prefix": "badge:",
         "view_all_label": "View all",
-        "view_all_link": "",
         "color_scheme": "scheme-1"
+      }
+    },
+    "campaign": {
+      "type": "campaign",
+      "settings": {
+        "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
+        "height": 90,
+        "overlay_opacity": 20,
+        "label": "",
+        "heading": "The essentials",
+        "cta_label": "Shop now",
+        "cta_link": ""
       }
     },
     "collections": {
@@ -80,80 +90,21 @@
         "color_scheme": "scheme-1"
       }
     },
-    "campaign": {
-      "type": "campaign",
-      "settings": {
-        "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
-        "height": 90,
-        "overlay_opacity": 20,
-        "label": "",
-        "heading": "The essentials",
-        "cta_label": "Shop now",
-        "cta_link": ""
-      }
-    },
-    "newsletter": {
-      "type": "editorial-signup",
+    "new_arrivals": {
+      "type": "editorial-products",
       "settings": {
         "label": "",
-        "heading": "Stay in the loop.",
-        "text": "<p>New collections & stories.</p>",
-        "placeholder": "Email",
-        "note": "",
-        "color_scheme": "scheme-2"
-      }
-    },
-    "reviews": {
-      "type": "testimonials",
-      "blocks": {
-        "t1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "<p>The overshirt has become the thing I reach for every morning. The weight of it is exactly right.</p>",
-            "author": "Placeholder review",
-            "meta": "Replace in the theme editor"
-          }
-        },
-        "t2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "<p>Ordered on a Tuesday, wearing it by Thursday. The fit was true to the size guide.</p>",
-            "author": "Placeholder review",
-            "meta": "Replace in the theme editor"
-          }
-        },
-        "t3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "<p>Third order this year. Nothing has lost its shape in the wash, which is rarer than it should be.</p>",
-            "author": "Placeholder review",
-            "meta": "Replace in the theme editor"
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "t3"
-      ],
-      "settings": {
-        "heading": "What the dreamers say",
-        "heading_size": "h2",
-        "subheading": "",
-        "show_rating": true,
-        "card_style": "plain",
+        "heading": "Most wanted",
+        "text_alignment": "left",
+        "collection": "women",
+        "products_to_show": 6,
         "columns_desktop": 3,
-        "enable_slider": true,
-        "color_scheme": "scheme-1",
-        "animate": false,
-        "padding_top": 100,
-        "padding_bottom": 100,
-        "summary_score": "4.9/5",
-        "summary_stars": 5,
-        "summary_text": "from verified customers"
+        "image_ratio": "3 / 4",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "view_all_label": "View all",
+        "view_all_link": "",
+        "color_scheme": "scheme-1"
       }
     },
     "lookbook": {
@@ -162,25 +113,31 @@
         "h1": {
           "type": "hotspot",
           "settings": {
+            "product": "",
             "horizontal_position": 34,
             "vertical_position": 38,
-            "title": "The overshirt"
+            "title": "The overshirt",
+            "text": ""
           }
         },
         "h2": {
           "type": "hotspot",
           "settings": {
+            "product": "",
             "horizontal_position": 58,
             "vertical_position": 62,
-            "title": "The trouser"
+            "title": "The trouser",
+            "text": ""
           }
         },
         "h3": {
           "type": "hotspot",
           "settings": {
+            "product": "",
             "horizontal_position": 46,
             "vertical_position": 84,
-            "title": "The boot"
+            "title": "The boot",
+            "text": ""
           }
         }
       },
@@ -202,19 +159,61 @@
         "padding_bottom": 100
       }
     },
-    "finish_the_look": {
-      "type": "product-rail",
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>The overshirt has become the thing I reach for every morning. The weight of it is exactly right.</p>",
+            "author": "Placeholder review",
+            "meta": "Replace in the theme editor",
+            "product": ""
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Ordered on a Tuesday, wearing it by Thursday. The fit was true to the size guide.</p>",
+            "author": "Placeholder review",
+            "meta": "Replace in the theme editor",
+            "product": ""
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Third order this year. Nothing has lost its shape in the wash, which is rarer than it should be.</p>",
+            "author": "Placeholder review",
+            "meta": "Replace in the theme editor",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "disabled": true,
       "settings": {
-        "heading": "New drop",
-        "collection": "men",
-        "products_to_show": 10,
-        "image_ratio": "2 / 3",
-        "show_second_image": true,
-        "show_quick_add": true,
-        "show_swatches": true,
-        "badge_prefix": "badge:",
-        "view_all_label": "View all",
-        "color_scheme": "scheme-1"
+        "heading": "What the dreamers say",
+        "heading_size": "h2",
+        "subheading": "",
+        "summary_score": "4.9/5",
+        "summary_stars": 5,
+        "summary_text": "from verified customers",
+        "show_rating": true,
+        "card_style": "plain",
+        "columns_desktop": 3,
+        "enable_slider": true,
+        "color_scheme": "scheme-1",
+        "animate": false,
+        "padding_top": 100,
+        "padding_bottom": 100
       }
     }
   },
@@ -225,7 +224,6 @@
     "collections",
     "new_arrivals",
     "lookbook",
-    "reviews",
-    "newsletter"
+    "reviews"
   ]
 }
