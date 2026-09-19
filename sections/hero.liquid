@@ -84,7 +84,7 @@
   {%- endif -%}
 
   {%- if s.script_text != blank -%}
-    <p class="ed-hero__script ed-reveal" style="--ed-delay: 0.3s;" aria-hidden="true">{{ s.script_text }}</p>
+    <p class="ed-hero__script ed-reveal" style="--ed-delay: 0.3s;" aria-hidden="true">{{ s.script_text | escape | newline_to_br }}</p>
   {%- endif -%}
 
   <div class="ed-width">
@@ -206,11 +206,11 @@
       "label": "Link"
     },
     {
-      "type": "inline_richtext",
+      "type": "textarea",
       "id": "script_text",
       "label": "Handwritten line",
       "info": "Set in the script face at the right of the image. Use line breaks for short lines.",
-      "default": "Better<br>Clothes.<br>Brighter<br>People."
+      "default": "Better\nClothes.\nBrighter\nPeople."
     },
     {
       "type": "text",

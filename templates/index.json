@@ -14,7 +14,7 @@
       "settings": {
         "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
         "image_mobile": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
-        "height": 55,
+        "height": 60,
         "overlay_opacity": 25,
         "label": "Premium fashion",
         "heading": "Wear your dreams.",
@@ -26,7 +26,7 @@
         "text_position": "left",
         "text_color": "light",
         "enable_zoom": true,
-        "script_text": "Better<br>Clothes.<br>Brighter<br>People."
+        "script_text": "Better\nClothes.\nBrighter\nPeople."
       }
     },
     "hero_trust": {

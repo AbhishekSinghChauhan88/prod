@@ -250,7 +250,7 @@
             </div>
           {%- endif -%}
           {%- if section.settings.script_text != blank -%}
-            <p class="footer__script" aria-hidden="true">{{ section.settings.script_text }}</p>
+            <p class="footer__script" aria-hidden="true">{{ section.settings.script_text | escape | newline_to_br }}</p>
           {%- endif -%}
 
           {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
@@ -495,10 +495,10 @@
       "default": "Get exclusive drops, offers and stories."
     },
     {
-      "type": "inline_richtext",
+      "type": "textarea",
       "id": "script_text",
       "label": "Handwritten line",
-      "default": "Wear<br>Your<br>Dreams."
+      "default": "Wear\nYour\nDreams."
     },
     {
       "type": "header",
