@@ -276,6 +276,20 @@
       {{ 'editorial-cart.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
+    {%- comment -%}
+      Caveat (SIL OFL, assets/caveat-OFL.txt): the one handwritten face, used
+      only for the two script lines the design calls for. Self-hosted, latin
+      subset only, so it costs one small file and no third-party request.
+    {%- endcomment -%}
+    {% style %}
+      @font-face {
+        font-family: 'Caveat';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('{{ 'caveat-latin.woff2' | asset_url }}') format('woff2');
+      }
+    {% endstyle %}
     {%- unless settings.type_body_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>

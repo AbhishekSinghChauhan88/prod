@@ -83,6 +83,10 @@
     <div class="ed-hero__overlay"></div>
   {%- endif -%}
 
+  {%- if s.script_text != blank -%}
+    <p class="ed-hero__script ed-reveal" style="--ed-delay: 0.3s;" aria-hidden="true">{{ s.script_text }}</p>
+  {%- endif -%}
+
   <div class="ed-width">
     <div class="ed-hero__content ed-hero__content--{{ s.text_position }}">
       {%- if s.label != blank -%}
@@ -148,7 +152,7 @@
     {
       "type": "range",
       "id": "height",
-      "min": 60,
+      "min": 40,
       "max": 100,
       "step": 5,
       "unit": "%",
@@ -200,6 +204,13 @@
       "type": "url",
       "id": "cta_link",
       "label": "Link"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "script_text",
+      "label": "Handwritten line",
+      "info": "Set in the script face at the right of the image. Use line breaks for short lines.",
+      "default": "Better<br>Clothes.<br>Brighter<br>People."
     },
     {
       "type": "text",

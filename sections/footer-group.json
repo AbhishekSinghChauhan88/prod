@@ -27,14 +27,15 @@
         "padding_top": 100,
         "padding_bottom": 48,
         "show_wordmark": false,
-        "wordmark_text": ""
+        "wordmark_text": "",
+        "newsletter_text": "Get exclusive drops, offers and stories.",
+        "script_text": "Wear<br>Your<br>Dreams."
       },
       "blocks": {
         "brand": {
-          "type": "text",
+          "type": "brand_information",
           "settings": {
-            "heading": "Made to be kept",
-            "subtext": "<p>Premium everyday clothing for those who refuse to live ordinary.</p>"
+            "show_social": true
           }
         },
         "shop": {
@@ -54,7 +55,7 @@
         "help": {
           "type": "link_list",
           "settings": {
-            "heading": "Customer care",
+            "heading": "Help",
             "menu": "footer"
           }
         }
@@ -62,8 +63,8 @@
       "block_order": [
         "brand",
         "shop",
-        "about",
-        "help"
+        "help",
+        "about"
       ]
     }
   },
