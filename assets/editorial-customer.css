@@ -1,0 +1,198 @@
+/* ==========================================================================
+   Customer pages — login, register, recover, account, addresses, orders
+
+   Loaded after customer.css. One narrow centred column, headings on the
+   site's tracked display scale, hairline fields, the ink button, and links
+   that are words with an underline rather than buttons.
+   ========================================================================== */
+.customer {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 6rem var(--ed-gutter, 2rem) 8rem;
+}
+
+.customer.account,
+.customer.addresses,
+.customer.order {
+  max-width: var(--page-width);
+  padding-left: var(--ed-gutter, 2rem);
+  padding-right: var(--ed-gutter, 2rem);
+}
+
+.customer h1,
+.customer h2.form__message,
+.customer .h1 {
+  font-family: var(--font-heading-family);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 2vw, 2.2rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin: 0 0 2.4rem;
+  text-align: left;
+}
+
+.customer h2.form__message {
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  margin-bottom: 1.6rem;
+}
+
+.customer p,
+.customer .field__label {
+  font-size: 1.4rem;
+  line-height: 1.6;
+}
+
+/* Fields: a hairline box, no inner shadow, the floating label kept quiet. */
+.customer .field {
+  margin-bottom: 1.2rem;
+}
+
+.customer .field__input,
+.customer .select__select,
+.customer .text-area {
+  border: 1px solid var(--ed-line, rgba(var(--color-foreground), 0.14));
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  font-size: 1.4rem;
+  min-height: 4.8rem;
+}
+
+.customer .field__input:focus,
+.customer .select__select:focus,
+.customer .text-area:focus {
+  box-shadow: none;
+  outline: 0;
+  border-color: rgb(var(--color-foreground));
+}
+
+.customer .field:after,
+.customer .select:after,
+.customer .text-area:after {
+  display: none;
+}
+
+.customer .field__label {
+  color: var(--ed-muted);
+}
+
+/* One primary button per form, full width, in the site's button voice. */
+.customer button,
+.customer .button {
+  width: 100%;
+  min-height: 5.2rem;
+  margin: 0.8rem 0 0;
+  border: 1px solid rgb(var(--color-foreground));
+  border-radius: 0;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  box-shadow: none;
+}
+
+.customer button:hover,
+.customer .button:hover {
+  background: transparent;
+  color: rgb(var(--color-foreground));
+}
+
+.customer button:after,
+.customer button:before,
+.customer .button:after,
+.customer .button:before {
+  display: none;
+}
+
+/* Secondary links — recover, create account, back — as underlined words. */
+.customer a:not(.button) {
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.4rem;
+  text-decoration-thickness: 1px;
+}
+
+.customer a:not(.button):hover {
+  text-decoration-thickness: 1px;
+  opacity: 0.6;
+}
+
+.customer .login .customer__links,
+.customer > form > a,
+.customer > div > a,
+.customer form + a,
+.customer button + a {
+  display: inline-block;
+  margin-top: 1.6rem;
+  margin-right: 2.4rem;
+}
+
+/* Errors: a plain line under the field, no icon block. */
+.customer .form__message {
+  font-size: 1.3rem;
+  margin: 0 0 1.6rem;
+}
+
+.customer .form__message .icon {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.customer .form-status-list {
+  padding-left: 1.8rem;
+  font-size: 1.3rem;
+}
+
+/* "Sign in with Shop" sits under the form as a secondary route, not a
+   second primary button competing with the first. */
+.customer .login .shopify-payment-button,
+.customer .login shop-login-button {
+  margin-top: 1.6rem;
+}
+
+.customer .login > .login__line,
+.customer .login__line {
+  margin: 2.4rem 0;
+}
+
+/* Account pages: a two-column layout on desktop, plain elsewhere. */
+.customer.account .title,
+.customer.addresses .title,
+.customer.order .title {
+  margin-bottom: 3.2rem;
+}
+
+.customer.account > div,
+.customer.addresses > div {
+  margin: 0;
+}
+
+.customer table {
+  font-size: 1.3rem;
+}
+
+.customer th,
+.customer td {
+  border-bottom: 1px solid var(--ed-line);
+  padding: 1.2rem 0;
+}
+
+.customer th {
+  font-size: var(--ed-label-size, 1.1rem);
+  letter-spacing: var(--ed-label-tracking, 0.18em);
+  text-transform: uppercase;
+  color: var(--ed-muted);
+  font-weight: 400;
+}
+
+@media screen and (max-width: 749px) {
+  .customer {
+    padding: 3.2rem var(--ed-gutter, 2rem) 5rem;
+  }
+}

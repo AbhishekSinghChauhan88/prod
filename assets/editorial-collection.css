@@ -322,3 +322,108 @@
 .facets-container-drawer .product-count {
   display: none;
 }
+
+/* --------------------------------------------------------------------------
+   Mobile — a compact header, then the grid
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .collection-hero__inner {
+    padding-top: 2.4rem;
+    padding-bottom: 1.2rem;
+  }
+
+  .collection-hero__title {
+    font-size: 2.2rem;
+  }
+
+  .ed-catnav {
+    padding-bottom: 1.2rem;
+  }
+
+  /* One slim row: the control at the right, on the hairline the grid opens
+     with, instead of a 75px block floating in the middle. */
+  .facets-container-drawer {
+    padding: 0 var(--ed-gutter, 2rem) 1rem;
+    gap: 1rem;
+    min-height: 0;
+  }
+
+  .facets-container-drawer .mobile-facets__open,
+  .facets-container-drawer .facet-filters__field {
+    font-size: 1.25rem;
+  }
+
+  .facets-container-drawer .mobile-facets__open-wrapper {
+    margin: 0;
+  }
+
+  .facets-container-drawer .mobile-facets__open {
+    padding: 0.6rem 0;
+    min-height: 0;
+  }
+
+  .facets-container-drawer .mobile-facets__open .icon {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+}
+
+/* Card type at the size a half-width card can carry. */
+@media screen and (max-width: 749px) {
+  .ed-collection--flush .ed-product--flush .ed-product__title {
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+  }
+
+  .ed-collection--flush .ed-product--flush .ed-product__price {
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+  }
+
+  .ed-collection--flush .ed-product--flush .ed-product__info {
+    padding: 0.8rem 0.8rem 1rem;
+  }
+
+  .ed-collection--flush .product-grid {
+    row-gap: 1.2rem;
+    padding-bottom: 3.2rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  /* Dawn centres the drawer control and sizes it as a button; push it to
+     the right edge, as small as the text beside it. */
+  .facets-container.facets-container-drawer {
+    /* Dawn switches this to a grid on small screens. */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .facets-container-drawer .mobile-facets__wrapper,
+  .facets-container-drawer menu-drawer {
+    width: auto;
+    margin: 0 0 0 auto;
+    order: 2;
+  }
+
+  /* Applied-filter chips sit to the left of the control, and take no room
+     when there are none. */
+  .facets-container-drawer .active-facets {
+    order: 1;
+    margin: 0 auto 0 0;
+    width: auto;
+  }
+
+  .facets-container-drawer .mobile-facets__open-label,
+  .facets-container-drawer .mobile-facets__open .button-label {
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .facets-container-drawer .mobile-facets__open {
+    gap: 0.6rem;
+    padding: 0.4rem 0;
+  }
+}

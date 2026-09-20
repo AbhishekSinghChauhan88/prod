@@ -2473,3 +2473,107 @@
 .header__inline-menu .list-menu--inline {
   column-gap: 3.6rem;
 }
+
+/* ==========================================================================
+   Mobile — the page should be a scroll, not a fall
+
+   On a phone every full-width block stacks, and four portrait tiles plus
+   three six-product grids ran to nine screens before the footer. Tiles go
+   two-up, product rows become sideways rails you flick through, and the
+   Instagram squares go three-up.
+   ========================================================================== */
+@media screen and (max-width: 749px) {
+  .ed-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  .ed-tile--overlay .ed-tile__body {
+    padding: 1.6rem;
+  }
+
+  .ed-tile__name {
+    font-size: 1.2rem;
+    letter-spacing: 0.18em;
+  }
+
+  .ed-tile__subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .ed-tile--overlay .ed-label {
+    font-size: 0.95rem;
+  }
+
+  /* Product grid → rail: one row that scrolls sideways, cards a little over
+     half the screen so the next one is always part-visible. */
+  .ed-grid {
+    display: flex;
+    gap: 1.2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* Snap to the gutter, not the box edge, or the first card starts flush
+       against the screen with the padding scrolled away behind it. */
+    scroll-padding-left: var(--ed-gutter);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 calc(var(--ed-gutter) * -1);
+    padding: 0 var(--ed-gutter);
+  }
+
+  .ed-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ed-grid > li {
+    flex: 0 0 62vw;
+    scroll-snap-align: start;
+  }
+
+  .ed-section--tight {
+    padding-top: 3.2rem;
+    padding-bottom: 2.4rem;
+  }
+
+  .ed-pair {
+    --ed-pair-height: 42vh;
+  }
+
+  .ed-pair__content {
+    padding: 3.2rem var(--ed-gutter);
+  }
+
+  .ed-social__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  .ed-social {
+    padding-top: 3.2rem;
+    padding-bottom: 3.2rem;
+  }
+
+  .trust-badges {
+    padding: 2.4rem 0;
+    gap: 2rem 1.6rem;
+  }
+}
+
+/* A "cart animator" app injects a tada/shake keyframe onto every add-to-cart
+   button. The brand's brief is no animation; this stops it without removing
+   the app. Uninstalling the app makes this rule redundant. */
+[cart-animator-animate] form[action*='/cart/add'] [type='submit'],
+form[action*='/cart/add'] [type='submit'],
+.product-form__submit,
+.tada {
+  animation: none !important;
+}
+
+/* The "Uplinkly Sticky Cart" app injects its own add-to-cart bar at the foot
+   of every page, under the theme's. Hidden here; uninstalling the app in
+   Shopify admin (Apps) is the proper fix and makes this rule redundant. */
+.uplinkly-sticky-cart-button,
+.sticky-cart-button {
+  display: none !important;
+}

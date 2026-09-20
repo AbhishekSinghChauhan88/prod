@@ -744,3 +744,45 @@ cart-drawer-items::-webkit-scrollbar-thumb:hover {
 .cart-drawer .cart-item:last-child {
   margin-bottom: 0;
 }
+
+/* Option values sit on one baseline: the first was rendering taller than the
+   second and reading as raised. */
+.cart-drawer .cart-item__details dl,
+.cart-drawer .cart-item__details .product-option {
+  align-items: baseline;
+}
+
+.cart-drawer .cart-item__details dd {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile — the drawer is the whole screen
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  /* Viewport units, not a percentage: the wrapper between cart-drawer and
+     this panel shrinks to fit its content, so 100% of it is circular and
+     comes out narrower than the screen. */
+  .cart-drawer .drawer__inner {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  .cart-drawer .drawer__header {
+    padding-top: 2rem;
+    padding-bottom: 1.6rem;
+  }
+
+  .cart-drawer .cart-items {
+    margin-top: 2rem;
+  }
+
+  .cart-drawer .cart-item {
+    gap: 0.6rem 1.2rem;
+  }
+
+  .cart-drawer .cart-items__list {
+    gap: 1.6rem;
+  }
+}

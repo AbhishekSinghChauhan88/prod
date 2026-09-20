@@ -1,4 +1,5 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'section-related-products.css' | asset_url | stylesheet_tag }}
 
@@ -28,27 +29,30 @@
     data-product-id="{{ product.id }}"
   >
     {% if recommendations.performed and recommendations.products_count > 0 %}
-      <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
-        {{ section.settings.heading }}
-      </h2>
-      <ul
-        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
-        role="list"
-      >
-        {% assign skip_card_product_styles = false %}
+      <div class="ed-section__head ed-section__head--left ed-section__head--row">
+        <div>
+          <h2 class="related-products__heading ed-display ed-display--sm inline-richtext">
+            {{ section.settings.heading }}
+          </h2>
+        </div>
+      </div>
+      {%- comment -%}
+        The same bare card as the homepage rows, so the page does not change
+        card style below the fold. Portrait, four across, view all at right.
+      {%- endcomment -%}
+      <ul class="ed-grid" role="list" style="--ed-columns: {{ section.settings.columns_desktop }};">
         {% for recommendation in recommendations.products %}
-          <li class="grid__item">
-            {% render 'card-product',
+          <li>
+            {% render 'editorial-card',
               card_product: recommendation,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              skip_styles: skip_card_product_styles
+              ratio: '3 / 4',
+              card_sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 62vw',
+              show_second_image: section.settings.show_secondary_image,
+              show_quick_add: false,
+              card_section_id: section.id,
+              card_index: forloop.index0
             %}
           </li>
-          {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
     {% endif %}

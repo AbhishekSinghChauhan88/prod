@@ -13,6 +13,14 @@
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+      {%- comment -%}
+        New customer accounts live on shopify.com, so a tap on the account
+        icon is a cross-origin hop. Opening the connection now means the DNS
+        lookup and TLS handshake are already done by the time the shopper
+        clicks — the only part of that page's load time the theme can touch.
+      {%- endcomment -%}
+      <link rel="preconnect" href="https://shopify.com">
+      <link rel="dns-prefetch" href="https://shopify.com">
     {%- endunless -%}
 
     <title>
