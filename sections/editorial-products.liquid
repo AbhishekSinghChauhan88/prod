@@ -32,14 +32,25 @@
 {%- endif -%}
 
 <div class="color-{{ s.color_scheme }} gradient">
-  <div class="ed-width ed-section">
+  <div class="ed-width ed-section ed-section--tight">
     {%- if s.heading != blank or s.label != blank -%}
-      <div class="ed-section__head ed-section__head--{{ s.text_alignment }} ed-reveal">
-        {%- if s.label != blank -%}
-          <p class="ed-label">{{ s.label | escape }}</p>
-        {%- endif -%}
-        {%- if s.heading != blank -%}
-          <h2 class="ed-display ed-display--sm">{{ s.heading }}</h2>
+      <div class="ed-section__head ed-section__head--{{ s.text_alignment }} ed-section__head--row ed-reveal">
+        <div>
+          {%- if s.label != blank -%}
+            <p class="ed-label">{{ s.label | escape }}</p>
+          {%- endif -%}
+          {%- if s.heading != blank -%}
+            <h2 class="ed-display ed-display--sm">{{ s.heading }}</h2>
+          {%- endif -%}
+        </div>
+        {%- if s.view_all_label != blank -%}
+          <a
+            href="{{ s.view_all_link | default: s.collection.url | default: routes.all_products_collection_url }}"
+            class="ed-link ed-section__head-link"
+          >
+            {{ s.view_all_label | escape }}
+            <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+          </a>
         {%- endif -%}
       </div>
     {%- endif -%}
@@ -73,17 +84,6 @@
       {%- endfor -%}
     </ul>
 
-    {%- if s.view_all_label != blank -%}
-      <div class="ed-section__foot ed-reveal">
-        <a
-          href="{{ s.view_all_link | default: s.collection.url | default: routes.all_products_collection_url }}"
-          class="ed-link"
-        >
-          {{ s.view_all_label | escape }}
-          <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
-        </a>
-      </div>
-    {%- endif -%}
   </div>
 </div>
 

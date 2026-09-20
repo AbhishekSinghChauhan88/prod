@@ -13,10 +13,11 @@
     const targets = document.querySelectorAll('.ed-reveal:not(.is-revealed)');
     if (!targets.length) return;
 
-    if (reduceMotion.matches || !('IntersectionObserver' in window)) {
-      targets.forEach((el) => el.classList.add('is-revealed'));
-      return;
-    }
+    // Everything is shown at once. The observer below was hiding whatever sat
+    // in the bottom 12% of the first screen — the hero button — until the
+    // page scrolled, and the brand's brief is no animation anyway.
+    targets.forEach((el) => el.classList.add('is-revealed'));
+    return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -42,8 +43,8 @@
 
   /* Campaign parallax ------------------------------------------------------ */
   const parallax = () => {
-    const layers = document.querySelectorAll('[data-ed-parallax]');
-    if (!layers.length || reduceMotion.matches) return;
+    // Off: scroll-linked movement is animation, and the brief says none.
+    return;
 
     let ticking = false;
 

@@ -67,6 +67,9 @@
     },
     "breadcrumbs": {
       "home": "Home"
+    },
+    "footer": {
+      "rights": "All rights reserved."
     }
   },
   "newsletter": {

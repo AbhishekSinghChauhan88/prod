@@ -13,7 +13,7 @@
 -%}
 
 <div class="color-{{ s.color_scheme }} gradient">
-  <div class="ed-width ed-section">
+  <div class="ed-width ed-section{% if s.caption_position == 'overlay' %} ed-section--tiles-flush{% endif %}">
     {%- if s.heading != blank or s.label != blank -%}
       <div class="ed-section__head ed-section__head--{{ s.text_alignment }} ed-reveal">
         {%- if s.label != blank -%}
@@ -77,7 +77,7 @@
 {
   "name": "Collections",
   "tag": "section",
-  "max_blocks": 3,
+  "max_blocks": 4,
   "settings": [
     { "type": "text", "id": "label", "label": "Label" },
     {

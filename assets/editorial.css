@@ -21,6 +21,15 @@
   --ed-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
+/* A custom property resolves where it is declared, so the two tokens above
+   were fixed to the root foreground and came out dark-on-dark inside any
+   other scheme. Re-declaring them on the scheme classes makes them follow
+   whichever foreground the scheme sets. */
+[class*='color-scheme-'] {
+  --ed-muted: rgba(var(--color-foreground), 0.6);
+  --ed-line: rgba(var(--color-foreground), 0.14);
+}
+
 @media screen and (min-width: 750px) {
   :root {
     --ed-space-section: 11rem;
@@ -85,7 +94,7 @@
 }
 
 .ed-display--sm {
-  font-size: clamp(1.8rem, 2.2vw, 2.6rem);
+  font-size: clamp(1.7rem, 1.6vw, 2rem);
   letter-spacing: 0.18em;
 }
 
@@ -152,11 +161,12 @@
 /* --------------------------------------------------------------------------
    Scroll reveal — opt-in, and off entirely for reduced motion
    -------------------------------------------------------------------------- */
+/* Reveal is off: content is visible as soon as it is painted. The class
+   stays on the markup so it can be brought back without touching sections. */
 .ed-reveal {
-  opacity: 0;
-  transform: translateY(1.6rem);
-  transition: opacity 0.9s var(--ed-ease), transform 0.9s var(--ed-ease);
-  transition-delay: var(--ed-delay, 0s);
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 .ed-reveal.is-revealed {
@@ -184,9 +194,14 @@
 .ed-hero {
   position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
-  min-height: var(--ed-hero-height, 90svh);
+  /* Fills the first screen exactly: the viewport less whatever sits above
+     the hero (utility bar and header), so the band ends at the fold instead
+     of running past it. svh, not vh, so the mobile address bar does not make
+     the band jump as it collapses. */
+  min-height: calc(var(--ed-hero-height, 100svh) - var(--header-group-height, 0px));
+  max-height: calc(var(--ed-hero-height, 100svh) - var(--header-group-height, 0px));
   color: rgb(var(--color-foreground));
 }
 
@@ -195,9 +210,8 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: -9%;
-  height: 118%;
-  will-change: transform;
+  top: 0;
+  height: 100%;
 }
 
 .ed-hero__media img,
@@ -220,17 +234,32 @@
   transform: scale(1);
 }
 
+/* Heavier at the foot, where the copy and button sit, than at the top
+   where the photograph should breathe. */
 .ed-hero__overlay {
   position: absolute;
   inset: 0;
-  background: rgb(0, 0, 0);
-  opacity: var(--ed-overlay, 0.15);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.55) 100%);
+  opacity: calc(var(--ed-overlay, 0.15) * 2.5);
   pointer-events: none;
 }
 
-.ed-hero__content {
+/* The hero is a flex row, and a flex child with auto margins and no width
+   shrinks to its content and floats to the middle — which is what pulled the
+   copy to the centre however the alignment was set. Full width, always. */
+.ed-hero > .ed-width {
+  width: 100%;
+  /* Stretches to the full band and positions itself, so the button below
+     can be pinned to the bottom of the hero rather than of the copy. */
+  align-self: stretch;
+  display: flex;
+  align-items: center;
   position: relative;
   z-index: 1;
+}
+
+.ed-hero__content {
+  position: static;
   width: 100%;
   padding-bottom: 6rem;
   padding-top: 6rem;
@@ -240,9 +269,16 @@
   text-align: center;
 }
 
-.ed-hero__content--left {
+.ed-hero__content.ed-hero__content--left {
   justify-items: start;
   text-align: left;
+}
+
+.ed-hero__content--left .ed-hero__heading,
+.ed-hero__content--left .ed-hero__text {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .ed-hero--light,
@@ -256,24 +292,48 @@
 
 .ed-hero__heading {
   max-width: 12ch;
-  line-height: 1.25;
-  letter-spacing: 0.22em;
+  font-size: clamp(2.8rem, 3.6vw, 4.6rem);
+  line-height: 1.15;
+  letter-spacing: 0.24em;
 }
 
 /* The line under the heading: small tracked caps, like the label above it,
    so the block reads label / headline / line / button as one column. */
 .ed-hero__text {
-  margin: 1.6rem 0 0;
+  /* The content grid already spaces its rows; these only add the small
+     extra step the mock shows before the line and before the button. */
+  margin: 0.6rem 0 0;
   max-width: 34ch;
   font-size: 1.2rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  line-height: 1.8;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.85);
 }
 
 .ed-hero__ctas {
+  margin-top: 1.4rem;
+}
+
+/* One block at the foot of the band, centred: eyebrow, headline, line, and
+   the button directly beneath. */
+.ed-hero > .ed-width {
+  align-items: flex-end;
+}
+
+.ed-hero__content {
+  padding-bottom: 6rem;
+}
+
+.ed-hero__ctas {
   margin-top: 2.4rem;
+}
+
+.ed-hero__content--center .ed-hero__heading,
+.ed-hero__content--center .ed-hero__text {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media screen and (max-width: 749px) {
@@ -281,6 +341,7 @@
     padding-bottom: 4rem;
   }
 }
+
 
 /* Placeholder state, so an unconfigured hero still reads as a hero. */
 .ed-hero__placeholder svg {
@@ -317,6 +378,39 @@
   }
 }
 
+/* Heading at the left, the section's link at the right, one baseline. */
+.ed-section__head--row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.4rem;
+}
+
+.ed-section__head--row > div {
+  display: grid;
+  gap: 1.2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .ed-section__head--row {
+    margin-bottom: 3rem;
+  }
+}
+
+/* Overlay tiles run flush: no page gutter, and only a small gap above and
+   below, so the band sits directly under the trust strip as in the mock. */
+.ed-section--tiles-flush {
+  padding: 2.4rem 0.6rem;
+  max-width: none;
+}
+
+@media screen and (min-width: 990px) {
+  .ed-section--tiles-flush {
+    padding: 3.2rem 0.6rem;
+  }
+}
+
 .ed-section__foot {
   display: flex;
   justify-content: center;
@@ -337,7 +431,7 @@
 
 @media screen and (min-width: 990px) {
   .ed-grid {
-    gap: 4.5rem 2.4rem;
+    gap: 3rem 1.6rem;
     grid-template-columns: repeat(var(--ed-columns, 4), minmax(0, 1fr));
   }
 }
@@ -572,7 +666,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 2.4rem;
+  padding: 3.2rem;
   color: #fff;
   z-index: 1;
 }
@@ -581,8 +675,8 @@
   content: '';
   position: absolute;
   inset: auto 0 0 0;
-  height: 45%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
   pointer-events: none;
 }
 
@@ -590,12 +684,17 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
+.ed-tile--overlay .ed-tile__name,
+.ed-tile--overlay .ed-tile__name a {
+  color: #fff;
+}
+
 .ed-tile__name {
   margin: 0;
   font-family: var(--font-heading-family);
-  font-size: clamp(1.4rem, 1.5vw, 1.8rem);
+  font-size: clamp(1.4rem, 1.2vw, 1.7rem);
   line-height: 1.2;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   font-weight: var(--font-heading-weight);
 }
@@ -631,11 +730,7 @@
 
 .ed-campaign__media {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: -9%;
-  height: 118%;
-  will-change: transform;
+  inset: 0;
 }
 
 .ed-campaign__media img,
@@ -797,10 +892,40 @@
 /* Nav links share the small-label treatment. */
 .header__inline-menu .header__menu-item {
   font-family: var(--font-body-family);
-  font-size: var(--ed-label-size);
-  letter-spacing: var(--ed-label-tracking);
-  text-transform: uppercase;
+  font-size: 1.3rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
   padding: 1.2rem 0;
+}
+
+/* Logo left, icons right, and the menu centred in the space between — Dawn
+   has no such position, so the middle column takes the slack here. */
+@media screen and (min-width: 990px) {
+  .header.header--middle-left,
+  .header.header--middle-left.header--has-menu {
+    grid-template-areas: 'heading navigation icons';
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .header.header--middle-left .header__inline-menu {
+    grid-area: navigation;
+    justify-self: center;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .header.header--middle-left .header__inline-menu .list-menu--inline {
+    justify-content: center;
+  }
+
+  .header.header--middle-left .header__heading {
+    justify-self: start;
+  }
+
+  .header.header--middle-left .header__icons {
+    justify-self: end;
+  }
 }
 
 .header__inline-menu .list-menu--inline {
@@ -879,9 +1004,7 @@
   border-top: 0;
 }
 
-/* Dark footer typography: the statement and the links carry the full
-   foreground, and everything secondary drops to a quieter step than on the
-   ivory page — at 0.6 on black, muted text still glowed. */
+/* On black, muted text at 0.6 still glowed; a step quieter. */
 .footer.color-scheme-4,
 .footer.color-scheme-5 {
   --ed-muted: rgba(var(--color-foreground), 0.5);
@@ -943,12 +1066,12 @@
 /* Column typography ------------------------------------------------------- */
 .footer-block__heading {
   font-family: var(--font-body-family);
-  font-size: var(--ed-label-size);
-  letter-spacing: var(--ed-label-tracking);
-  text-transform: uppercase;
+  font-size: 1.3rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
   font-weight: 400;
-  color: var(--ed-muted);
-  margin: 0 0 1.8rem;
+  color: rgb(var(--color-foreground));
+  margin: 0 0 1.4rem;
 }
 
 /* The statement column is prose, not a menu, so its heading takes the display
@@ -975,8 +1098,8 @@
 .footer-block__details-content .list-menu__item--link,
 .footer-block__details-content .link {
   display: inline-block;
-  font-size: 1.4rem;
-  padding: 0.45rem 0;
+  font-size: 1.2rem;
+  padding: 0.25rem 0;
   color: rgb(var(--color-foreground));
   text-decoration: none;
 }
@@ -1027,8 +1150,8 @@
    above the rule on their own, but the wordmark already supplies it when shown. */
 .footer__content-bottom {
   border-top: 1px solid var(--ed-line);
-  padding-top: 2.4rem;
-  margin-top: 6rem;
+  padding-top: 1.6rem;
+  margin-top: 3.6rem;
 }
 
 .footer__wordmark + .footer__content-bottom {
@@ -1340,21 +1463,25 @@
 .testimonial-card__author,
 .shoppable-hotspot__title {
   font-family: var(--font-body-family);
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 400;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
 }
 
 .trust-badges .trust-badge__text,
 .testimonial-card__meta,
 .shoppable-hotspot__price {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  margin-top: 0.1rem;
   color: var(--ed-muted);
 }
 
 .trust-badge__icon {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2.6rem;
+  height: 2.6rem;
   color: rgb(var(--color-foreground));
 }
 
@@ -1473,8 +1600,8 @@
    viewport edge to show it scrolls.
    ========================================================================== */
 .ed-railstrip {
-  padding-top: var(--ed-space-section);
-  padding-bottom: var(--ed-space-section);
+  padding-top: 6rem;
+  padding-bottom: 5rem;
 }
 
 .ed-railstrip__head {
@@ -1721,22 +1848,23 @@
 
 .ed-button--light {
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.96);
-  border-color: rgba(255, 255, 255, 0.96);
-  color: #141414;
+  border-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(6px);
 }
 
 .ed-button--light:hover,
 .ed-button--light:focus-visible {
-  background-color: transparent;
-  color: #fff;
+  background-color: #fff;
+  border-color: #fff;
+  color: #141414;
 }
 
 /* ==========================================================================
    Utility bar
    ========================================================================== */
 .ed-utility {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   letter-spacing: 0.04em;
   line-height: 1;
 }
@@ -1746,7 +1874,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  padding: 0.9rem var(--ed-gutter);
+  padding: 1.1rem var(--ed-gutter);
 }
 
 .ed-utility__messages,
@@ -1825,15 +1953,21 @@
   object-fit: cover;
 }
 
+/* Darker at the left where the copy sits, easing off across the image, so
+   white type holds even on a pale photograph. */
 .ed-pair__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, var(--ed-overlay, 0.3));
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, calc(var(--ed-overlay, 0.3) + 0.35)),
+    rgba(0, 0, 0, var(--ed-overlay, 0.3)) 65%
+  );
 }
 
 .ed-pair__content {
   position: relative;
-  padding: 4rem var(--ed-gutter);
+  padding: 5rem var(--ed-gutter);
   max-width: 44ch;
 }
 
@@ -1878,9 +2012,9 @@
 .ed-social__grid {
   display: grid;
   grid-template-columns: repeat(var(--ed-columns, 7), 1fr);
-  gap: 1px;
-  margin: 0;
-  padding: 0;
+  gap: 0.6rem;
+  margin: 0 auto;
+  padding: 0 var(--ed-gutter);
   list-style: none;
 }
 
@@ -1897,7 +2031,7 @@
 }
 
 .ed-social__item {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 6 / 5;
   overflow: hidden;
   background: rgba(var(--color-foreground), 0.05);
 }
@@ -1915,28 +2049,8 @@
   object-fit: cover;
 }
 
-/* ==========================================================================
-   Trust strip — small tracked type, one line per badge where it can be
-   ========================================================================== */
-.trust-badge__title {
-  font-size: 1.2rem;
-  letter-spacing: 0.04em;
-  line-height: 1.4;
-}
-
-.trust-badge__text {
-  font-size: 1.1rem;
-  letter-spacing: 0.04em;
-  line-height: 1.4;
-  margin-top: 0.1rem;
-}
-
-.trust-badge__icon {
-  width: 2.2rem;
-  height: 2.2rem;
-}
-
-.trust-badge {
+/* Trust strip: icon close to its text. */
+.trust-badges .trust-badge {
   gap: 1rem;
 }
 
@@ -1945,10 +2059,22 @@
    ========================================================================== */
 .ed-tile__subtitle {
   margin: 0.4rem 0 1rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   opacity: 0.8;
+}
+
+/* Campaign band: everything over the photograph is white. */
+.ed-campaign__content,
+.ed-campaign__content .ed-display,
+.ed-campaign__content .ed-label {
+  color: #fff;
+}
+
+.ed-campaign__content .ed-link {
+  color: #fff;
 }
 
 /* ==========================================================================
@@ -1962,8 +2088,8 @@
   z-index: 2;
   margin: 0;
   font-family: 'Caveat', 'Segoe Script', 'Bradley Hand', cursive;
-  font-size: clamp(3.2rem, 4.2vw, 5.6rem);
-  line-height: 1;
+  font-size: clamp(2.6rem, 3vw, 4rem);
+  line-height: 1.05;
   text-align: center;
   color: #fff;
   pointer-events: none;
@@ -1981,17 +2107,23 @@
 @media screen and (min-width: 990px) {
   /* Blocks and newsletter share one row: the menus take what they need and
      the newsletter holds the right, the way the mock lays it out. */
-  .footer__content-top {
+  /* Dawn's own footer stylesheet loads after this one and sets the wrapper
+     back to block; the extra .footer here is what makes these rules win. */
+  .footer .footer__content-top {
     display: flex;
+    flex-wrap: nowrap;
     align-items: flex-start;
     gap: var(--ed-gutter);
+    padding-bottom: 0;
   }
 
-  .footer__content-top .footer__blocks-wrapper {
+  .footer .footer__content-top .footer__blocks-wrapper {
     flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
   }
 
-  .footer__content-top .footer-block--newsletter {
+  .footer .footer__content-top .footer-block--newsletter {
     flex: 0 0 auto;
     display: flex;
     align-items: flex-start;
@@ -2054,7 +2186,7 @@
 
 .footer-block__newsletter {
   text-align: left;
-  max-width: 30rem;
+  max-width: 26rem;
 }
 
 .footer-block__newsletter .footer-block__heading {
@@ -2117,4 +2249,227 @@
   .footer__script {
     display: none;
   }
+}
+
+
+/* ==========================================================================
+   Grid card sizes — the six-across row reads at the mock's scale
+   ========================================================================== */
+.ed-grid .ed-product__title {
+  font-size: 1.2rem;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+.ed-grid .ed-product__price {
+  font-size: 1.2rem;
+}
+
+.ed-grid .ed-product__media {
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+/* The heart is part of the card, not a hover reveal. */
+.ed-product .wishlist-button--card {
+  opacity: 1;
+  transform: none;
+  background: none;
+  box-shadow: none;
+}
+
+.ed-product .wishlist-button--card .svg-wrapper {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Instagram grid: less air above, none below. */
+.ed-social {
+  padding-top: 4rem;
+}
+
+.ed-social__head {
+  margin-bottom: 1.6rem;
+}
+
+.ed-social__heading {
+  font-size: 1.4rem;
+}
+
+/* Trust strip and values row: type at the mock's size. */
+.trust-badges {
+  gap: 1.6rem 2rem;
+}
+
+/* Campaign pair: the mock's heading and line sizes. */
+.ed-pair__content .ed-display {
+  font-size: clamp(2rem, 2.4vw, 3rem);
+}
+
+.ed-pair__text {
+  font-size: 1.3rem;
+}
+
+.ed-pair__content .ed-button {
+  margin-top: 1.8rem;
+  padding: 1.1rem 1.8rem;
+}
+
+/* Copyright row: everything small and quiet. */
+.footer__copyright,
+.footer__copyright .policies,
+.footer__copyright a {
+  font-size: 1.1rem;
+}
+
+/* A product row sits close to what is above and below it. */
+.ed-section--tight {
+  padding-top: 3.6rem;
+  padding-bottom: 3.2rem;
+}
+
+/* Scrolling strip: small tracked type, icon beside each message, wide
+   spacing so the messages read one at a time as they pass. */
+.marquee__item {
+  gap: 1rem;
+  padding: 0 3.2rem;
+  letter-spacing: 0.06em;
+  font-family: var(--font-body-family);
+}
+
+.marquee__item .svg-wrapper {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+
+/* ==========================================================================
+   Values row — a ruled band, items as one centred group
+   ========================================================================== */
+.trust-badges {
+  border-top: 1px solid var(--ed-line);
+  border-bottom: 1px solid var(--ed-line);
+  padding: 3.2rem 0;
+}
+
+@media screen and (min-width: 990px) {
+  .trust-badges.trust-badges--4 {
+    display: flex;
+    justify-content: center;
+    gap: 0 9rem;
+  }
+
+  .trust-badges.trust-badges--4 .trust-badge {
+    flex: 0 1 auto;
+  }
+}
+
+.trust-badges .trust-badge__title {
+  font-size: 1.3rem;
+}
+
+.trust-badges .trust-badge__text {
+  font-size: 1.2rem;
+}
+
+/* Instagram: room before the footer, and a heading on the section scale. */
+.ed-social {
+  padding-bottom: 6rem;
+}
+
+.ed-social__head {
+  margin-bottom: 2rem;
+}
+
+.ed-social__heading {
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   Footer — proportions
+   ========================================================================== */
+/* The brand column reads as the sign-off: the mark at a readable size, the
+   line beneath it, the icons in a row under that. */
+.footer .footer-block:first-child {
+  max-width: 30ch;
+}
+
+.footer-block__image-wrapper--mark {
+  margin-bottom: 1.8rem;
+}
+
+.footer-block__brand-info .rte {
+  font-size: 1.35rem;
+}
+
+/* Column headings a step up, the links beneath them on a comfortable line. */
+.footer .footer-block__heading {
+  font-size: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+
+.footer .footer-block__details-content .list-menu__item--link,
+.footer .footer-block__details-content .link {
+  font-size: 1.3rem;
+  padding: 0.35rem 0;
+}
+
+.footer-block__newsletter .footer-block__heading {
+  font-size: 1.4rem;
+}
+
+.footer-block__newsletter-text {
+  font-size: 1.25rem;
+}
+
+/* Legal row: the shop name as written, and the policy links separated by
+   space rather than Dawn's middle-dot glyph. */
+.footer .copyright__content {
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.footer .policies li::before {
+  content: none;
+  padding: 0;
+}
+
+.footer .policies {
+  display: flex;
+  gap: 2.4rem;
+}
+
+.footer__content-bottom {
+  padding-top: 2rem;
+  margin-top: 4.8rem;
+}
+
+/* ==========================================================================
+   Header — on the page's own gutter, with a hairline beneath
+   ========================================================================== */
+/* Dawn pads the header 5rem at desktop while the page below sits on the
+   editorial gutter; the logo was 10px inboard of the content under it. */
+@media screen and (min-width: 990px) {
+  /* Dawn's rule is .header:not(.drawer-menu).page-width — the :not() counts
+     as a class, so this has to carry the same weight to win. */
+  .header.page-width,
+  .header:not(.drawer-menu).page-width {
+    padding-left: var(--ed-gutter);
+    padding-right: var(--ed-gutter);
+  }
+
+  /* The icons' touch targets add air on the right; pull the group back so
+     the last glyph lands on the gutter like the logo does on the left. */
+  .header.header--middle-left .header__icons {
+    margin-right: -1.2rem;
+  }
+}
+
+.header-wrapper {
+  border-bottom: 1px solid var(--ed-line);
+}
+
+.header__inline-menu .list-menu--inline {
+  column-gap: 3.6rem;
 }

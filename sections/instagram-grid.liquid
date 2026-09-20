@@ -23,7 +23,7 @@
     {%- endif -%}
   </div>
 
-  <ul class="ed-social__grid" role="list" style="--ed-columns: {{ section.blocks.size | at_least: 1 | at_most: 8 }};">
+  <ul class="ed-social__grid ed-width" role="list" style="--ed-columns: {{ section.blocks.size | at_least: 1 | at_most: 8 }};">
     {%- for block in section.blocks -%}
       {%- liquid
         assign post_alt = block.settings.image.alt | default: section.settings.heading | strip_html

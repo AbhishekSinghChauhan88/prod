@@ -338,26 +338,30 @@
       // --header-group-height, so a full-screen section can fill the viewport
       // that is actually visible rather than running under the header.
       //
-      // This runs inline, immediately after the header group is parsed and
-      // before any full-screen section below it is laid out, so the value is
-      // already correct at first paint and nothing resizes afterwards.
+      // Measured from where <main> starts, because a section group renders
+      // with no wrapper element of its own — there is nothing to measure by
+      // id. Runs once the DOM is parsed and again on any resize.
       (function () {
-        var group = document.getElementById('shopify-section-group-header-group');
-        if (!group) return;
-
         var last = null;
         function publishHeight() {
-          var height = group.offsetHeight;
-          // Writing only on a real change keeps a ResizeObserver from
-          // retriggering itself.
+          var main = document.getElementById('MainContent');
+          if (!main) return;
+          var height = Math.round(main.getBoundingClientRect().top + window.scrollY);
           if (height === last) return;
           last = height;
           document.documentElement.style.setProperty('--header-group-height', height + 'px');
         }
 
-        publishHeight();
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', publishHeight);
+        } else {
+          publishHeight();
+        }
+        window.addEventListener('load', publishHeight);
         window.addEventListener('resize', publishHeight, { passive: true });
-        if ('ResizeObserver' in window) new ResizeObserver(publishHeight).observe(group);
+        if ('ResizeObserver' in window && document.body) {
+          new ResizeObserver(publishHeight).observe(document.body);
+        }
       })();
     </script>
 

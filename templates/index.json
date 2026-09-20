@@ -14,79 +14,76 @@
       "settings": {
         "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
         "image_mobile": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
-        "height": 60,
         "overlay_opacity": 25,
-        "label": "Premium fashion",
+        "label": "Unisex · Made in India",
         "heading": "Wear your dreams.",
         "text": "Clothing is a canvas. Dream bigger.",
         "cta_label": "Shop the collection",
         "cta_link": "shopify://collections/men",
         "cta_label_2": "",
         "cta_link_2": "shopify://collections/women",
-        "text_position": "left",
+        "text_position": "center",
         "text_color": "light",
         "enable_zoom": true,
-        "script_text": "Better\nClothes.\nBrighter\nPeople."
+        "script_text": "Better\nClothes.\nBrighter\nPeople.",
+        "height": 100
       }
     },
     "hero_trust": {
-      "type": "trust-badges",
+      "type": "scrolling-text",
       "settings": {
-        "heading": "",
-        "alignment": "left",
+        "direction": "left",
+        "speed": 20,
+        "pause_on_hover": true,
+        "text_size": 14,
+        "separator": "·",
         "color_scheme": "scheme-4",
-        "animate": false,
-        "padding_top": 24,
-        "padding_bottom": 24
+        "padding_top": 12,
+        "padding_bottom": 12
       },
       "blocks": {
-        "b0": {
-          "type": "badge",
+        "s0": {
+          "type": "item",
           "settings": {
-            "icon": "leaf",
-            "title": "Premium fabrics",
-            "text": ""
+            "text": "Premium fabrics",
+            "icon": "leaf"
           }
         },
-        "b1": {
-          "type": "badge",
+        "s1": {
+          "type": "item",
           "settings": {
-            "icon": "truck",
-            "title": "Free shipping",
-            "text": "Above ₹2,999"
+            "text": "Free shipping above ₹2,999",
+            "icon": "truck"
           }
         },
-        "b2": {
-          "type": "badge",
+        "s2": {
+          "type": "item",
           "settings": {
-            "icon": "box",
-            "title": "Easy returns",
-            "text": ""
+            "text": "Easy returns",
+            "icon": "return"
           }
         },
-        "b3": {
-          "type": "badge",
+        "s3": {
+          "type": "item",
           "settings": {
-            "icon": "recycle",
-            "title": "Sustainable choices",
-            "text": ""
+            "text": "Sustainable choices",
+            "icon": "recycle"
           }
         },
-        "b4": {
-          "type": "badge",
+        "s4": {
+          "type": "item",
           "settings": {
-            "icon": "heart",
-            "title": "Designed in India",
-            "text": "For the world"
+            "text": "Designed in India, for the world",
+            "icon": "heart"
           }
         }
       },
       "block_order": [
-        "b0",
-        "b1",
-        "b2",
-        "b3",
-        "b4"
+        "s0",
+        "s1",
+        "s2",
+        "s3",
+        "s4"
       ]
     },
     "categories": {
@@ -95,7 +92,7 @@
         "label": "",
         "heading": "",
         "text_alignment": "left",
-        "image_ratio": "4 / 3",
+        "image_ratio": "4 / 5",
         "caption_position": "overlay",
         "color_scheme": "scheme-1"
       },
@@ -152,7 +149,7 @@
         "label": "",
         "heading": "New arrivals",
         "text_alignment": "left",
-        "collection": "women",
+        "collection": "all",
         "products_to_show": 6,
         "columns_desktop": 6,
         "image_ratio": "3 / 4",
@@ -166,8 +163,8 @@
     "campaign_pair": {
       "type": "campaign-pair",
       "settings": {
-        "height": 45,
-        "overlay_opacity": 30
+        "height": 55,
+        "overlay_opacity": 45
       },
       "blocks": {
         "p1": {
@@ -183,8 +180,8 @@
           "type": "tile",
           "settings": {
             "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg",
-            "heading": "More than fashion.",
-            "text": "A community of dreamers.",
+            "heading": "Made for everyone.",
+            "text": "One wardrobe. Every body.",
             "cta_label": "Our story"
           }
         }
@@ -201,8 +198,8 @@
         "alignment": "left",
         "color_scheme": "scheme-1",
         "animate": false,
-        "padding_top": 56,
-        "padding_bottom": 56
+        "padding_top": 48,
+        "padding_bottom": 48
       },
       "blocks": {
         "v0": {
@@ -306,6 +303,67 @@
         "g5",
         "g6"
       ]
+    },
+    "campaign": {
+      "type": "campaign",
+      "settings": {
+        "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg",
+        "height": 70,
+        "overlay_opacity": 30,
+        "label": "The edit",
+        "heading": "Pieces that outlast the season.",
+        "cta_label": "Shop the edit"
+      }
+    },
+    "most_wanted": {
+      "type": "product-rail",
+      "settings": {
+        "heading": "Most wanted",
+        "collection": "all",
+        "products_to_show": 10,
+        "image_ratio": "2 / 3",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "show_swatches": true,
+        "badge_prefix": "badge:",
+        "view_all_label": "View all",
+        "color_scheme": "scheme-1"
+      },
+      "disabled": true
+    },
+    "trending": {
+      "type": "editorial-products",
+      "settings": {
+        "label": "",
+        "heading": "Trending now",
+        "text_alignment": "left",
+        "collection": "all",
+        "products_to_show": 6,
+        "columns_desktop": 6,
+        "image_ratio": "3 / 4",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "view_all_label": "View all",
+        "view_all_link": "",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "essentials": {
+      "type": "editorial-products",
+      "settings": {
+        "label": "",
+        "heading": "The essentials",
+        "text_alignment": "left",
+        "collection": "all",
+        "products_to_show": 6,
+        "columns_desktop": 6,
+        "image_ratio": "3 / 4",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "view_all_label": "View all",
+        "view_all_link": "",
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
@@ -314,6 +372,10 @@
     "categories",
     "new_arrivals",
     "campaign_pair",
+    "trending",
+    "campaign",
+    "most_wanted",
+    "essentials",
     "values",
     "instagram"
   ]
