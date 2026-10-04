@@ -44,7 +44,10 @@
     {%- endif -%}
 
     {%- if s.heading != blank -%}
-      <h2 class="ed-display ed-display--sm ed-reveal" style="--ed-delay: 0.1s;">
+      <h2
+        class="ed-display {% if s.heading_style == 'bold' %}ed-display--bold{% else %}ed-display--sm{% endif %} ed-reveal"
+        style="--ed-delay: 0.1s;"
+      >
         {{ s.heading }}
       </h2>
     {%- endif -%}
@@ -101,6 +104,16 @@
       "id": "heading",
       "default": "The essentials",
       "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "options": [
+        { "value": "tracked", "label": "Tracked caps" },
+        { "value": "bold", "label": "Bold display" }
+      ],
+      "default": "tracked",
+      "label": "Heading style"
     },
     {
       "type": "text",

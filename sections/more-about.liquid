@@ -1,0 +1,50 @@
+{% comment %}
+  More about — a closed-by-default block of descriptive copy above the footer.
+
+  A native details element, so it opens without JavaScript and the copy is in
+  the page for search engines whether or not anyone opens it. Write it for
+  people first: what the brand makes, for whom, and links to the main
+  collections.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+
+<div class="color-{{ s.color_scheme }} gradient ed-more">
+  <div class="ed-width">
+    <details>
+      <summary>{{ s.summary | escape }}</summary>
+      <div class="ed-more__body rte">
+        {{ s.text }}
+      </div>
+    </details>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "More about",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "summary", "default": "More about us", "label": "Summary" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Tell shoppers what you make, who it is for and where to start. Link to your main collections.</p>",
+      "label": "Text"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "More about"
+    }
+  ]
+}
+{% endschema %}

@@ -16,6 +16,7 @@
     assign has_video = true
   endif
   assign hero_alt = s.image.alt | default: s.heading | strip_html
+  assign hero_alt_2 = s.image_2.alt | default: s.heading | strip_html
 -%}
 
 <div
@@ -33,6 +34,28 @@
           muted: true,
           controls: false
       }}
+    {%- elsif s.image != blank and s.image_2 != blank -%}
+      {%- comment -%}
+        Split: the same piece worn two ways, side by side at every width.
+        Each half is half the viewport, so the sizes hint says so.
+      {%- endcomment -%}
+      <div class="ed-hero__split">
+        {{
+          s.image
+          | image_url: width: 2000
+          | image_tag:
+            widths: '375, 550, 750, 1100, 1500, 2000',
+            sizes: '50vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: hero_alt
+        }}
+        {{
+          s.image_2
+          | image_url: width: 2000
+          | image_tag: widths: '375, 550, 750, 1100, 1500, 2000', sizes: '50vw', loading: 'eager', alt: hero_alt_2
+        }}
+      </div>
     {%- elsif s.image != blank -%}
       {%- comment -%}
         Two sources so a portrait crop can be supplied for phones rather than
@@ -94,7 +117,10 @@
       {%- endif -%}
 
       {%- if s.heading != blank -%}
-        <h1 class="ed-display ed-hero__heading ed-reveal" style="--ed-delay: 0.12s;">
+        <h1
+          class="ed-display ed-hero__heading{% if s.heading_style == 'bold' %} ed-display--bold{% endif %} ed-reveal"
+          style="--ed-delay: 0.12s;"
+        >
           {{ s.heading }}
         </h1>
       {%- endif -%}
@@ -144,6 +170,12 @@
       "info": "Optional. A portrait crop for phones."
     },
     {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Second image",
+      "info": "Optional. Splits the hero into two photographs side by side, e.g. one piece worn two ways. Replaces the mobile image."
+    },
+    {
       "type": "video",
       "id": "video",
       "label": "Video",
@@ -187,6 +219,16 @@
       "default": "The new standard",
       "label": "Heading",
       "info": "Keep it to a few words. Two short lines read best."
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "options": [
+        { "value": "tracked", "label": "Tracked caps" },
+        { "value": "bold", "label": "Bold display" }
+      ],
+      "default": "tracked",
+      "label": "Heading style"
     },
     {
       "type": "inline_richtext",

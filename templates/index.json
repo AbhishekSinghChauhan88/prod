@@ -12,21 +12,23 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
-        "image_mobile": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg",
+        "image": "shopify://shop_images/dl-hero-man-linen-shirt.jpg",
+        "image_mobile": "",
         "overlay_opacity": 25,
         "label": "Unisex · Made in India",
-        "heading": "Wear your dreams.",
-        "text": "Clothing is a canvas. Dream bigger.",
-        "cta_label": "Shop the collection",
+        "heading": "One wardrobe. Every body.",
+        "text": "Pieces cut on a shared size run — wear them close or wear them loose.",
+        "cta_label": "Shop men",
         "cta_link": "shopify://collections/men",
-        "cta_label_2": "",
+        "cta_label_2": "Shop women",
         "cta_link_2": "shopify://collections/women",
         "text_position": "center",
         "text_color": "light",
         "enable_zoom": true,
-        "script_text": "Better\nClothes.\nBrighter\nPeople.",
-        "height": 100
+        "script_text": "",
+        "height": 100,
+        "image_2": "shopify://shop_images/dl-hero-woman-white-shirt.jpg",
+        "heading_style": "bold"
       }
     },
     "hero_trust": {
@@ -84,7 +86,8 @@
         "s2",
         "s3",
         "s4"
-      ]
+      ],
+      "disabled": true
     },
     "categories": {
       "type": "collections",
@@ -141,7 +144,8 @@
         "c1",
         "c2",
         "c3"
-      ]
+      ],
+      "disabled": true
     },
     "new_arrivals": {
       "type": "editorial-products",
@@ -158,7 +162,8 @@
         "view_all_label": "View all",
         "view_all_link": "",
         "color_scheme": "scheme-1"
-      }
+      },
+      "disabled": true
     },
     "campaign_pair": {
       "type": "campaign-pair",
@@ -189,7 +194,8 @@
       "block_order": [
         "p1",
         "p2"
-      ]
+      ],
+      "disabled": true
     },
     "values": {
       "type": "trust-badges",
@@ -254,43 +260,43 @@
         "g0": {
           "type": "post",
           "settings": {
-            "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg"
+            "image": "shopify://shop_images/dl-community-1.jpg"
           }
         },
         "g1": {
           "type": "post",
           "settings": {
-            "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg"
+            "image": "shopify://shop_images/dl-community-2.jpg"
           }
         },
         "g2": {
           "type": "post",
           "settings": {
-            "image": "shopify://shop_images/womens-summer-fashion.jpg"
+            "image": "shopify://shop_images/dl-community-3.jpg"
           }
         },
         "g3": {
           "type": "post",
           "settings": {
-            "image": "shopify://shop_images/bright-modern-mens-fashion.jpg"
+            "image": "shopify://shop_images/dl-community-4.jpg"
           }
         },
         "g4": {
           "type": "post",
           "settings": {
-            "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg"
+            "image": "shopify://shop_images/dl-community-5.jpg"
           }
         },
         "g5": {
           "type": "post",
           "settings": {
-            "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg"
+            "image": "shopify://shop_images/dl-community-6.jpg"
           }
         },
         "g6": {
           "type": "post",
           "settings": {
-            "image": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg"
+            "image": "shopify://shop_images/dl-community-7.jpg"
           }
         }
       },
@@ -307,12 +313,13 @@
     "campaign": {
       "type": "campaign",
       "settings": {
-        "image": "shopify://shop_images/man-holding-a-leather-bag-on-a-set-of-stairs.jpg",
+        "image": "shopify://shop_images/dl-campaign.jpg",
         "height": 70,
         "overlay_opacity": 30,
         "label": "The edit",
         "heading": "Pieces that outlast the season.",
-        "cta_label": "Shop the edit"
+        "cta_label": "Explore the edit",
+        "heading_style": "bold"
       }
     },
     "most_wanted": {
@@ -346,7 +353,8 @@
         "view_all_label": "View all",
         "view_all_link": "",
         "color_scheme": "scheme-1"
-      }
+      },
+      "disabled": true
     },
     "essentials": {
       "type": "editorial-products",
@@ -363,20 +371,245 @@
         "view_all_label": "View all",
         "view_all_link": "",
         "color_scheme": "scheme-1"
+      },
+      "disabled": true
+    },
+    "quick_links": {
+      "type": "quick-links",
+      "settings": {
+        "label_1": "Shop",
+        "label_2": "Fit",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "link_0": {
+          "type": "link",
+          "settings": {
+            "label": "Tees"
+          }
+        },
+        "link_1": {
+          "type": "link",
+          "settings": {
+            "label": "Shirts"
+          }
+        },
+        "link_2": {
+          "type": "link",
+          "settings": {
+            "label": "Trousers"
+          }
+        },
+        "link_3": {
+          "type": "link",
+          "settings": {
+            "label": "Denim"
+          }
+        },
+        "link_4": {
+          "type": "link",
+          "settings": {
+            "label": "Outerwear"
+          }
+        },
+        "link_5": {
+          "type": "link",
+          "settings": {
+            "label": "Knitwear"
+          }
+        },
+        "link_6": {
+          "type": "link",
+          "settings": {
+            "label": "Accessories"
+          }
+        },
+        "secondary_link_0": {
+          "type": "secondary_link",
+          "settings": {
+            "label": "Oversized"
+          }
+        },
+        "secondary_link_1": {
+          "type": "secondary_link",
+          "settings": {
+            "label": "Relaxed"
+          }
+        },
+        "secondary_link_2": {
+          "type": "secondary_link",
+          "settings": {
+            "label": "Regular"
+          }
+        }
+      },
+      "block_order": [
+        "link_0",
+        "link_1",
+        "link_2",
+        "link_3",
+        "link_4",
+        "link_5",
+        "link_6",
+        "secondary_link_0",
+        "secondary_link_1",
+        "secondary_link_2"
+      ]
+    },
+    "chapter_men": {
+      "type": "chapter",
+      "settings": {
+        "overlay_opacity": 25,
+        "rail_label": "New this season",
+        "products_to_show": 8,
+        "image_ratio": "4 / 5",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "show_swatches": true,
+        "badge_prefix": "badge:",
+        "accent_color": "#26325E",
+        "color_scheme": "scheme-1",
+        "look_label": "Lookbook",
+        "look_link_label": "Explore",
+        "coll_label": "Collection",
+        "coll_link_label": "Shop now",
+        "view_all_link": "",
+        "look_link": "",
+        "coll_link": "",
+        "collection": "men",
+        "number": "01",
+        "heading": "Men",
+        "view_all_label": "Shop all men",
+        "look_image": "shopify://shop_images/dl-men-lookbook.jpg",
+        "look_title": "The men's edit",
+        "coll_image": "shopify://shop_images/dl-men-collection.jpg",
+        "coll_title": "All men's"
+      }
+    },
+    "chapter_women": {
+      "type": "chapter",
+      "settings": {
+        "overlay_opacity": 25,
+        "rail_label": "New this season",
+        "products_to_show": 8,
+        "image_ratio": "4 / 5",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "show_swatches": true,
+        "badge_prefix": "badge:",
+        "accent_color": "#26325E",
+        "color_scheme": "scheme-1",
+        "look_label": "Lookbook",
+        "look_link_label": "Explore",
+        "coll_label": "Collection",
+        "coll_link_label": "Shop now",
+        "view_all_link": "",
+        "look_link": "",
+        "coll_link": "",
+        "collection": "women",
+        "number": "02",
+        "heading": "Women",
+        "view_all_label": "Shop all women",
+        "look_image": "shopify://shop_images/dl-women-lookbook.jpg",
+        "look_title": "The women's edit",
+        "coll_title": "All women's",
+        "coll_image": "shopify://shop_images/dl-women-collection.jpg"
+      }
+    },
+    "statement": {
+      "type": "statement",
+      "settings": {
+        "label": "Dreamers Loom",
+        "text": "Clothing is a canvas. <em>Dream bigger.</em>",
+        "link_label": "",
+        "accent_color": "#26325E",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "this_week": {
+      "type": "tabbed-products",
+      "settings": {
+        "heading": "This week",
+        "number": "03",
+        "heading_style": "bold",
+        "accent_color": "#26325E",
+        "products_to_show": 8,
+        "image_ratio": "4 / 5",
+        "show_second_image": true,
+        "show_quick_add": true,
+        "view_all_label": "View all",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "tab_0": {
+          "type": "tab",
+          "settings": {
+            "collection": "all",
+            "label": "New in"
+          }
+        },
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "collection": "all",
+            "label": "Bestsellers"
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "collection": "all",
+            "label": "Essentials"
+          }
+        }
+      },
+      "block_order": [
+        "tab_0",
+        "tab_1",
+        "tab_2"
+      ]
+    },
+    "journal": {
+      "type": "journal",
+      "settings": {
+        "blog": "news",
+        "number": "04",
+        "heading": "Journal",
+        "view_all_label": "All stories",
+        "post_limit": 3,
+        "show_excerpt": true,
+        "read_label": "Read story",
+        "accent_color": "#26325E",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "more_about": {
+      "type": "more-about",
+      "settings": {
+        "summary": "More about Dreamers Loom",
+        "color_scheme": "scheme-1",
+        "text": "<p>Dreamers Loom is a clothing label designed in India, making everyday pieces for men and women — tees, shirts, trousers, denim, outerwear and knitwear — in premium fabrics, with easy returns and free shipping above ₹2,999.</p><p><a href=\"/collections/men\" title=\"Men\">Shop men</a> · <a href=\"/collections/women\" title=\"Women\">Shop women</a> · <a href=\"/collections/all\" title=\"All products\">Shop everything</a></p>"
       }
     }
   },
   "order": [
     "hero",
+    "quick_links",
+    "chapter_men",
+    "chapter_women",
+    "statement",
+    "this_week",
+    "campaign",
+    "journal",
+    "values",
+    "instagram",
+    "more_about",
     "hero_trust",
     "categories",
     "new_arrivals",
     "campaign_pair",
     "trending",
-    "campaign",
     "most_wanted",
-    "essentials",
-    "values",
-    "instagram"
+    "essentials"
   ]
 }

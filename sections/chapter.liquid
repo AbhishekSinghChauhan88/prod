@@ -1,0 +1,288 @@
+{% comment %}
+  Chapter — one numbered department of the homepage (Men, Women, …).
+
+  A numbered head with a shop-all link, then two photographs — a wide lookbook
+  tile and a narrower collection tile — then a scrolling rail of the chosen
+  collection's products. The rail sits outside the page width so it can run to
+  the edge and peek, the same as the tabbed rail.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+{{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+  if s.show_quick_add
+    assign needs_product_form = true
+  endif
+
+  assign shop_all_url = s.view_all_link | default: s.collection.url | default: routes.all_products_collection_url
+  assign look_alt = s.look_image.alt | default: s.look_title | strip_html
+  assign coll_alt = s.coll_image.alt | default: s.coll_title | strip_html
+  assign card_sizes = '(min-width: 990px) 22vw, (min-width: 750px) 34vw, 62vw'
+-%}
+
+{%- if needs_product_form -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<div
+  class="color-{{ s.color_scheme }} gradient ed-chapter"
+  style="--ed-accent: {{ s.accent_color }}; --ed-overlay: {{ s.overlay_opacity | divided_by: 100.0 }};"
+>
+  <div class="ed-section ed-section--chapter">
+    <div class="ed-width">
+      <div class="ed-chapter__head ed-reveal">
+        <div class="ed-chapter__title">
+          {%- if s.number != blank -%}
+            <span class="ed-chapter__num">{{ s.number | escape }}</span>
+          {%- endif -%}
+          {%- if s.heading != blank -%}
+            <h2 class="ed-display ed-display--bold">{{ s.heading }}</h2>
+          {%- endif -%}
+        </div>
+        {%- if s.view_all_label != blank -%}
+          <a href="{{ shop_all_url }}" class="ed-link">
+            {{ s.view_all_label | escape }}
+            <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="ed-chapter__tiles">
+        <a href="{{ s.look_link | default: shop_all_url }}" class="ed-chapter__tile ed-chapter__tile--wide ed-reveal">
+          {%- if s.look_image != blank -%}
+            {{
+              s.look_image
+              | image_url: width: 2400
+              | image_tag:
+                widths: '600, 900, 1200, 1600, 2000, 2400',
+                sizes: '(min-width: 990px) 62vw, 100vw',
+                loading: 'lazy',
+                alt: look_alt
+            }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag }}
+          {%- endif -%}
+          <div class="ed-chapter__overlay"></div>
+          <div class="ed-chapter__body">
+            {%- if s.look_label != blank -%}
+              <p class="ed-label">{{ s.look_label | escape }}</p>
+            {%- endif -%}
+            {%- if s.look_title != blank -%}
+              <p class="ed-display ed-display--bold">{{ s.look_title }}</p>
+            {%- endif -%}
+            {%- if s.look_link_label != blank -%}
+              <span class="ed-link">{{ s.look_link_label | escape }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+
+        <a href="{{ s.coll_link | default: shop_all_url }}" class="ed-chapter__tile ed-reveal" style="--ed-delay: 0.1s;">
+          {%- if s.coll_image != blank -%}
+            {{
+              s.coll_image
+              | image_url: width: 1600
+              | image_tag:
+                widths: '400, 600, 800, 1000, 1200, 1600',
+                sizes: '(min-width: 990px) 32vw, 100vw',
+                loading: 'lazy',
+                alt: coll_alt
+            }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag }}
+          {%- endif -%}
+          <div class="ed-chapter__overlay"></div>
+          <div class="ed-chapter__body">
+            {%- if s.coll_label != blank -%}
+              <p class="ed-label">{{ s.coll_label | escape }}</p>
+            {%- endif -%}
+            {%- if s.coll_title != blank -%}
+              <p class="ed-display ed-display--bold">{{ s.coll_title }}</p>
+            {%- endif -%}
+            {%- if s.coll_link_label != blank -%}
+              <span class="ed-link">{{ s.coll_link_label | escape }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      </div>
+
+      {%- if s.rail_label != blank -%}
+        <p class="ed-label ed-chapter__rail-label">{{ s.rail_label | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <ul class="ed-rail" role="list">
+      {%- for product in s.collection.products limit: s.products_to_show -%}
+        <li class="ed-rail__item">
+          {%- render 'editorial-card',
+            card_product: product,
+            ratio: s.image_ratio,
+            card_sizes: card_sizes,
+            show_second_image: s.show_second_image,
+            show_quick_add: s.show_quick_add,
+            show_swatches: s.show_swatches,
+            badge_prefix: s.badge_prefix,
+            card_section_id: section.id,
+            card_index: forloop.index0
+          -%}
+        </li>
+      {%- else -%}
+        {%- comment -%} Nothing chosen yet: show the shape, not an error. {%- endcomment -%}
+        {%- for i in (1..5) -%}
+          <li class="ed-rail__item">
+            <div class="ed-product">
+              <div class="ed-product__media" style="--ed-ratio: {{ s.image_ratio }};">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+              <div class="ed-product__info">
+                <h3 class="ed-product__title">{{ 'onboarding.product_title' | t }}</h3>
+                <div class="ed-product__price">{{ 1990 | money }}</div>
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Chapter",
+  "tag": "section",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Fills the product rail and the shop-all link." },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "number",
+      "default": "01",
+      "label": "Chapter number"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Men",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "default": "Shop all",
+      "label": "Shop-all label"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Shop-all link",
+      "info": "Defaults to the chosen collection."
+    },
+    {
+      "type": "header",
+      "content": "Lookbook tile"
+    },
+    { "type": "image_picker", "id": "look_image", "label": "Image" },
+    { "type": "text", "id": "look_label", "default": "Lookbook", "label": "Label" },
+    { "type": "inline_richtext", "id": "look_title", "default": "The edit", "label": "Title" },
+    { "type": "text", "id": "look_link_label", "default": "Explore", "label": "Link label" },
+    { "type": "url", "id": "look_link", "label": "Link" },
+    {
+      "type": "header",
+      "content": "Collection tile"
+    },
+    { "type": "image_picker", "id": "coll_image", "label": "Image" },
+    { "type": "text", "id": "coll_label", "default": "Collection", "label": "Label" },
+    { "type": "inline_richtext", "id": "coll_title", "default": "Shop all", "label": "Title" },
+    { "type": "text", "id": "coll_link_label", "default": "Shop now", "label": "Link label" },
+    { "type": "url", "id": "coll_link", "label": "Link" },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 25,
+      "label": "Image darkening"
+    },
+    {
+      "type": "header",
+      "content": "Product rail"
+    },
+    { "type": "text", "id": "rail_label", "default": "New this season", "label": "Rail label" },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "3 / 4", "label": "Portrait" },
+        { "value": "4 / 5", "label": "Short portrait" },
+        { "value": "2 / 3", "label": "Tall" },
+        { "value": "1 / 1", "label": "Square" }
+      ],
+      "default": "4 / 5",
+      "label": "Image shape"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_second_image",
+      "default": true,
+      "label": "Fade to the second image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "default": true,
+      "label": "Show quick add on hover",
+      "info": "Products with options link to the product page instead."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "default": true,
+      "label": "Show colour swatches"
+    },
+    {
+      "type": "text",
+      "id": "badge_prefix",
+      "default": "badge:",
+      "label": "Badge tag prefix",
+      "info": "A product tagged \"badge:New\" shows a New badge. Leave blank for no badges."
+    },
+    {
+      "type": "header",
+      "content": "Colour"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "default": "#26325E",
+      "label": "Chapter number colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Chapter"
+    }
+  ]
+}
+{% endschema %}

@@ -2577,3 +2577,344 @@ form[action*='/cart/add'] [type='submit'],
 .sticky-cart-button {
   display: none !important;
 }
+
+/* ==========================================================================
+   Homepage chapters — the 2026 homepage redesign
+
+   A louder register beside the tracked caps: bold, tight, uppercase display
+   type for the headlines that open each chapter, numbered chapter heads, a
+   split hero, quick-link pills, a statement line, a journal row and a
+   collapsible "more about" block. Everything here is opt-in through its own
+   class, so the sections that do not use it are untouched.
+   ========================================================================== */
+
+/* Bold display. Uses the body family's bold cut, which the layout already
+   loads for <strong>, so this costs no extra font request. */
+.ed-display--bold {
+  font-family: var(--font-body-family);
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
+  font-size: clamp(3.6rem, 5vw, 6.4rem);
+}
+
+.ed-hero__heading.ed-display--bold {
+  max-width: 14ch;
+  font-size: clamp(4.8rem, 8.4vw, 13rem);
+  letter-spacing: -0.01em;
+  line-height: 0.88;
+}
+
+.ed-campaign__content .ed-display--bold {
+  max-width: 14ch;
+  font-size: clamp(4rem, 6vw, 8.8rem);
+}
+
+/* Split hero: two photographs side by side, one piece worn two ways. */
+.ed-hero__split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  height: 100%;
+}
+
+.ed-hero__split img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Numbered chapter head: "01  Men ............ Shop all men". */
+.ed-chapter__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.8rem;
+}
+
+.ed-chapter__title {
+  display: flex;
+  align-items: baseline;
+  gap: 1.6rem;
+  min-width: 0;
+}
+
+.ed-chapter__num {
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--ed-accent, rgb(var(--color-foreground)));
+}
+
+.ed-chapter__head .ed-link {
+  flex: 0 0 auto;
+}
+
+.ed-chapter__tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 4rem;
+}
+
+.ed-chapter__tile {
+  position: relative;
+  display: block;
+  flex: 1 1 30rem;
+  height: clamp(38rem, 38vw, 56rem);
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(var(--color-foreground), 0.08);
+}
+
+.ed-chapter__tile--wide {
+  flex: 2 1 52rem;
+}
+
+.ed-chapter__tile img,
+.ed-chapter__tile svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ed-ease);
+}
+
+.ed-chapter__tile:hover img {
+  transform: scale(1.03);
+}
+
+.ed-chapter__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, var(--ed-overlay, 0.25));
+}
+
+.ed-chapter__body {
+  position: absolute;
+  left: clamp(2rem, 2.4vw, 3.2rem);
+  right: clamp(2rem, 2.4vw, 3.2rem);
+  bottom: clamp(2rem, 2.4vw, 3.2rem);
+  display: grid;
+  justify-items: start;
+  gap: 1.2rem;
+}
+
+.ed-chapter__tile .ed-label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ed-chapter__tile .ed-display--bold {
+  color: #fff;
+  font-size: clamp(3.2rem, 4.4vw, 6.4rem);
+}
+
+.ed-chapter__tile--wide .ed-display--bold {
+  font-size: clamp(3.6rem, 4.4vw, 6.4rem);
+}
+
+.ed-chapter__tile .ed-link {
+  color: #fff;
+}
+
+.ed-chapter__rail-label {
+  margin-bottom: 1.6rem;
+}
+
+/* Quick links: a slim band of category and fit pills under the hero. */
+.ed-quicklinks {
+  border-bottom: 1px solid var(--ed-line);
+}
+
+.ed-quicklinks__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem 4rem;
+  padding-top: 1.6rem;
+  padding-bottom: 1.6rem;
+}
+
+.ed-quicklinks__group {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ed-quicklinks__group:first-child {
+  flex: 1 1 52rem;
+}
+
+.ed-quicklinks__group .ed-label {
+  flex: 0 0 auto;
+}
+
+.ed-quicklinks__list {
+  display: flex;
+  gap: 0.8rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ed-quicklinks__list::-webkit-scrollbar {
+  display: none;
+}
+
+.ed-quicklinks__pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 4.4rem;
+  padding: 0 1.8rem;
+  border: 1px solid var(--ed-line);
+  border-radius: 99rem;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--duration-short) ease;
+}
+
+.ed-quicklinks__pill:hover,
+.ed-quicklinks__pill:focus-visible {
+  border-color: rgb(var(--color-foreground));
+}
+
+/* Statement: one line of brand voice, set large, with an accent phrase. */
+.ed-statement {
+  display: grid;
+  justify-items: center;
+  gap: 2.8rem;
+  text-align: center;
+}
+
+.ed-statement__text {
+  max-width: 18ch;
+  margin: 0;
+  font-family: var(--font-body-family);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+  font-size: clamp(4.4rem, 7.4vw, 12rem);
+  text-wrap: balance;
+}
+
+.ed-statement__text em {
+  font-style: normal;
+  color: var(--ed-accent, inherit);
+}
+
+/* Journal: three article cards. */
+.ed-journal__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(28rem, 100%), 1fr));
+  gap: 4rem 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ed-journal__card {
+  display: grid;
+  align-content: start;
+  gap: 1.4rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.ed-journal__media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.06);
+}
+
+.ed-journal__media img,
+.ed-journal__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.2s var(--ed-ease);
+}
+
+.ed-journal__card:hover .ed-journal__media img {
+  transform: scale(1.03);
+}
+
+.ed-journal__title {
+  margin: 0;
+  font-family: var(--font-body-family);
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ed-journal__excerpt {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: var(--ed-muted);
+}
+
+/* More about: a closed-by-default block of descriptive copy and links. */
+.ed-more {
+  border-top: 1px solid var(--ed-line);
+}
+
+.ed-more summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 5.2rem;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--ed-label-size);
+  letter-spacing: var(--ed-label-tracking);
+  text-transform: uppercase;
+}
+
+.ed-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.ed-more summary::after {
+  content: '+';
+  font-size: 1.8rem;
+  letter-spacing: 0;
+}
+
+.ed-more details[open] summary::after {
+  content: '\2212';
+}
+
+.ed-more__body {
+  max-width: 88rem;
+  padding-bottom: 2.8rem;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--ed-muted);
+}
+
+.ed-more__body a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+/* Chapter spacing: generous above, so each department opens on air; tight
+   below, so its rail stays attached to it. */
+.ed-section--chapter {
+  padding-top: clamp(5.6rem, 7vw, 9.6rem);
+  padding-bottom: clamp(2.4rem, 3vw, 4rem);
+}

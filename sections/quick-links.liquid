@@ -1,0 +1,112 @@
+{% comment %}
+  Quick links — a slim band of pill links under the hero.
+
+  Two labelled groups on one line: what to shop (categories) and how it fits.
+  Each pill is a block, so the merchant adds, reorders and points them at
+  collections in the editor. The lists scroll sideways on a phone rather than
+  wrapping into a wall of buttons.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign first_blocks = section.blocks | where: 'type', 'link'
+  assign second_blocks = section.blocks | where: 'type', 'secondary_link'
+-%}
+
+<div class="color-{{ s.color_scheme }} gradient ed-quicklinks">
+  <div class="ed-width ed-quicklinks__inner">
+    {%- if first_blocks.size > 0 -%}
+      <nav class="ed-quicklinks__group" aria-label="{{ s.label_1 | default: 'Shop' | escape }}">
+        {%- if s.label_1 != blank -%}
+          <span class="ed-label" aria-hidden="true">{{ s.label_1 | escape }}</span>
+        {%- endif -%}
+        <ul class="ed-quicklinks__list" role="list">
+          {%- for block in first_blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="ed-quicklinks__pill">
+                {{- block.settings.label | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    {%- if second_blocks.size > 0 -%}
+      <nav class="ed-quicklinks__group" aria-label="{{ s.label_2 | default: 'Fit' | escape }}">
+        {%- if s.label_2 != blank -%}
+          <span class="ed-label" aria-hidden="true">{{ s.label_2 | escape }}</span>
+        {%- endif -%}
+        <ul class="ed-quicklinks__list" role="list">
+          {%- for block in second_blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="ed-quicklinks__pill">
+                {{- block.settings.label | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Quick links",
+  "tag": "section",
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label_1",
+      "default": "Shop",
+      "label": "First group label"
+    },
+    {
+      "type": "text",
+      "id": "label_2",
+      "default": "Fit",
+      "label": "Second group label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "First group link",
+      "settings": [
+        { "type": "text", "id": "label", "default": "Tees", "label": "Label" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "secondary_link",
+      "name": "Second group link",
+      "settings": [
+        { "type": "text", "id": "label", "default": "Oversized", "label": "Label" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quick links",
+      "blocks": [
+        { "type": "link", "settings": { "label": "Tees" } },
+        { "type": "link", "settings": { "label": "Shirts" } },
+        { "type": "link", "settings": { "label": "Trousers" } },
+        { "type": "secondary_link", "settings": { "label": "Oversized" } },
+        { "type": "secondary_link", "settings": { "label": "Relaxed" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

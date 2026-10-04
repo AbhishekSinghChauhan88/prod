@@ -120,7 +120,9 @@
   },
   "onboarding": {
     "product_title": "Example product title",
-    "collection_title": "Your collection's name"
+    "collection_title": "Your collection's name",
+    "blog_title": "Your story's title",
+    "blog_excerpt": "Choose a blog in this section and its latest articles will appear here."
   },
   "products": {
     "product": {

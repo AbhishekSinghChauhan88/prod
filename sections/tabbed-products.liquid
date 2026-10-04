@@ -33,7 +33,14 @@
     <product-tabs class="ed-tabs">
       <div class="ed-width ed-tabs__head">
         {%- if s.heading != blank -%}
-          <h2 class="ed-display ed-display--sm ed-reveal">{{ s.heading }}</h2>
+          <div class="ed-chapter__title ed-reveal" style="--ed-accent: {{ s.accent_color }};">
+            {%- if s.number != blank -%}
+              <span class="ed-chapter__num">{{ s.number | escape }}</span>
+            {%- endif -%}
+            <h2 class="ed-display {% if s.heading_style == 'bold' %}ed-display--bold{% else %}ed-display--sm{% endif %}">
+              {{ s.heading }}
+            </h2>
+          </div>
         {%- endif -%}
 
         {%- if section.blocks.size > 1 -%}
@@ -124,6 +131,28 @@
       "id": "heading",
       "default": "Top picks for you",
       "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "number",
+      "label": "Chapter number",
+      "info": "Optional. Shown before the heading, e.g. 03."
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "options": [
+        { "value": "tracked", "label": "Tracked caps" },
+        { "value": "bold", "label": "Bold display" }
+      ],
+      "default": "tracked",
+      "label": "Heading style"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "default": "#26325E",
+      "label": "Chapter number colour"
     },
     {
       "type": "range",

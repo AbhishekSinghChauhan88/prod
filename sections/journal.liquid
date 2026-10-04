@@ -1,0 +1,125 @@
+{% comment %}
+  Journal — the latest articles from a blog as three plain cards.
+
+  Image, first tag, title, a short excerpt. With no blog chosen it shows the
+  card shape with placeholders so the layout can be judged before any writing
+  exists.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign blog = s.blog
+-%}
+
+<div class="color-{{ s.color_scheme }} gradient" style="--ed-accent: {{ s.accent_color }};">
+  <div class="ed-width ed-section ed-section--chapter">
+    <div class="ed-chapter__head ed-reveal">
+      <div class="ed-chapter__title">
+        {%- if s.number != blank -%}
+          <span class="ed-chapter__num">{{ s.number | escape }}</span>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="ed-display ed-display--bold">{{ s.heading }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if s.view_all_label != blank and blog != blank -%}
+        <a href="{{ blog.url }}" class="ed-link">
+          {{ s.view_all_label | escape }}
+          <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <ul class="ed-journal__grid" role="list">
+      {%- for article in blog.articles limit: s.post_limit -%}
+        {%- assign article_alt = article.image.alt | default: article.title | escape -%}
+        <li class="ed-reveal" style="--ed-delay: {{ forloop.index0 | times: 80 }}ms;">
+          <a href="{{ article.url }}" class="ed-journal__card">
+            <div class="ed-journal__media">
+              {%- if article.image != blank -%}
+                {{
+                  article.image
+                  | image_url: width: 1200
+                  | image_tag:
+                    widths: '400, 600, 800, 1000, 1200',
+                    sizes: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 100vw',
+                    loading: 'lazy',
+                    alt: article_alt
+                }}
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+            {%- if article.tags.size > 0 -%}
+              <span class="ed-label">{{ article.tags.first | escape }}</span>
+            {%- endif -%}
+            <h3 class="ed-journal__title">{{ article.title | escape }}</h3>
+            {%- if s.show_excerpt -%}
+              <p class="ed-journal__excerpt">
+                {{- article.excerpt_or_content | strip_html | truncatewords: 22 -}}
+              </p>
+            {%- endif -%}
+            <span class="ed-link">
+              {{- s.read_label | escape }}
+              <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </li>
+      {%- else -%}
+        {%- for i in (1..3) -%}
+          <li>
+            <div class="ed-journal__card">
+              <div class="ed-journal__media">{{ 'lifestyle-2' | placeholder_svg_tag }}</div>
+              <h3 class="ed-journal__title">{{ 'onboarding.blog_title' | t }}</h3>
+              <p class="ed-journal__excerpt">{{ 'onboarding.blog_excerpt' | t }}</p>
+            </div>
+          </li>
+        {%- endfor -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Journal",
+  "tag": "section",
+  "settings": [
+    { "type": "blog", "id": "blog", "label": "Blog" },
+    { "type": "text", "id": "number", "default": "04", "label": "Chapter number" },
+    { "type": "inline_richtext", "id": "heading", "default": "Journal", "label": "Heading" },
+    { "type": "text", "id": "view_all_label", "default": "All stories", "label": "View all label" },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Articles to show"
+    },
+    { "type": "checkbox", "id": "show_excerpt", "default": true, "label": "Show excerpt" },
+    { "type": "text", "id": "read_label", "default": "Read story", "label": "Read link label" },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "default": "#26325E",
+      "label": "Chapter number colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Journal"
+    }
+  ]
+}
+{% endschema %}

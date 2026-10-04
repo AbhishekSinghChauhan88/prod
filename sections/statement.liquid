@@ -1,0 +1,64 @@
+{% comment %}
+  Statement — one line of brand voice, set large and centred.
+
+  Italicise part of the line in the editor to set it in the accent colour; it
+  renders upright, so the emphasis is colour alone.
+{% endcomment %}
+
+{{ 'editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'editorial.js' | asset_url }}" defer="defer"></script>
+
+{%- assign s = section.settings -%}
+
+<div class="color-{{ s.color_scheme }} gradient">
+  <div class="ed-width ed-section ed-statement" style="--ed-accent: {{ s.accent_color }};">
+    {%- if s.label != blank -%}
+      <p class="ed-label ed-reveal">{{ s.label | escape }}</p>
+    {%- endif -%}
+    {%- if s.text != blank -%}
+      <p class="ed-statement__text ed-reveal" style="--ed-delay: 0.08s;">{{ s.text }}</p>
+    {%- endif -%}
+    {%- if s.link_label != blank -%}
+      <a href="{{ s.link | default: routes.root_url }}" class="ed-link ed-reveal" style="--ed-delay: 0.16s;">
+        {{ s.link_label | escape }}
+        <span class="ed-link__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Statement",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label" },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "default": "Clothing is a canvas. <em>Dream bigger.</em>",
+      "label": "Statement",
+      "info": "Italic text is set in the accent colour."
+    },
+    { "type": "text", "id": "link_label", "label": "Link label" },
+    { "type": "url", "id": "link", "label": "Link" },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "default": "#26325E",
+      "label": "Accent colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Statement"
+    }
+  ]
+}
+{% endschema %}
