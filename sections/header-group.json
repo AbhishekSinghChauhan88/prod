@@ -11,6 +11,42 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "utility": {
+      "type": "utility-bar",
+      "blocks": {
+        "m1": {
+          "type": "message",
+          "settings": {
+            "text": "Free shipping on orders above ₹2,999",
+            "link": ""
+          }
+        },
+        "m2": {
+          "type": "message",
+          "settings": {
+            "text": "Easy returns",
+            "link": ""
+          }
+        },
+        "m3": {
+          "type": "message",
+          "settings": {
+            "text": "Crafted for a better tomorrow",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3"
+      ],
+      "disabled": true,
+      "settings": {
+        "menu": "",
+        "color_scheme": "scheme-4"
+      }
+    },
     "header": {
       "type": "header",
       "settings": {
@@ -30,37 +66,6 @@
         "padding_top": 16,
         "padding_bottom": 16
       }
-    },
-    "utility": {
-      "type": "utility-bar",
-      "settings": {
-        "color_scheme": "scheme-4"
-      },
-      "blocks": {
-        "m1": {
-          "type": "message",
-          "settings": {
-            "text": "Free shipping on orders above ₹2,999"
-          }
-        },
-        "m2": {
-          "type": "message",
-          "settings": {
-            "text": "Easy returns"
-          }
-        },
-        "m3": {
-          "type": "message",
-          "settings": {
-            "text": "Crafted for a better tomorrow"
-          }
-        }
-      },
-      "block_order": [
-        "m1",
-        "m2",
-        "m3"
-      ]
     }
   },
   "order": [
