@@ -1,6 +1,104 @@
+{% doc %}
+  @prompt
+    Create a scrolling announcement bar to replace the existing Utility bar announcement. Use a smooth continuous right-to-left marquee with editable announcement text, colours, scroll speed and spacing. Match the theme's existing utility bar styling. Keep text readable on mobile, pause on hover and respect reduced-motion preferences.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-marquee-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    overflow: hidden;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.4;
+  }
+  .ai-marquee-{{ ai_gen_id }}__track {
+    display: flex;
+    width: max-content;
+    animation: ai-marquee-scroll-{{ ai_gen_id }} {{ block.settings.scroll_speed }}s linear infinite;
+    will-change: transform;
+  }
+  .ai-marquee-{{ ai_gen_id }}:hover .ai-marquee-{{ ai_gen_id }}__track,
+  .ai-marquee-{{ ai_gen_id }}:focus-within .ai-marquee-{{ ai_gen_id }}__track {
+    animation-play-state: paused;
+  }
+  .ai-marquee-{{ ai_gen_id }}__group {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: {{ block.settings.item_spacing }}px;
+    padding: {{ block.settings.vertical_padding }}px 0;
+    white-space: nowrap;
+  }
+  .ai-marquee-{{ ai_gen_id }}__item {
+    display: inline-flex;
+    align-items: center;
+    gap: {{ block.settings.item_spacing }}px;
+    padding-inline: {{ block.settings.item_spacing }}px;
+  }
+  .ai-marquee-{{ ai_gen_id }}__separator {
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+  }
+  @keyframes ai-marquee-scroll-{{ ai_gen_id }} {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (max-width: 749px) {
+    .ai-marquee-{{ ai_gen_id }} { font-size: {{ block.settings.mobile_text_size }}px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-marquee-{{ ai_gen_id }}__track { animation: none; transform: none; width: 100%; }
+    .ai-marquee-{{ ai_gen_id }}__group { width: 100%; flex-wrap: wrap; justify-content: center; white-space: normal; }
+    .ai-marquee-{{ ai_gen_id }}__group--duplicate { display: none; }
+  }
+{% endstyle %}
+
+<div class="ai-marquee-{{ ai_gen_id }}" role="region" aria-label="Announcement" {{ block.shopify_attributes }}>
+  {% if block.settings.announcement_text != blank %}
+    <div class="ai-marquee-{{ ai_gen_id }}__track" aria-live="off">
+      <div class="ai-marquee-{{ ai_gen_id }}__group">
+        {% for i in (1..4) %}
+          <span class="ai-marquee-{{ ai_gen_id }}__item">
+            <span>{{ block.settings.announcement_text | escape }}</span>
+            <span class="ai-marquee-{{ ai_gen_id }}__separator" aria-hidden="true">{{ block.settings.separator | escape }}</span>
+          </span>
+        {% endfor %}
+      </div>
+      <div class="ai-marquee-{{ ai_gen_id }}__group ai-marquee-{{ ai_gen_id }}__group--duplicate" aria-hidden="true">
+        {% for i in (1..4) %}
+          <span class="ai-marquee-{{ ai_gen_id }}__item">
+            <span>{{ block.settings.announcement_text | escape }}</span>
+            <span class="ai-marquee-{{ ai_gen_id }}__separator">{{ block.settings.separator | escape }}</span>
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Scrolling announcement",
+  "settings": [
+    { "type": "text", "id": "announcement_text", "label": "Announcement", "default": "Welcome to our store" },
+    { "type": "text", "id": "separator", "label": "Separator", "default": "✦" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "header", "content": "Appearance" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#141414" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FAF8F5" },
+    { "type": "range", "id": "text_size", "label": "Text size", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "mobile_text_size", "label": "Mobile text size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "vertical_padding", "label": "Vertical padding", "min": 4, "max": 20, "step": 2, "unit": "px", "default": 8 },
+    { "type": "range", "id": "item_spacing", "label": "Spacing", "min": 12, "max": 80, "step": 4, "unit": "px", "default": 32 },
+    { "type": "range", "id": "scroll_speed", "label": "Loop duration", "min": 10, "max": 60, "step": 5, "unit": "s", "default": 25 }
+  ],
+  "presets": [{ "name": "Scrolling announcement" }],
+  "tag": null,
+  "class": "scrolling-announcement"
+}
 {% endschema %}
