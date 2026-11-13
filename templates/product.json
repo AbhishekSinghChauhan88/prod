@@ -34,6 +34,7 @@
         "size_chart": {
           "type": "size_chart",
           "settings": {
+            "page": "",
             "label": "Size guide"
           }
         },
@@ -70,15 +71,18 @@
           "settings": {
             "heading": "Shipping & returns",
             "icon": "truck",
-            "content": "<p>Dispatched within 24 hours. Free returns within 30 days of delivery.</p>"
+            "content": "<p>Dispatched within 24 hours. Free returns within 30 days of delivery.</p>",
+            "page": ""
           }
         },
         "tab_care": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Materials & care",
             "icon": "washing",
-            "content": "<p>Add fabric composition and washing instructions here.</p>"
+            "content": "<p>Add fabric composition and washing instructions here.</p>",
+            "page": ""
           }
         },
         "share": {
@@ -104,6 +108,7 @@
         "share"
       ],
       "settings": {
+        "show_breadcrumb": true,
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
         "media_size": "large",
@@ -141,8 +146,15 @@
       "type": "recently-viewed",
       "settings": {
         "heading": "Recently viewed",
+        "heading_size": "h2",
+        "center_heading": false,
         "products_to_show": 4,
-        "minimum_products": 2
+        "minimum_products": 2,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "sticky-add-to-cart": {
