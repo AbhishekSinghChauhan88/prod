@@ -1,6 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
+    "logo": "shopify://shop_images/dreamersloom-logo.png",
     "logo_width": 100,
+    "favicon": "",
     "type_header_font": "work_sans_n4",
     "heading_scale": 100,
     "type_body_font": "work_sans_n4",
@@ -112,6 +123,10 @@
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
     "currency_code_enabled": false,
+    "free_shipping_bar_enabled": true,
+    "free_shipping_threshold": 2500,
+    "cart_recommendations_enabled": true,
+    "cart_recommendations_count": 3,
     "cart_type": "drawer",
     "show_vendor": false,
     "show_cart_note": false,
@@ -157,34 +172,34 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#FAF8F5",
+          "background": "#faf8f5",
           "background_gradient": "",
           "text": "#141414",
           "button": "#141414",
-          "button_label": "#FAF8F5",
+          "button_label": "#faf8f5",
           "secondary_button_label": "#141414",
           "shadow": "#141414"
         }
       },
       "scheme-2": {
         "settings": {
-          "background": "#F1EDE7",
+          "background": "#f1ede7",
           "background_gradient": "",
           "text": "#141414",
           "button": "#141414",
-          "button_label": "#F1EDE7",
+          "button_label": "#f1ede7",
           "secondary_button_label": "#141414",
           "shadow": "#141414"
         }
       },
       "scheme-3": {
         "settings": {
-          "background": "#EDE9E3",
+          "background": "#ede9e3",
           "background_gradient": "",
-          "text": "#3A3733",
+          "text": "#3a3733",
           "button": "#141414",
-          "button_label": "#FAF8F5",
-          "secondary_button_label": "#3A3733",
+          "button_label": "#faf8f5",
+          "secondary_button_label": "#3a3733",
           "shadow": "#141414"
         }
       },
@@ -192,31 +207,25 @@
         "settings": {
           "background": "#141414",
           "background_gradient": "",
-          "text": "#FAF8F5",
-          "button": "#FAF8F5",
+          "text": "#faf8f5",
+          "button": "#faf8f5",
           "button_label": "#141414",
-          "secondary_button_label": "#FAF8F5",
+          "secondary_button_label": "#faf8f5",
           "shadow": "#000000"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#1F1D1B",
+          "background": "#1f1d1b",
           "background_gradient": "",
-          "text": "#FAF8F5",
-          "button": "#FAF8F5",
-          "button_label": "#1F1D1B",
-          "secondary_button_label": "#FAF8F5",
+          "text": "#faf8f5",
+          "button": "#faf8f5",
+          "button_label": "#1f1d1b",
+          "secondary_button_label": "#faf8f5",
           "shadow": "#000000"
         }
       }
-    },
-    "logo": "shopify://shop_images/dreamersloom-logo.png",
-    "favicon": "",
-    "cart_recommendations_enabled": true,
-    "cart_recommendations_count": 3,
-    "free_shipping_bar_enabled": true,
-    "free_shipping_threshold": 2500
+    }
   },
   "presets": {
     "Dawn": {
@@ -409,5 +418,10 @@
         }
       }
     }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".product__description h3:first-child {font-size: 24px; font-weight: 700;}"
+    ]
   }
 }
